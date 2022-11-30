@@ -40,8 +40,12 @@ class MainAdapter(
             if (layoutPosition != RecyclerView.NO_POSITION) {
                 with(itemView) {
                     findViewById<TextView>(R.id.header_textview_recycler_item).text = data.text
+                    val sb = StringBuilder()
+                    data.meanings?.forEach {
+                        sb.append(it.translation?.translation.plus(", "))
+                    }
                     findViewById<TextView>(R.id.description_textview_recycler_item).text =
-                        data.meanings?.get(0)?.translation?.translation
+                        sb.dropLast(2).toString()
                     setOnClickListener { openInNewWindow(data) }
                 }
             }

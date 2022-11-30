@@ -24,13 +24,7 @@ class SearchDialogFragment : BottomSheetDialogFragment() {
         }
 
         override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            if (!binding.searchEditText.text.isNullOrEmpty()) {
-                binding.searchButtonTextview.isEnabled = true
-                binding.clearTextImageview.visibility = View.VISIBLE
-            } else {
-                binding.searchButtonTextview.isEnabled = false
-                binding.clearTextImageview.visibility = View.GONE
-            }
+            binding.searchButton.isEnabled = !binding.searchEditText.text.isNullOrEmpty()
         }
 
         override fun afterTextChanged(p0: Editable?) {
@@ -63,16 +57,8 @@ class SearchDialogFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.searchButtonTextview.setOnClickListener(onSearchButtonClickListener)
+        binding.searchButton.setOnClickListener(onSearchButtonClickListener)
         binding.searchEditText.addTextChangedListener(textWatcher)
-        addOnClearClickListener()
-    }
-
-    private fun addOnClearClickListener() {
-        binding.clearTextImageview.setOnClickListener {
-            binding.searchEditText.setText("")
-            binding.searchButtonTextview.isEnabled = false
-        }
     }
 
     override fun onDestroyView() {

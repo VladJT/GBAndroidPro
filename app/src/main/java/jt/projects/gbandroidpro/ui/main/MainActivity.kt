@@ -1,6 +1,8 @@
 package jt.projects.gbandroidpro.ui.main
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.Toast
@@ -36,6 +38,19 @@ class MainActivity : BaseActivity<AppState>() {
 
     private lateinit var binding: ActivityMainBinding
     private var adapter: MainAdapter? = null
+    private val textWatcher = object : TextWatcher {
+        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+        }
+
+        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            binding.frameSearch.searchButton.isEnabled =
+                !binding.frameSearch.searchEditText.text.isNullOrEmpty()
+        }
+
+        override fun afterTextChanged(p0: Editable?) {
+        }
+
+    }
 
     private val onListItemClickListener = object : MainAdapter.OnListItemClickListener {
         override fun onItemClick(data: DataModel) {
@@ -55,6 +70,16 @@ class MainActivity : BaseActivity<AppState>() {
         setContentView(binding.root)
 
         initFabButton()
+        initSearchButton()
+
+        binding.frameSearch.searchEditText.addTextChangedListener(textWatcher)
+    }
+
+    private fun initSearchButton() {
+        binding.frameSearch.searchButton.isEnabled = false
+        binding.frameSearch.searchButton.setOnClickListener {
+            presenter.getData(binding.frameSearch.searchEditText.text.toString(), isOnline = true)
+        }
     }
 
     private fun initFabButton() {
@@ -107,13 +132,11 @@ class MainActivity : BaseActivity<AppState>() {
     }
 
     private fun showViewSuccess() {
-        binding.successLinearLayout.visibility = VISIBLE
         binding.loadingFrameLayout.visibility = GONE
         binding.errorLinearLayout.visibility = GONE
     }
 
     private fun showViewLoading() {
-        binding.successLinearLayout.visibility = GONE
         binding.loadingFrameLayout.visibility = VISIBLE
         binding.errorLinearLayout.visibility = GONE
     }
@@ -123,7 +146,6 @@ class MainActivity : BaseActivity<AppState>() {
         binding.reloadButton.setOnClickListener {
             presenter.getData("hi", true)
         }
-        binding.successLinearLayout.visibility = GONE
         binding.loadingFrameLayout.visibility = GONE
         binding.errorLinearLayout.visibility = VISIBLE
     }
