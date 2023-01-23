@@ -1,6 +1,7 @@
 package jt.projects.gbandroidpro.interactor
 
-import io.reactivex.Observable
+
+import io.reactivex.rxjava3.core.Observable
 import jt.projects.gbandroidpro.model.domain.AppState
 import jt.projects.gbandroidpro.model.domain.DataModel
 import jt.projects.gbandroidpro.model.repository.Repository

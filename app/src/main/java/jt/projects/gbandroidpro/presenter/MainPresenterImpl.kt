@@ -1,7 +1,7 @@
 package jt.projects.gbandroidpro.presenter
 
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.observers.DisposableObserver
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.observers.DisposableObserver
 import jt.projects.gbandroidpro.interactor.MainInteractorImpl
 import jt.projects.gbandroidpro.model.datasource.DataSourceLocal
 import jt.projects.gbandroidpro.model.datasource.DataSourceRemote

@@ -1,6 +1,6 @@
 package jt.projects.gbandroidpro.model.retrofit
 
-import io.reactivex.Observable
+import io.reactivex.rxjava3.core.Observable
 import jt.projects.gbandroidpro.model.domain.DataModel
 import retrofit2.http.GET
 import retrofit2.http.Query

@@ -1,6 +1,7 @@
 package jt.projects.gbandroidpro.model.room
 
-import io.reactivex.Observable
+
+import io.reactivex.rxjava3.core.Observable
 import jt.projects.gbandroidpro.model.datasource.DataSource
 import jt.projects.gbandroidpro.model.domain.DataModel
 
