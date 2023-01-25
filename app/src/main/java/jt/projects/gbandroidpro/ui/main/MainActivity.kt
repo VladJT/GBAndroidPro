@@ -6,18 +6,18 @@ import android.text.TextWatcher
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import jt.projects.gbandroidpro.R
 import jt.projects.gbandroidpro.databinding.ActivityMainBinding
 import jt.projects.gbandroidpro.model.domain.AppState
 import jt.projects.gbandroidpro.model.domain.DataModel
-import jt.projects.gbandroidpro.presenter.MainPresenterImpl
-import jt.projects.gbandroidpro.presenter.Presenter
 import jt.projects.gbandroidpro.ui.base.BaseActivity
-import jt.projects.gbandroidpro.ui.base.BaseView
 import jt.projects.gbandroidpro.ui.search_dialog.OnSearchClickListener
 import jt.projects.gbandroidpro.ui.search_dialog.SearchDialogFragment
 import jt.projects.gbandroidpro.utils.BOTTOM_SHEET_FRAGMENT_DIALOG_TAG
+import jt.projects.gbandroidpro.viewmodel.MainViewModel
 
 /**
  *  мы получаем многослойную чистую архитектуру, где каждый слой занимается своими задачами:
@@ -35,6 +35,16 @@ import jt.projects.gbandroidpro.utils.BOTTOM_SHEET_FRAGMENT_DIALOG_TAG
 очень много проектов. Их легко поддерживать, расширять и тестировать.
  */
 class MainActivity : BaseActivity<AppState>() {
+
+    override val model: MainViewModel by lazy {
+        ViewModelProvider.NewInstanceFactory().create(MainViewModel::class.java)
+    }
+
+
+    // Паттерн Observer в действии. Именно с его помощью мы подписываемся на изменения в LiveData
+    private val observer = Observer<AppState> {
+        renderData(it)
+    }
 
     private lateinit var binding: ActivityMainBinding
     private var adapter: MainAdapter? = null
@@ -58,10 +68,6 @@ class MainActivity : BaseActivity<AppState>() {
         }
     }
 
-    override fun createPresenter(): Presenter<AppState, BaseView> {
-        return MainPresenterImpl()
-    }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,7 +84,8 @@ class MainActivity : BaseActivity<AppState>() {
     private fun initSearchButton() {
         binding.frameSearch.searchButton.isEnabled = false
         binding.frameSearch.searchButton.setOnClickListener {
-            presenter.getData(binding.frameSearch.searchEditText.text.toString(), isOnline = true)
+            model.getData(binding.frameSearch.searchEditText.text.toString(), isOnline = true)
+                .observe(this@MainActivity, observer)
         }
     }
 
@@ -87,7 +94,7 @@ class MainActivity : BaseActivity<AppState>() {
             val searchDialogFragment = SearchDialogFragment.newInstance()
             searchDialogFragment.setOnSearchClickListener(object : OnSearchClickListener {
                 override fun onClick(searchWord: String) {
-                    presenter.getData(searchWord, isOnline = true)
+                    model.getData(searchWord, isOnline = true).observe(this@MainActivity, observer)
                 }
             })
             searchDialogFragment.show(supportFragmentManager, BOTTOM_SHEET_FRAGMENT_DIALOG_TAG)
@@ -144,7 +151,7 @@ class MainActivity : BaseActivity<AppState>() {
     private fun showViewError(error: String?) {
         binding.errorTextview.text = error ?: getString(R.string.undefined_error)
         binding.reloadButton.setOnClickListener {
-            presenter.getData("hi", true)
+            model.getData("hi", true).observe(this, observer)
         }
         binding.loadingFrameLayout.visibility = GONE
         binding.errorLinearLayout.visibility = VISIBLE
