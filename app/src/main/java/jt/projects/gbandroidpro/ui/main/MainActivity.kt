@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import dagger.android.AndroidInjection
 import jt.projects.gbandroidpro.R
 import jt.projects.gbandroidpro.databinding.ActivityMainBinding
 import jt.projects.gbandroidpro.model.domain.AppState
@@ -18,6 +19,7 @@ import jt.projects.gbandroidpro.ui.search_dialog.OnSearchClickListener
 import jt.projects.gbandroidpro.ui.search_dialog.SearchDialogFragment
 import jt.projects.gbandroidpro.utils.BOTTOM_SHEET_FRAGMENT_DIALOG_TAG
 import jt.projects.gbandroidpro.viewmodel.MainViewModel
+import javax.inject.Inject
 
 /**
  *  мы получаем многослойную чистую архитектуру, где каждый слой занимается своими задачами:
@@ -36,15 +38,19 @@ import jt.projects.gbandroidpro.viewmodel.MainViewModel
  */
 class MainActivity : BaseActivity<AppState>() {
 
-    override val model: MainViewModel by lazy {
-        ViewModelProvider.NewInstanceFactory().create(MainViewModel::class.java)
-    }
+    @Inject
+    internal lateinit var viewModelFactory: ViewModelProvider.Factory
+    override lateinit var model: MainViewModel
+
+//    override val model: MainViewModel by lazy {
+//        ViewModelProvider.NewInstanceFactory().create(MainViewModel::class.java)
+//    }
 
 
     // Паттерн Observer в действии. Именно с его помощью мы подписываемся на изменения в LiveData
-    private val observer = Observer<AppState> {
-        renderData(it)
-    }
+//    private val observer = Observer<AppState> {
+//        renderData(it)
+//    }
 
     private lateinit var binding: ActivityMainBinding
     private var adapter: MainAdapter? = null
@@ -70,10 +76,20 @@ class MainActivity : BaseActivity<AppState>() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Сообщаем Dagger’у, что тут понадобятся зависимости
+        AndroidInjection.inject(this)
+
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Фабрика уже готова, можно создавать ViewModel
+        model = viewModelFactory.create(MainViewModel::class.java)
+        model.getLiveDataForViewToObserve().observe(this@MainActivity, Observer<AppState> {
+            renderData(it)
+        })
+
 
         initFabButton()
         initSearchButton()
@@ -85,7 +101,7 @@ class MainActivity : BaseActivity<AppState>() {
         binding.frameSearch.searchButton.isEnabled = false
         binding.frameSearch.searchButton.setOnClickListener {
             model.getData(binding.frameSearch.searchEditText.text.toString(), isOnline = true)
-                .observe(this@MainActivity, observer)
+            //         .observe(this@MainActivity, observer)
         }
     }
 
@@ -94,7 +110,8 @@ class MainActivity : BaseActivity<AppState>() {
             val searchDialogFragment = SearchDialogFragment.newInstance()
             searchDialogFragment.setOnSearchClickListener(object : OnSearchClickListener {
                 override fun onClick(searchWord: String) {
-                    model.getData(searchWord, isOnline = true).observe(this@MainActivity, observer)
+                    model.getData(searchWord, isOnline = true)
+                        //.observe(this@MainActivity, observer)
                 }
             })
             searchDialogFragment.show(supportFragmentManager, BOTTOM_SHEET_FRAGMENT_DIALOG_TAG)
@@ -151,7 +168,7 @@ class MainActivity : BaseActivity<AppState>() {
     private fun showViewError(error: String?) {
         binding.errorTextview.text = error ?: getString(R.string.undefined_error)
         binding.reloadButton.setOnClickListener {
-            model.getData("hi", true).observe(this, observer)
+            model.getData("hi", true)
         }
         binding.loadingFrameLayout.visibility = GONE
         binding.errorLinearLayout.visibility = VISIBLE

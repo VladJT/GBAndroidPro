@@ -4,19 +4,19 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import io.reactivex.rxjava3.observers.DisposableObserver
 import jt.projects.gbandroidpro.interactor.MainInteractorImpl
-import jt.projects.gbandroidpro.model.datasource.DataSourceLocal
-import jt.projects.gbandroidpro.model.datasource.DataSourceRemote
 import jt.projects.gbandroidpro.model.domain.AppState
-import jt.projects.gbandroidpro.model.repository.RepositoryImpl
+import javax.inject.Inject
 
-class MainViewModel() : BaseViewModel<AppState>() {
-    private val interactor: MainInteractorImpl = MainInteractorImpl(
-        RepositoryImpl(DataSourceRemote()),
-        RepositoryImpl(DataSourceLocal())
-    )
+class MainViewModel @Inject constructor(private val interactor: MainInteractorImpl) :
+    BaseViewModel<AppState>() {
 
     // В этой переменной хранится последнее состояние Activity
     private var appState: AppState? = null
+
+    fun getLiveDataForViewToObserve(): LiveData<AppState> {
+        return liveDataForViewToObserve
+    }
+
 
     override fun getData(word: String, isOnline: Boolean): LiveData<AppState> {
         compositeDisposable.add(
