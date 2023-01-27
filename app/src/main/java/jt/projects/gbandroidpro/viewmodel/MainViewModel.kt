@@ -1,14 +1,20 @@
 package jt.projects.gbandroidpro.viewmodel
 
+import android.content.IntentFilter
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import io.reactivex.rxjava3.observers.DisposableObserver
 import jt.projects.gbandroidpro.interactor.MainInteractorImpl
 import jt.projects.gbandroidpro.model.domain.AppState
+import jt.projects.gbandroidpro.utils.NETWORK_STATUS_INTENT_FILTER
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(private val interactor: MainInteractorImpl) :
     BaseViewModel<AppState>() {
+
+
+    private var isOnlineFlag = true
 
     // В этой переменной хранится последнее состояние Activity
     private var appState: AppState? = null
@@ -26,7 +32,7 @@ class MainViewModel @Inject constructor(private val interactor: MainInteractorIm
                 .doOnSubscribe { liveDataForViewToObserve.value = AppState.Loading(null) }
                 .subscribeWith(getObserver())
         )
-        return super.getData(word, isOnline)
+        return super.getData(word, isOnlineFlag)
     }
 
     private fun getObserver(): DisposableObserver<AppState> {

@@ -8,16 +8,16 @@ import javax.inject.Provider
 import javax.inject.Singleton
 import kotlin.reflect.KClass
 
-
+//Создадим ключ, по которому будем хранить нашу ViewModel в фабрике
 @Target(
     AnnotationTarget.FUNCTION,
     AnnotationTarget.PROPERTY_GETTER,
     AnnotationTarget.PROPERTY_SETTER
 )
-
 @MapKey
 annotation class ViewModelKey(val value: KClass<out ViewModel>)
 
+// Теперь создадим через Dagger саму фабрику:
 @Singleton
 class ViewModelFactory @Inject constructor(
     private val viewModels: MutableMap<Class<out ViewModel>, Provider<ViewModel>>

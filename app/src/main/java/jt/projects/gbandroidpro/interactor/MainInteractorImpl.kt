@@ -10,12 +10,8 @@ import jt.projects.gbandroidpro.model.repository.Repository
 import javax.inject.Inject
 import javax.inject.Named
 
-//class MainInteractorImpl(
-//    // Снабжаем интерактор репозиторием для получения локальных или внешних данных
-//    private val remoteRepo: Repository<List<DataModel>>,
-//    private val localRepo: Repository<List<DataModel>>
-//)
-//
+
+//    Снабжаем интерактор репозиторием для получения локальных или внешних данных
 class MainInteractorImpl @Inject constructor(
     @Named(NAME_REMOTE) val repositoryRemote: Repository<List<DataModel>>,
     @Named(NAME_LOCAL) val repositoryLocal: Repository<List<DataModel>>
