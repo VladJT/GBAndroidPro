@@ -16,7 +16,7 @@ abstract class BaseViewModel<T : AppState> : ViewModel() {
 
     // Метод, благодаря которому Activity подписывается на изменение данных,
     // возвращает LiveData, через которую и передаются данные
-    open fun getData(word: String, isOnline: Boolean): LiveData<T> = liveDataForViewToObserve
+    open fun getData(word: String): LiveData<T> = liveDataForViewToObserve
 
     // !! Единственный метод класса ViewModel, который вызывается перед  уничтожением Activity
     override fun onCleared() {

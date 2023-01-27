@@ -1,20 +1,29 @@
 package jt.projects.gbandroidpro.viewmodel
 
-import android.content.IntentFilter
 import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import io.reactivex.rxjava3.observers.DisposableObserver
 import jt.projects.gbandroidpro.interactor.MainInteractorImpl
 import jt.projects.gbandroidpro.model.domain.AppState
-import jt.projects.gbandroidpro.utils.NETWORK_STATUS_INTENT_FILTER
+import jt.projects.gbandroidpro.utils.INetworkStatus
 import javax.inject.Inject
 
-class MainViewModel @Inject constructor(private val interactor: MainInteractorImpl) :
+class MainViewModel @Inject constructor(
+    private val interactor: MainInteractorImpl,
+    private val networkStatus: INetworkStatus
+) :
     BaseViewModel<AppState>() {
 
+    private var isOnline: Boolean = false
 
-    private var isOnlineFlag = true
+    init {
+        Log.d("TAG", "init viewModel")
+        compositeDisposable.add(
+            networkStatus.isOnline().subscribe() {
+                isOnline = it
+            })
+    }
+
 
     // В этой переменной хранится последнее состояние Activity
     private var appState: AppState? = null
@@ -24,7 +33,7 @@ class MainViewModel @Inject constructor(private val interactor: MainInteractorIm
     }
 
 
-    override fun getData(word: String, isOnline: Boolean): LiveData<AppState> {
+    override fun getData(word: String): LiveData<AppState> {
         compositeDisposable.add(
             interactor.getData(word, isOnline)
                 .subscribeOn(schedulerProvider.io())
@@ -32,7 +41,7 @@ class MainViewModel @Inject constructor(private val interactor: MainInteractorIm
                 .doOnSubscribe { liveDataForViewToObserve.value = AppState.Loading(null) }
                 .subscribeWith(getObserver())
         )
-        return super.getData(word, isOnlineFlag)
+        return super.getData(word)
     }
 
     private fun getObserver(): DisposableObserver<AppState> {
@@ -48,7 +57,7 @@ class MainViewModel @Inject constructor(private val interactor: MainInteractorIm
             }
 
             override fun onComplete() {
-                Log.d("TAG", "DisposableObserver Complete")
+            //    Log.d("TAG", "DisposableObserver Complete")
             }
 
         }

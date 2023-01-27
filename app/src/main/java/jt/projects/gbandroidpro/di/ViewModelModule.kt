@@ -19,6 +19,7 @@ internal abstract class ViewModelModule {
     @Binds
     internal abstract fun bindViewModelFactory(factory: ViewModelFactory):
             ViewModelProvider.Factory
+
     // Этот метод просто говорит Dagger’у: помести эту модель в список (map)
     // моделей, используя аннотацию @IntoMap, где в качестве ключа будет класс
     // MainViewModel::class

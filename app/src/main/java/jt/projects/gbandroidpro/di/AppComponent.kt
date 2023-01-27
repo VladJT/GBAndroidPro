@@ -5,7 +5,6 @@ import dagger.BindsInstance
 import dagger.Component
 import dagger.android.support.AndroidSupportInjectionModule
 import jt.projects.gbandroidpro.App
-import jt.projects.gbandroidpro.ui.main.MainActivity
 import javax.inject.Singleton
 
 // Тут мы прописываем все наши модули, включая AndroidSupportInjectionModule.
@@ -19,6 +18,8 @@ import javax.inject.Singleton
         RepositoryModule::class,
         ViewModelModule::class,
         ActivityModule::class,
+        NetworkModule::class,
+        AppProviderModule::class,
         AndroidSupportInjectionModule::class]
 )
 interface AppComponent {
@@ -27,11 +28,9 @@ interface AppComponent {
     interface Builder {
         @BindsInstance
         fun application(application: Application): Builder
+        fun appModule(appProviderModule: AppProviderModule): Builder
         fun build(): AppComponent
     }
-
-    fun inject(mainActivity: MainActivity)
-
     // Наш кастомный Application
     fun inject(app: App)
 }

@@ -3,7 +3,6 @@ package jt.projects.gbandroidpro.ui.main
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -12,7 +11,6 @@ import android.view.View.VISIBLE
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.AndroidInjection
 import jt.projects.gbandroidpro.R
@@ -23,8 +21,7 @@ import jt.projects.gbandroidpro.ui.base.BaseActivity
 import jt.projects.gbandroidpro.ui.search_dialog.OnSearchClickListener
 import jt.projects.gbandroidpro.ui.search_dialog.SearchDialogFragment
 import jt.projects.gbandroidpro.utils.BOTTOM_SHEET_FRAGMENT_DIALOG_TAG
-import jt.projects.gbandroidpro.utils.NETWORK_STATUS_INTENT_FILTER
-import jt.projects.gbandroidpro.utils.NetworkStatusService
+import jt.projects.gbandroidpro.utils.INetworkStatus
 import jt.projects.gbandroidpro.viewmodel.MainViewModel
 import javax.inject.Inject
 
@@ -50,8 +47,6 @@ class MainActivity : BaseActivity<AppState>() {
 
     override lateinit var model: MainViewModel
 
-    var isOnline = true
-
 //    override val model: MainViewModel by lazy {
 //        ViewModelProvider.NewInstanceFactory().create(MainViewModel::class.java)
 //    }
@@ -61,13 +56,7 @@ class MainActivity : BaseActivity<AppState>() {
 //    private val observer = Observer<AppState> {
 //        renderData(it)
 //    }
-    private val receiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent) {
-            isOnline = intent.getBooleanExtra("STATUS", true)
-            Toast.makeText(this@MainActivity, "Internet: $isOnline", Toast.LENGTH_SHORT).show()
-        }
 
-    }
 
     private lateinit var binding: ActivityMainBinding
     private var adapter: MainAdapter? = null
@@ -120,7 +109,7 @@ class MainActivity : BaseActivity<AppState>() {
     private fun initSearchButton() {
         binding.frameSearch.searchButton.isEnabled = false
         binding.frameSearch.searchButton.setOnClickListener {
-            model.getData(binding.frameSearch.searchEditText.text.toString(), isOnline = isOnline)
+            model.getData(binding.frameSearch.searchEditText.text.toString())
         }
     }
 
@@ -129,7 +118,7 @@ class MainActivity : BaseActivity<AppState>() {
             val searchDialogFragment = SearchDialogFragment.newInstance()
             searchDialogFragment.setOnSearchClickListener(object : OnSearchClickListener {
                 override fun onClick(searchWord: String) {
-                    model.getData(searchWord, isOnline = isOnline)
+                    model.getData(searchWord)
                 }
             })
             searchDialogFragment.show(supportFragmentManager, BOTTOM_SHEET_FRAGMENT_DIALOG_TAG)
@@ -186,23 +175,33 @@ class MainActivity : BaseActivity<AppState>() {
     private fun showViewError(error: String?) {
         binding.errorTextview.text = error ?: getString(R.string.undefined_error)
         binding.reloadButton.setOnClickListener {
-            model.getData("hi", isOnline)
+            model.getData("hi")
         }
         binding.loadingFrameLayout.visibility = GONE
         binding.errorLinearLayout.visibility = VISIBLE
     }
 
+
+
+    var isOnline = true
+    private val receiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent) {
+            isOnline = intent.getBooleanExtra("STATUS", true)
+            Toast.makeText(this@MainActivity, "Internet: $isOnline", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     override fun onStart() {
         super.onStart()
-        startService(Intent(this, NetworkStatusService::class.java))
-        LocalBroadcastManager.getInstance(this)
-            .registerReceiver(receiver, IntentFilter(NETWORK_STATUS_INTENT_FILTER))
+   //     startService(Intent(this, NetworkStatusService::class.java))
+//        LocalBroadcastManager.getInstance(this)
+//            .registerReceiver(receiver, IntentFilter(NETWORK_STATUS_INTENT_FILTER))
     }
 
     override fun onStop() {
         super.onStop()
-        LocalBroadcastManager.getInstance(this)
-            .unregisterReceiver(receiver)
-        stopService(Intent(this, NetworkStatusService::class.java))
+//        LocalBroadcastManager.getInstance(this)
+//            .unregisterReceiver(receiver)
+//        stopService(Intent(this, NetworkStatusService::class.java))
     }
 }
