@@ -1,5 +1,6 @@
 package jt.projects.gbandroidpro.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,6 +21,7 @@ abstract class BaseViewModel<T : AppState> : ViewModel() {
 
     // !! Единственный метод класса ViewModel, который вызывается перед  уничтожением Activity
     override fun onCleared() {
+        Log.d("TAG","onCleared ViewModel")
         compositeDisposable.clear()
         super.onCleared()
     }

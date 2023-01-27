@@ -21,7 +21,6 @@ import jt.projects.gbandroidpro.ui.base.BaseActivity
 import jt.projects.gbandroidpro.ui.search_dialog.OnSearchClickListener
 import jt.projects.gbandroidpro.ui.search_dialog.SearchDialogFragment
 import jt.projects.gbandroidpro.utils.BOTTOM_SHEET_FRAGMENT_DIALOG_TAG
-import jt.projects.gbandroidpro.utils.INetworkStatus
 import jt.projects.gbandroidpro.viewmodel.MainViewModel
 import javax.inject.Inject
 
@@ -67,6 +66,13 @@ class MainActivity : BaseActivity<AppState>() {
         }
     }
 
+    private fun extractViewModel(): MainViewModel =
+        lastCustomNonConfigurationInstance as? MainViewModel ?: viewModelFactory.create(
+            MainViewModel::class.java
+        )
+
+    override fun onRetainCustomNonConfigurationInstance(): MainViewModel = model
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Сообщаем Dagger’у, что тут понадобятся зависимости
@@ -78,10 +84,19 @@ class MainActivity : BaseActivity<AppState>() {
         setContentView(binding.root)
 
         // Фабрика уже готова, можно создавать ViewModel
-        model = viewModelFactory.create(MainViewModel::class.java)
-        model.getLiveDataForViewToObserve().observe(this@MainActivity, Observer<AppState> {
+        //model = viewModelFactory.create(MainViewModel::class.java)
+        model = extractViewModel()
+        model.getLiveDataForViewToObserve().observe(this, Observer<AppState> {
             renderData(it)
         })
+
+        model.counter.observe(this) {
+            binding.tvResult.text = model.counter.value.toString()
+        }
+        binding.btnPlus.setOnClickListener {
+            model.counter.value = model.counter.value?.plus(1)
+        }
+
 
         initFabButton()
         initSearchButton()
@@ -182,7 +197,6 @@ class MainActivity : BaseActivity<AppState>() {
     }
 
 
-
     var isOnline = true
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent) {
@@ -193,7 +207,7 @@ class MainActivity : BaseActivity<AppState>() {
 
     override fun onStart() {
         super.onStart()
-   //     startService(Intent(this, NetworkStatusService::class.java))
+        //     startService(Intent(this, NetworkStatusService::class.java))
 //        LocalBroadcastManager.getInstance(this)
 //            .registerReceiver(receiver, IntentFilter(NETWORK_STATUS_INTENT_FILTER))
     }

@@ -2,6 +2,7 @@ package jt.projects.gbandroidpro.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import io.reactivex.rxjava3.observers.DisposableObserver
 import jt.projects.gbandroidpro.interactor.MainInteractorImpl
 import jt.projects.gbandroidpro.model.domain.AppState
@@ -15,6 +16,8 @@ class MainViewModel @Inject constructor(
     BaseViewModel<AppState>() {
 
     private var isOnline: Boolean = false
+
+    var counter : MutableLiveData<Int> = MutableLiveData(0)
 
     init {
         Log.d("TAG", "init viewModel")

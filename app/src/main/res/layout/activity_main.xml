@@ -11,13 +11,30 @@
         android:layout_height="match_parent"
         android:gravity="center">
 
+        <TextView
+            android:id="@+id/tv_result"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/frame_search"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <Button
+            android:id="@+id/btnPlus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+++"
+            app:layout_constraintBottom_toBottomOf="@+id/frame_search"
+            app:layout_constraintStart_toEndOf="@+id/tv_result" />
+
 
         <include
             android:id="@+id/frame_search"
             layout="@layout/search_dialog_fragment"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/main_activity_recyclerview"
