@@ -2,7 +2,7 @@ package jt.projects.gbandroidpro.di
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import jt.projects.gbandroidpro.ui.main.MainActivity
+import jt.projects.gbandroidpro.presentation.ui.main.MainActivity
 
 /**
  * Модуль для Activity. Так как мы используем дополнительную библиотеку поддержки для Android, то все

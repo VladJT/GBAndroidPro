@@ -1,4 +1,4 @@
-package jt.projects.gbandroidpro.viewmodel
+package jt.projects.gbandroidpro.presentation.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.LiveData

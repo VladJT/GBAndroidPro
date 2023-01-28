@@ -1,8 +1,8 @@
-package jt.projects.gbandroidpro.ui.base
+package jt.projects.gbandroidpro.presentation.ui.base
 
 import androidx.appcompat.app.AppCompatActivity
 import jt.projects.gbandroidpro.model.domain.AppState
-import jt.projects.gbandroidpro.viewmodel.BaseViewModel
+import jt.projects.gbandroidpro.presentation.viewmodel.BaseViewModel
 
 
 abstract class BaseActivity<T : AppState> : AppCompatActivity() {

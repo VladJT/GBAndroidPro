@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
-import jt.projects.gbandroidpro.viewmodel.MainViewModel
+import jt.projects.gbandroidpro.presentation.viewmodel.MainViewModel
 
 
 // Модуль послужит источником коллекции ViewModel’ей для фабрики:

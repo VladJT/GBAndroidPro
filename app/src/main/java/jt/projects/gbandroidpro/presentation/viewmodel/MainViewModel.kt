@@ -1,4 +1,4 @@
-package jt.projects.gbandroidpro.viewmodel
+package jt.projects.gbandroidpro.presentation.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import io.reactivex.rxjava3.observers.DisposableObserver
 import jt.projects.gbandroidpro.interactor.MainInteractorImpl
 import jt.projects.gbandroidpro.model.domain.AppState
-import jt.projects.gbandroidpro.utils.INetworkStatus
+import jt.projects.gbandroidpro.utils.network.INetworkStatus
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(

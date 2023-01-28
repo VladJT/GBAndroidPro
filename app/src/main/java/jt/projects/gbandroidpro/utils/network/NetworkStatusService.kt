@@ -1,4 +1,4 @@
-package jt.projects.gbandroidpro.utils
+package jt.projects.gbandroidpro.utils.network
 
 import android.app.Service
 import android.content.Context
@@ -12,6 +12,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.subjects.BehaviorSubject
+import jt.projects.gbandroidpro.utils.NETWORK_STATUS_INTENT_FILTER
 
 class NetworkStatusService : Service(), INetworkStatus {
     private val statusSubject: BehaviorSubject<Boolean> = BehaviorSubject.create()

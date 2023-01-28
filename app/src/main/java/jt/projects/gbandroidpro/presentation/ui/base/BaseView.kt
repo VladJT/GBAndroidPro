@@ -1,4 +1,4 @@
-package jt.projects.gbandroidpro.ui.base
+package jt.projects.gbandroidpro.presentation.ui.base
 
 import jt.projects.gbandroidpro.model.domain.AppState
 

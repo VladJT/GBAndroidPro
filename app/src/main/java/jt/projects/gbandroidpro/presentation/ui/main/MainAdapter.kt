@@ -1,4 +1,4 @@
-package jt.projects.gbandroidpro.ui.main
+package jt.projects.gbandroidpro.presentation.ui.main
 
 import android.view.LayoutInflater
 import android.view.View

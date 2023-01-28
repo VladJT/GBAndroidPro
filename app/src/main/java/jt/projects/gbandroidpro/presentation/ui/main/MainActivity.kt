@@ -1,4 +1,4 @@
-package jt.projects.gbandroidpro.ui.main
+package jt.projects.gbandroidpro.presentation.ui.main
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -17,11 +17,11 @@ import jt.projects.gbandroidpro.R
 import jt.projects.gbandroidpro.databinding.ActivityMainBinding
 import jt.projects.gbandroidpro.model.domain.AppState
 import jt.projects.gbandroidpro.model.domain.DataModel
-import jt.projects.gbandroidpro.ui.base.BaseActivity
-import jt.projects.gbandroidpro.ui.search_dialog.OnSearchClickListener
-import jt.projects.gbandroidpro.ui.search_dialog.SearchDialogFragment
+import jt.projects.gbandroidpro.presentation.ui.base.BaseActivity
+import jt.projects.gbandroidpro.presentation.ui.search_dialog.OnSearchClickListener
+import jt.projects.gbandroidpro.presentation.ui.search_dialog.SearchDialogFragment
+import jt.projects.gbandroidpro.presentation.viewmodel.MainViewModel
 import jt.projects.gbandroidpro.utils.BOTTOM_SHEET_FRAGMENT_DIALOG_TAG
-import jt.projects.gbandroidpro.viewmodel.MainViewModel
 import javax.inject.Inject
 
 /**

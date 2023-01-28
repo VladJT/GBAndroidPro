@@ -1,4 +1,4 @@
-package jt.projects.gbandroidpro.ui.search_dialog
+package jt.projects.gbandroidpro.presentation.ui.search_dialog
 
 interface OnSearchClickListener {
     fun onClick(searchWord: String)

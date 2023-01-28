@@ -1,4 +1,4 @@
-package jt.projects.gbandroidpro.ui.search_dialog
+package jt.projects.gbandroidpro.presentation.ui.search_dialog
 
 import android.os.Bundle
 import android.text.Editable
