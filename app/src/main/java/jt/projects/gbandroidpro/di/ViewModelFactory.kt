@@ -19,17 +19,12 @@ annotation class ViewModelKey(val value: KClass<out ViewModel>)
 
 // Теперь создадим через Dagger саму фабрику:
 @Singleton
-class ViewModelFactory @Inject constructor(
-    private val viewModels: MutableMap<Class<out ViewModel>, Provider<ViewModel>>
-) :
-    ViewModelProvider.Factory {
+class ViewModelFactory @Inject
+constructor(private val viewModels: MutableMap<Class<out ViewModel>, Provider<ViewModel>>) : ViewModelProvider.Factory {
 
-    // Мы наследуемся от стандартной фабрики
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         val creator = viewModels[modelClass]
-            ?: viewModels.asIterable().firstOrNull {
-                modelClass.isAssignableFrom(it.key)
-            }?.value
+            ?: viewModels.asIterable().firstOrNull { modelClass.isAssignableFrom(it.key) }?.value
             ?: throw IllegalArgumentException("unknown model class $modelClass")
         return try {
             creator.get() as T
