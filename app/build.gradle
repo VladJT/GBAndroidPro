@@ -77,5 +77,10 @@ dependencies {
     kapt 'com.google.dagger:dagger-compiler:2.44'
     kapt 'com.google.dagger:dagger-android-processor:2.44'
 
-
+    // KOIN
+    implementation "io.insert-koin:koin-core:3.2.0"
+    //Koin для поддержки Android (Scope,ViewModel ...)
+    implementation "io.insert-koin:koin-android:3.2.0"
+    //Для совместимости с Java
+    implementation "io.insert-koin:koin-android-compat:3.2.0"
 }

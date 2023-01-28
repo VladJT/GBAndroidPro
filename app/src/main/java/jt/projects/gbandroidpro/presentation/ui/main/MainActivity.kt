@@ -10,9 +10,7 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.Toast
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import dagger.android.AndroidInjection
 import jt.projects.gbandroidpro.R
 import jt.projects.gbandroidpro.databinding.ActivityMainBinding
 import jt.projects.gbandroidpro.model.domain.AppState
@@ -22,7 +20,7 @@ import jt.projects.gbandroidpro.presentation.ui.search_dialog.OnSearchClickListe
 import jt.projects.gbandroidpro.presentation.ui.search_dialog.SearchDialogFragment
 import jt.projects.gbandroidpro.presentation.viewmodel.MainViewModel
 import jt.projects.gbandroidpro.utils.BOTTOM_SHEET_FRAGMENT_DIALOG_TAG
-import javax.inject.Inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
  *  мы получаем многослойную чистую архитектуру, где каждый слой занимается своими задачами:
@@ -40,22 +38,7 @@ import javax.inject.Inject
 очень много проектов. Их легко поддерживать, расширять и тестировать.
  */
 class MainActivity : BaseActivity<AppState>() {
-
-    @Inject
-    internal lateinit var viewModelFactory: ViewModelProvider.Factory
-
     override lateinit var model: MainViewModel
-
-//    override val model: MainViewModel by lazy {
-//        ViewModelProvider.NewInstanceFactory().create(MainViewModel::class.java)
-//    }
-
-
-    // Паттерн Observer в действии. Именно с его помощью мы подписываемся на изменения в LiveData
-//    private val observer = Observer<AppState> {
-//        renderData(it)
-//    }
-
 
     private lateinit var binding: ActivityMainBinding
     private var adapter: MainAdapter? = null
@@ -66,33 +49,16 @@ class MainActivity : BaseActivity<AppState>() {
         }
     }
 
-    private fun extractViewModel(): MainViewModel =
-        lastCustomNonConfigurationInstance as? MainViewModel ?: viewModelFactory.create(
-            MainViewModel::class.java
-        )
-
-    override fun onRetainCustomNonConfigurationInstance(): MainViewModel = model
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Сообщаем Dagger’у, что тут понадобятся зависимости
-        AndroidInjection.inject(this)
-
         super.onCreate(savedInstanceState)
+//        val session =
+//            getKoin().createScope("main_activity_scope_ID", named("main_activity_scope_ID"))
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Фабрика уже готова, можно создавать ViewModel
-        //model = viewModelFactory.create(MainViewModel::class.java)
-        model = extractViewModel()
-        model.getLiveDataForViewToObserve().observe(this, Observer<AppState> {
-            renderData(it)
-        })
+        initViewModel()
 
-        model.counter.observe(this) {
-            binding.tvResult.text = model.counter.value.toString()
-        }
         binding.btnPlus.setOnClickListener {
             model.counter.value = model.counter.value?.plus(1)
         }
@@ -101,6 +67,26 @@ class MainActivity : BaseActivity<AppState>() {
         initFabButton()
         initSearchButton()
         initSearchEditTextWatcher()
+    }
+
+    private fun initViewModel() {
+        // Убедимся, что модель инициализируется раньше View
+        if (binding.mainActivityRecyclerview.adapter != null) {
+            throw IllegalStateException("The ViewModel should be initialised first")
+        }
+        // Теперь ViewModel инициализируется через функцию by viewModel()
+        // Это функция, предоставляемая Koin из коробки через зависимость
+        // import org.koin.androidx.viewmodel.ext.android.viewModel
+        val viewModel: MainViewModel by viewModel()
+        model = viewModel
+
+        model.getLiveDataForViewToObserve().observe(this, Observer<AppState> {
+            renderData(it)
+        })
+
+        model.counter.observe(this) {
+            binding.tvResult.text = model.counter.value.toString()
+        }
     }
 
 

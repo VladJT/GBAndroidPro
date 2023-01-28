@@ -12,9 +12,9 @@ import javax.inject.Named
 
 
 //    Снабжаем интерактор репозиторием для получения локальных или внешних данных
-class MainInteractorImpl @Inject constructor(
-    @Named(NAME_REMOTE) val repositoryRemote: Repository<List<DataModel>>,
-    @Named(NAME_LOCAL) val repositoryLocal: Repository<List<DataModel>>
+class MainInteractorImpl(
+    private val repositoryRemote: Repository<List<DataModel>>,
+    private val repositoryLocal: Repository<List<DataModel>>
 ) : Interactor<AppState> {
 
     // Интерактор лишь запрашивает у репозитория данные, детали имплементации интерактору неизвестны

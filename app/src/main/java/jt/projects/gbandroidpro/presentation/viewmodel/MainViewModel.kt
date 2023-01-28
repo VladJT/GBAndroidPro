@@ -7,15 +7,14 @@ import io.reactivex.rxjava3.observers.DisposableObserver
 import jt.projects.gbandroidpro.interactor.MainInteractorImpl
 import jt.projects.gbandroidpro.model.domain.AppState
 import jt.projects.gbandroidpro.utils.network.INetworkStatus
-import javax.inject.Inject
 
-class MainViewModel @Inject constructor(
+class MainViewModel(
     private val interactor: MainInteractorImpl,
     networkStatus: INetworkStatus
 ) :
     BaseViewModel<AppState>() {
 
-    private var isOnline: Boolean = false
+    private var isOnline: Boolean = true
 
     var counter: MutableLiveData<Int> = MutableLiveData(0)
 
