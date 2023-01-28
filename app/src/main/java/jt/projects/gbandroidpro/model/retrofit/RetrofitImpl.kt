@@ -1,6 +1,5 @@
 package jt.projects.gbandroidpro.model.retrofit
 
-import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import io.reactivex.rxjava3.core.Observable
 import jt.projects.gbandroidpro.model.datasource.DataSource
 import jt.projects.gbandroidpro.model.domain.DataModel

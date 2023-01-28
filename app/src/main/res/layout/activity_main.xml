@@ -18,8 +18,7 @@
             android:text="0"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@+id/frame_search"
-            app:layout_constraintStart_toStartOf="parent"
-            />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <Button
             android:id="@+id/btnPlus"

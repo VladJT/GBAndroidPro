@@ -1,14 +1,5 @@
 package jt.projects.gbandroidpro.presenter
 
-import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.observers.DisposableObserver
-import jt.projects.gbandroidpro.model.datasource.DataSourceLocal
-import jt.projects.gbandroidpro.model.datasource.DataSourceRemote
-import jt.projects.gbandroidpro.model.domain.AppState
-import jt.projects.gbandroidpro.model.repository.RepositoryImpl
-import jt.projects.gbandroidpro.rx.SchedulerProvider
-import jt.projects.gbandroidpro.ui.base.BaseView
-
 //class MainPresenterImpl<T : AppState, V : BaseView>(
 //    // Обратите внимание, что Интерактор мы создаём сразу в конструкторе
 //    private val interactor: MainInteractorImpl = MainInteractorImpl(

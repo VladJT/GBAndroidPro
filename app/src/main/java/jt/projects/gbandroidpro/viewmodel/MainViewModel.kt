@@ -11,19 +11,19 @@ import javax.inject.Inject
 
 class MainViewModel @Inject constructor(
     private val interactor: MainInteractorImpl,
-    private val networkStatus: INetworkStatus
+    networkStatus: INetworkStatus
 ) :
     BaseViewModel<AppState>() {
 
     private var isOnline: Boolean = false
 
-    var counter : MutableLiveData<Int> = MutableLiveData(0)
+    var counter: MutableLiveData<Int> = MutableLiveData(0)
 
     init {
         Log.d("TAG", "init viewModel")
         compositeDisposable.add(
-            networkStatus.isOnline().subscribe() {
-                isOnline = it
+            networkStatus.isOnline().subscribe() { status ->
+                isOnline = status
             })
     }
 
@@ -60,7 +60,7 @@ class MainViewModel @Inject constructor(
             }
 
             override fun onComplete() {
-            //    Log.d("TAG", "DisposableObserver Complete")
+                //    Log.d("TAG", "DisposableObserver Complete")
             }
 
         }

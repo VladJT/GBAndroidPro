@@ -31,6 +31,7 @@ interface AppComponent {
         fun appModule(appProviderModule: AppProviderModule): Builder
         fun build(): AppComponent
     }
+
     // Наш кастомный Application
     fun inject(app: App)
 }
