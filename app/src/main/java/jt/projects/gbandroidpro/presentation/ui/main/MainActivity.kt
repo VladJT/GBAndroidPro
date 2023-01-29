@@ -80,7 +80,7 @@ class MainActivity : BaseActivity<AppState>() {
         val viewModel: MainViewModel by viewModel()
         model = viewModel
 
-        model.getLiveDataForViewToObserve().observe(this, Observer<AppState> {
+        model.liveDataForViewToObserve.observe(this, Observer<AppState> {
             renderData(it)
         })
 

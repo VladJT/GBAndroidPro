@@ -8,8 +8,19 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 import jt.projects.gbandroidpro.App
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-class NetworkStatus(app: App) : INetworkStatus {
+/**
+ * KoinComponent — контейнер зависимостей, с которым вы можете взаимодействовать в классах, не
+имеющих своего жизненного цикла. В Activity, сервисе или фрагменте он не нужен, а вот в других
+классах для получения зависимостей его нужно имплементировать. После этого вы получаете в своём
+приложении доступ к таким функциям, как get, inject, getKoin, viewModel и т. д.
+
+ */
+class NetworkStatus() : INetworkStatus, KoinComponent {
+
+    private val app: App by inject()
 
     private val statusSubject: BehaviorSubject<Boolean> = BehaviorSubject.create()
 

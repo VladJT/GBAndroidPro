@@ -1,7 +1,6 @@
 package jt.projects.gbandroidpro.model.datasource
 
 
-import io.reactivex.rxjava3.core.Observable
 import jt.projects.gbandroidpro.model.domain.DataModel
 import jt.projects.gbandroidpro.model.room.RoomDatabaseImpl
 
@@ -9,5 +8,6 @@ import jt.projects.gbandroidpro.model.room.RoomDatabaseImpl
 class DataSourceLocal(private val remoteProvider: RoomDatabaseImpl = RoomDatabaseImpl()) :
     DataSource<List<DataModel>> {
 
-    override fun getData(word: String): Observable<List<DataModel>> = remoteProvider.getData(word)
+    // override fun getData(word: String): Observable<List<DataModel>> = remoteProvider.getData(word)
+    override suspend fun getData(word: String): List<DataModel> = remoteProvider.getData(word)
 }

@@ -11,6 +11,7 @@ import jt.projects.gbandroidpro.presentation.viewmodel.MainViewModel
 import jt.projects.gbandroidpro.utils.network.INetworkStatus
 import jt.projects.gbandroidpro.utils.network.NetworkStatus
 import org.koin.android.ext.koin.androidApplication
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
@@ -27,6 +28,8 @@ import org.koin.dsl.module
 // зависимости, используемые во всём приложении
 val application = module {
 
+    single<App> { androidApplication().applicationContext as App }
+
     single<Repository<List<DataModel>>>(named(NAME_REMOTE)) {
         RepositoryImpl(RetrofitImpl())
     }
@@ -35,10 +38,7 @@ val application = module {
         RepositoryImpl(RoomDatabaseImpl())
     }
 
-    single<INetworkStatus>(named(NETWORK_SERVICE)) {
-        NetworkStatus(androidApplication().applicationContext as App)
-    }
-
+    single<INetworkStatus>(named(NETWORK_SERVICE)) { NetworkStatus() }
 }
 
 //зависимости конкретного экрана
@@ -50,5 +50,7 @@ val mainScreen = module {
         )
     }
 
-    factory { MainViewModel(get(named(INTERACTOR)), get(named(NETWORK_SERVICE))) }
+    //Koin из коробки поддерживает архитектурный компонент ViewModel через функцию viewModel { } для
+    //определения зависимости
+    viewModel { MainViewModel(get(named(INTERACTOR)), get(named(NETWORK_SERVICE))) }
 }

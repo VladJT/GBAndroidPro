@@ -1,6 +1,6 @@
 package jt.projects.gbandroidpro.model.retrofit
 
-import io.reactivex.rxjava3.core.Observable
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import jt.projects.gbandroidpro.model.datasource.DataSource
 import jt.projects.gbandroidpro.model.domain.DataModel
 import jt.projects.gbandroidpro.utils.BASE_URL_LOCATIONS
@@ -8,7 +8,6 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 //Для корректной работы Ретрофита мы создадим два класса: BaseInterceptor и ApiService.
@@ -17,20 +16,34 @@ import retrofit2.converter.gson.GsonConverterFactory
 // DictionaryApi — это имплементация запроса через Retrofit
 class RetrofitImpl : DataSource<List<DataModel>> {
 
-    override fun getData(word: String): Observable<List<DataModel>> {
-        return getService(BaseInterceptor.interceptor).search(word)
+//    override fun getData(word: String): Observable<List<DataModel>> {
+//        return getService(BaseInterceptor.interceptor).search(word)
+//    }
+
+    // Добавляем suspend и .await()
+    override suspend fun getData(word: String): List<DataModel> {
+        return getService(BaseInterceptor.interceptor).searchAsync(word).await()
     }
 
     private fun getService(interceptor: Interceptor): DictionaryApi {
         return createRetrofit(interceptor).create(DictionaryApi::class.java)
     }
 
-    private fun createRetrofit(interceptor: Interceptor): Retrofit {
-        return Retrofit.Builder().baseUrl(BASE_URL_LOCATIONS)
+    // Обратите внимание на Builder: в addCallAdapterFactory теперь передаётся
+    // CoroutineCallAdapterFactory() которая позволяет Retrofit работать с
+    // корутинами. Для ее использования нужно прописать для Ретрофита зависимость
+    // вместо той, которая была для Rx:
+    // implementation 'com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2'
+    private fun createRetrofit(interceptor: Interceptor): Retrofit =
+        Retrofit
+            .Builder()
+            .baseUrl(BASE_URL_LOCATIONS)
             .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-            .client(createOkHttpClient(interceptor)).build()
-    }
+            //addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+            .addCallAdapterFactory(CoroutineCallAdapterFactory())
+            .client(createOkHttpClient(interceptor))
+            .build()
+
 
     private fun createOkHttpClient(interceptor: Interceptor): OkHttpClient {
         val httpClient = OkHttpClient.Builder()

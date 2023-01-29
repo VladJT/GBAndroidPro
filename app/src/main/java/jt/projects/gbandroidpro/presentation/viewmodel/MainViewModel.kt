@@ -1,12 +1,13 @@
 package jt.projects.gbandroidpro.presentation.viewmodel
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.reactivex.rxjava3.observers.DisposableObserver
 import jt.projects.gbandroidpro.interactor.MainInteractorImpl
 import jt.projects.gbandroidpro.model.domain.AppState
 import jt.projects.gbandroidpro.utils.network.INetworkStatus
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainViewModel(
     private val interactor: MainInteractorImpl,
@@ -26,42 +27,65 @@ class MainViewModel(
             })
     }
 
-
     // В этой переменной хранится последнее состояние Activity
     private var appState: AppState? = null
 
-    fun getLiveDataForViewToObserve(): LiveData<AppState> {
-        return liveDataForViewToObserve
+    override fun getData(word: String) {
+        _mutableLiveData.value = AppState.Loading(null)
+        cancelJob()
+        // Запускаем корутину для асинхронного доступа к серверу с помощью launch
+        viewModelCoroutineScope.launch { startInteractor(word, isOnline) }
     }
 
 
-    override fun getData(word: String): LiveData<AppState> {
-        compositeDisposable.add(
-            interactor.getData(word, isOnline)
-                .subscribeOn(schedulerProvider.io())
-                .observeOn(schedulerProvider.ui())
-                .doOnSubscribe { liveDataForViewToObserve.value = AppState.Loading(null) }
-                .subscribeWith(getObserver())
-        )
-        return super.getData(word)
-    }
-
-    private fun getObserver(): DisposableObserver<AppState> {
-        return object : DisposableObserver<AppState>() {
-            override fun onNext(t: AppState) {
-                appState = t
-                liveDataForViewToObserve.value = t
-            }
-
-            override fun onError(e: Throwable) {
-                liveDataForViewToObserve.value = AppState.Error(e)
-                Log.d("TAG", e.message.toString())
-            }
-
-            override fun onComplete() {
-                //    Log.d("TAG", "DisposableObserver Complete")
-            }
-
+    // withContext(Dispatchers.IO) указывает, что доступ в сеть должен
+    // осуществляться через диспетчер IO (который предназначен именно для таких
+    // операций), хотя это и не обязательно указывать явно, потому что Retrofit
+    // и так делает это благодаря CoroutineCallAdapterFactory(). Это же касается и Room
+    private suspend fun startInteractor(word: String, isOnline: Boolean) {
+        withContext(Dispatchers.IO) {
+            _mutableLiveData.postValue(AppState.Success(interactor.getData(word, isOnline)))
         }
     }
+
+    // Обрабатываем ошибки
+    override fun handleError(error: Throwable) {
+        _mutableLiveData.postValue(AppState.Error(error))
+    }
+
+    override fun onCleared() {
+        _mutableLiveData.value = AppState.Success(null)
+        super.onCleared()
+    }
+
+
+//    override fun getData(word: String): LiveData<AppState> {
+//        compositeDisposable.add(
+//            interactor.getData(word, isOnline)
+//                .subscribeOn(schedulerProvider.io())
+//                .observeOn(schedulerProvider.ui())
+//                .doOnSubscribe { liveDataForViewToObserve.value = AppState.Loading(null) }
+//                .subscribeWith(getObserver())
+//        )
+//        return super.getData(word)
+//    }
+
+//    private fun getObserver(): DisposableObserver<AppState> {
+//        return object : DisposableObserver<AppState>() {
+//            override fun onNext(t: AppState) {
+//                appState = t
+//                liveDataForViewToObserve.value = t
+//            }
+//
+//            override fun onError(e: Throwable) {
+//                liveDataForViewToObserve.value = AppState.Error(e)
+//                Log.d("TAG", e.message.toString())
+//            }
+//
+//            override fun onComplete() {
+//                //    Log.d("TAG", "DisposableObserver Complete")
+//            }
+//
+//        }
+//    }
 }
