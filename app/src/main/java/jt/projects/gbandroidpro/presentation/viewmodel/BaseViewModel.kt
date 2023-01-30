@@ -21,16 +21,18 @@ abstract class BaseViewModel<T : AppState> : ViewModel() {
     protected val compositeDisposable = CompositeDisposable()
 //    protected val schedulerProvider = SchedulerProvider()
 
-    // Объявляем свой собственный скоуп
-    // В качестве аргумента передается CoroutineContext, который мы составляем
-    // через "+" из трех частей:
-    // - Dispatchers.Main говорит, что результат работы предназначен для
-    // основного потока;
-    // - SupervisorJob() позволяет всем дочерним корутинам выполняться
-    // независимо, то есть, если какая-то корутина упадёт с ошибкой, остальные
-    // будут выполнены нормально;
-    // - CoroutineExceptionHandler позволяет перехватывать и отрабатывать
-    // ошибки и краши
+    /**
+     * Объявляем свой собственный скоуп
+    В качестве аргумента передается CoroutineContext, который мы составляем
+    через "+" из трех частей:
+    - Dispatchers.Main говорит, что результат работы предназначен для
+    основного потока;
+    - SupervisorJob() позволяет всем дочерним корутинам выполняться
+    независимо, то есть, если какая-то корутина упадёт с ошибкой, остальные
+    будут выполнены нормально;
+    - CoroutineExceptionHandler позволяет перехватывать и отрабатывать
+    ошибки и краши
+     */
     protected val viewModelCoroutineScope = CoroutineScope(
         Dispatchers.Main
                 + SupervisorJob()
@@ -39,15 +41,10 @@ abstract class BaseViewModel<T : AppState> : ViewModel() {
         })
 
 
-    // Метод, благодаря которому Activity подписывается на изменение данных,
-    // возвращает LiveData, через которую и передаются данные
-    // open fun getData(word: String): LiveData<T> = liveDataForViewToObserve
-
-    abstract fun getData(word: String)
-
     // обрабатываем ошибки в конкретной имплементации ViewModel
     abstract fun handleError(error: Throwable)
 
+    abstract fun getData(word: String)
 
     // !! Единственный метод класса ViewModel, который вызывается перед  уничтожением Activity
     override fun onCleared() {
