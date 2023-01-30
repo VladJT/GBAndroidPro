@@ -6,6 +6,7 @@ import jt.projects.gbandroidpro.interactor.MainInteractorImpl
 import jt.projects.gbandroidpro.model.domain.AppState
 import jt.projects.gbandroidpro.utils.network.INetworkStatus
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -34,19 +35,18 @@ class MainViewModel(
         _mutableLiveData.value = AppState.Loading(null)
         cancelJob()
         // Запускаем корутину для асинхронного доступа к серверу с помощью launch
-        viewModelCoroutineScope.launch { startInteractor(word, isOnline) }
+        viewModelCoroutineScope.launch {
+            val response = withContext(Dispatchers.IO) {
+                interactor.getData(word, isOnline)
+            }
+            _mutableLiveData.value = AppState.Success(response)
+        }
     }
-
-
     // withContext(Dispatchers.IO) указывает, что доступ в сеть должен
     // осуществляться через диспетчер IO (который предназначен именно для таких
     // операций), хотя это и не обязательно указывать явно, потому что Retrofit
     // и так делает это благодаря CoroutineCallAdapterFactory(). Это же касается и Room
-    private suspend fun startInteractor(word: String, isOnline: Boolean) {
-        withContext(Dispatchers.IO) {
-            _mutableLiveData.postValue(AppState.Success(interactor.getData(word, isOnline)))
-        }
-    }
+
 
     // Обрабатываем ошибки
     override fun handleError(error: Throwable) {
