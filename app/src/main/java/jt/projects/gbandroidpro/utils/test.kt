@@ -1,62 +1,113 @@
 package jt.projects.gbandroidpro.utils
 
 import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.actor
+import kotlinx.coroutines.channels.produce
+import java.util.concurrent.atomic.AtomicInteger
+
+
+suspend fun main() {
+
+        GlobalScope.launch { // запуск новой сопрограммы в фоне
+            delay(1000L) // неблокирующая задержка на 1 секунду
+            println("World!") // вывод результата после задержки
+        }
+
+        println("Hello,") // пока сопрограмма проводит вычисления, основной поток продолжает свою работу
+           Thread.sleep(2000L) // блокировка основного потока на 2 секунды, чтобы сопрограмма успела произвести вычисления
+
+}
 
 // Основной поток, вызывающий runBlocking, блокируется до завершения сопрограммы внутри runBlocking.
-suspend fun main() {
-    // runBlocking {
+suspend fun main2() {
+    //   runBlocking {
     //  GlobalScope.launch(Dispatchers.Default)
     //            (0..500_000).map{
 //                launch {   println(it) }
 //            }.joinAll()
 
-    with(CoroutineScope(SupervisorJob()))
-    {
+//    CoroutineScope(SupervisorJob())
+//        .launch {
+//
+//            val viewModel = MyViewModel()
+//            var fragment = MyFragment(viewModel)
+//
+//
+//            //    viewModel.bar().consumeEach { println(it) }
+//            viewModel.foo().join()
+//
+//            println("--Finish coroutines--")
+//        }.join()
+//    println("--Finish--")
 
-        launch {
-            while (isActive) {
-                println("Polling...")
-                delay(10000)
-            }
+    //    }//runblocking
+
+    val viewModel = MyViewModel()
+    viewModel.incMultiply()
+    println(viewModel.counter)
+
+
+
+    (1..10000).map {
+        GlobalScope.launch {
+            actor.send(ActorMessage.Inc(1))
         }
-
-
-        val viewModel = MyViewModel()
-        var fragment = MyFragment(viewModel)
-        println("Finish")
-
-        viewModel.foo()
-
-        val jobs = (0..3).map { viewModel.bar() }
-
-        fragment.onStop()
-        fragment.onDestroyView()
-
-        fragment = MyFragment(viewModel)
-
-        jobs.joinAll()
-
-        fragment.onStop()
-        fragment.onDestroyView()
-
-        viewModel.onCleared()
-
-        cancel()
-    }
-
-    // }
+    }.joinAll()
+    GlobalScope.launch { actor.send(ActorMessage.Print()) }.join()
 }
 
-class MyViewModel : CoroutineScope by CoroutineScope(SupervisorJob()) {
-    fun bar() = launch {
-        delay(500)
-        println("Barring")
+sealed class ActorMessage {
+    class Inc(val incValue: Int) : ActorMessage()
+    class Print() : ActorMessage()
+}
+
+class MyViewModel : CoroutineScope by CoroutineScope(SupervisorJob() +
+        CoroutineExceptionHandler { context, throwable ->
+            println("***CATCH  $throwable")
+        }) {
+
+    @Volatile
+    var counter: AtomicInteger = AtomicInteger(0)
+
+    private val lock: Any = Any()
+
+    suspend fun incOne(): Job {
+        val job = launch(Dispatchers.IO) {
+            // synchronized(lock) {
+            counter.addAndGet(1)
+            // }
+        }
+        return job
     }
 
-    fun foo() = launch {
-        while (isActive) {
-            println("fooing...")
-            delay(5000)
+    suspend fun incMultiply() {
+        (1..10000).map {
+            incOne()
+        }.joinAll()
+    }
+
+    private val handler = CoroutineExceptionHandler { context, throwable ->
+        println("catch $throwable")
+    }
+
+    fun bar() = GlobalScope.produce<Int>(handler) {
+        (0..10).map {
+            send(it)
+            delay(10)
+        }
+        throw Exception("🚩️my_exception in bar()")
+    }
+
+    fun foo() = launch(handler) {
+        val job1 = launch {
+            try {
+                delay(100000)
+            } catch (t: Exception) {
+                println("***CATCH*** ${t.message}")
+            }
+        }
+        val job2 = launch {
+            throw Exception("✂️my_exception in foo()")
         }
     }
 
@@ -65,6 +116,21 @@ class MyViewModel : CoroutineScope by CoroutineScope(SupervisorJob()) {
         coroutineContext.cancel()
     }
 }
+
+val actor = GlobalScope.actor<ActorMessage> {
+    var counter = 0
+    for (message in channel) {
+        when (message) {
+            is ActorMessage.Inc -> {
+                counter += message.incValue
+            }
+            is ActorMessage.Print -> {
+                println(counter)
+            }
+        }
+    }
+}
+
 
 class MyFragment(viewModel: MyViewModel) : CoroutineScope by CoroutineScope(SupervisorJob()) {
     fun onStop() {
