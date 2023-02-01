@@ -1,8 +1,6 @@
 package jt.projects.gbandroidpro.presentation.ui.main
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -20,7 +18,10 @@ import jt.projects.gbandroidpro.presentation.ui.search_dialog.OnSearchClickListe
 import jt.projects.gbandroidpro.presentation.ui.search_dialog.SearchDialogFragment
 import jt.projects.gbandroidpro.presentation.viewmodel.MainViewModel
 import jt.projects.gbandroidpro.utils.BOTTOM_SHEET_FRAGMENT_DIALOG_TAG
+import jt.projects.gbandroidpro.utils.Test
+import org.koin.android.ext.android.getKoin
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 /**
  *  мы получаем многослойную чистую архитектуру, где каждый слой занимается своими задачами:
@@ -38,7 +39,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 очень много проектов. Их легко поддерживать, расширять и тестировать.
  */
 class MainActivity : BaseActivity<AppState>() {
-    override lateinit var model: MainViewModel
+    override val model: MainViewModel by viewModel()
 
     private lateinit var binding: ActivityMainBinding
     private var adapter: MainAdapter? = null
@@ -49,15 +50,17 @@ class MainActivity : BaseActivity<AppState>() {
         }
     }
 
+    @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        val session =
+        //        val session =
 //            getKoin().createScope("main_activity_scope_ID", named("main_activity_scope_ID"))
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         initViewModel()
+        test()
 
         binding.btnPlus.setOnClickListener {
             model.counter.value = model.counter.value?.plus(1)
@@ -69,6 +72,11 @@ class MainActivity : BaseActivity<AppState>() {
         initSearchEditTextWatcher()
     }
 
+    private fun test() {
+        val t = getKoin().get<Test> { parametersOf("Hello, world") }
+        Toast.makeText(this, t.show(), Toast.LENGTH_SHORT).show()
+    }
+
     private fun initViewModel() {
         // Убедимся, что модель инициализируется раньше View
         if (binding.mainActivityRecyclerview.adapter != null) {
@@ -77,8 +85,8 @@ class MainActivity : BaseActivity<AppState>() {
         // Теперь ViewModel инициализируется через функцию by viewModel()
         // Это функция, предоставляемая Koin из коробки через зависимость
         // import org.koin.androidx.viewmodel.ext.android.viewModel
-        val viewModel: MainViewModel by viewModel()
-        model = viewModel
+//        val viewModel: MainViewModel by viewModel()
+//        model = viewModel
 
         model.liveDataForViewToObserve.observe(this, Observer<AppState> {
             renderData(it)
@@ -183,13 +191,13 @@ class MainActivity : BaseActivity<AppState>() {
     }
 
 
-    var isOnline = true
-    private val receiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent) {
-            isOnline = intent.getBooleanExtra("STATUS", true)
-            Toast.makeText(this@MainActivity, "Internet: $isOnline", Toast.LENGTH_SHORT).show()
-        }
-    }
+//    var isOnline = true
+//    private val receiver = object : BroadcastReceiver() {
+//        override fun onReceive(context: Context?, intent: Intent) {
+//            isOnline = intent.getBooleanExtra("STATUS", true)
+//            Toast.makeText(this@MainActivity, "Internet: $isOnline", Toast.LENGTH_SHORT).show()
+//        }
+//    }
 
     override fun onStart() {
         super.onStart()

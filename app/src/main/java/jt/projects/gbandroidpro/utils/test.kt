@@ -5,16 +5,21 @@ import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.channels.produce
 import java.util.concurrent.atomic.AtomicInteger
 
+class Test(val s: String) {
+    fun show(): String {
+        return "From Test show: $s"
+    }
+}
 
 suspend fun main() {
 
-        GlobalScope.launch { // запуск новой сопрограммы в фоне
-            delay(1000L) // неблокирующая задержка на 1 секунду
-            println("World!") // вывод результата после задержки
-        }
+    GlobalScope.launch { // запуск новой сопрограммы в фоне
+        delay(1000L) // неблокирующая задержка на 1 секунду
+        println("World!") // вывод результата после задержки
+    }
 
-        println("Hello,") // пока сопрограмма проводит вычисления, основной поток продолжает свою работу
-           Thread.sleep(2000L) // блокировка основного потока на 2 секунды, чтобы сопрограмма успела произвести вычисления
+    println("Hello,") // пока сопрограмма проводит вычисления, основной поток продолжает свою работу
+    Thread.sleep(2000L) // блокировка основного потока на 2 секунды, чтобы сопрограмма успела произвести вычисления
 
 }
 

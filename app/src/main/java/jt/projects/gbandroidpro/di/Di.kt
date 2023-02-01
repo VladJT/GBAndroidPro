@@ -8,6 +8,7 @@ import jt.projects.gbandroidpro.model.repository.RepositoryImpl
 import jt.projects.gbandroidpro.model.retrofit.RetrofitImpl
 import jt.projects.gbandroidpro.model.room.RoomDatabaseImpl
 import jt.projects.gbandroidpro.presentation.viewmodel.MainViewModel
+import jt.projects.gbandroidpro.utils.Test
 import jt.projects.gbandroidpro.utils.network.INetworkStatus
 import jt.projects.gbandroidpro.utils.network.NetworkStatus
 import org.koin.android.ext.koin.androidApplication
@@ -28,22 +29,24 @@ import org.koin.dsl.module
 // зависимости, используемые во всём приложении
 val application = module {
 
+    factory<Test> { (data: String) -> Test(data) }
+
     single<App> { androidApplication().applicationContext as App }
 
-    single<Repository<List<DataModel>>>(named(NAME_REMOTE)) {
+    single<Repository<List<DataModel>>>(qualifier = named(NAME_REMOTE)) {
         RepositoryImpl(RetrofitImpl())
     }
 
-    single<Repository<List<DataModel>>>(named(NAME_LOCAL)) {
+    single<Repository<List<DataModel>>>(qualifier = named(NAME_LOCAL)) {
         RepositoryImpl(RoomDatabaseImpl())
     }
 
-    single<INetworkStatus>(named(NETWORK_SERVICE)) { NetworkStatus() }
+    single<INetworkStatus>(qualifier = named(NETWORK_SERVICE)) { NetworkStatus() }
 }
 
 //зависимости конкретного экрана
 val mainScreen = module {
-    factory(named(INTERACTOR)) {
+    factory(qualifier = named(INTERACTOR)) {
         MainInteractorImpl(
             get(named(NAME_REMOTE)),
             get(named(NAME_LOCAL))
@@ -52,5 +55,10 @@ val mainScreen = module {
 
     //Koin из коробки поддерживает архитектурный компонент ViewModel через функцию viewModel { } для
     //определения зависимости
-    viewModel { MainViewModel(get(named(INTERACTOR)), get(named(NETWORK_SERVICE))) }
+    viewModel {
+        MainViewModel(
+            get(named(INTERACTOR)),
+            get(named(NETWORK_SERVICE))
+        )
+    }
 }

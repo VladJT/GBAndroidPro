@@ -9,7 +9,6 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 import jt.projects.gbandroidpro.App
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
 /**
  * KoinComponent — контейнер зависимостей, с которым вы можете взаимодействовать в классах, не
@@ -20,13 +19,13 @@ import org.koin.core.component.inject
  */
 class NetworkStatus() : INetworkStatus, KoinComponent {
 
-    private val app: App by inject()
+    // private val app: App by inject()
 
     private val statusSubject: BehaviorSubject<Boolean> = BehaviorSubject.create()
 
     init {
         val connectivityManager =
-            app.applicationContext
+            getKoin().get<App>().applicationContext
                 .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
 
