@@ -33,8 +33,8 @@ abstract class BaseViewModel<T : AppState> : ViewModel() {
     - CoroutineExceptionHandler позволяет перехватывать и отрабатывать
     ошибки и краши
      */
-    protected val viewModelCoroutineScope = CoroutineScope(
-        Dispatchers.Main
+    protected val viewModelCoroutineScope = CoroutineScope(// Scope - скоуп в котором будут существовать корутины
+        Dispatchers.Main // механизм управления потоками
                 + SupervisorJob()
                 + CoroutineExceptionHandler { _, throwable ->
             handleError(throwable)

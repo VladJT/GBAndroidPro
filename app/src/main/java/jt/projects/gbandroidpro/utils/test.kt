@@ -13,10 +13,14 @@ class Test(val s: String) {
 
 suspend fun main() {
 
-    GlobalScope.launch { // запуск новой сопрограммы в фоне
+    val scope = CoroutineScope(Dispatchers.IO)
+
+    scope.launch {
         delay(1000L) // неблокирующая задержка на 1 секунду
         println("World!") // вывод результата после задержки
     }
+
+
 
     println("Hello,") // пока сопрограмма проводит вычисления, основной поток продолжает свою работу
     Thread.sleep(2000L) // блокировка основного потока на 2 секунды, чтобы сопрограмма успела произвести вычисления
@@ -66,7 +70,7 @@ sealed class ActorMessage {
     class Print() : ActorMessage()
 }
 
-class MyViewModel : CoroutineScope by CoroutineScope(SupervisorJob() +
+class MyViewModel : CoroutineScope by CoroutineScope(Dispatchers.Main + SupervisorJob() +
         CoroutineExceptionHandler { context, throwable ->
             println("***CATCH  $throwable")
         }) {
