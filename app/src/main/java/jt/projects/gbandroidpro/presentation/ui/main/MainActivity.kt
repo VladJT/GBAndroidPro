@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.Toast
@@ -19,6 +20,11 @@ import jt.projects.gbandroidpro.presentation.ui.search_dialog.SearchDialogFragme
 import jt.projects.gbandroidpro.presentation.viewmodel.MainViewModel
 import jt.projects.gbandroidpro.utils.BOTTOM_SHEET_FRAGMENT_DIALOG_TAG
 import jt.projects.gbandroidpro.utils.Test
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.getKoin
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -70,7 +76,10 @@ class MainActivity : BaseActivity<AppState>() {
         initFabButton()
         initSearchButton()
         initSearchEditTextWatcher()
+
     }
+
+
 
     private fun test() {
         val t = getKoin().get<Test> { parametersOf("Hello, world") }
