@@ -3,7 +3,10 @@ package jt.projects.gbandroidpro.utils
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.channels.produce
+import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicInteger
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 class Test(val s: String) {
     fun show(): String {
@@ -16,16 +19,41 @@ suspend fun main() {
     val scope = CoroutineScope(Dispatchers.IO)
 
     scope.launch {
-        delay(1000L) // неблокирующая задержка на 1 секунду
-        println("World!") // вывод результата после задержки
+        repeat(100){
+            delay(500)
+            println(it)
+        }
     }
 
+    Thread.sleep(2000)
+    scope.coroutineContext.cancelChildren()
 
+    scope.launch {
+        repeat(100){
+            delay(500)
+            println(it)
+        }
+    }
+
+//    scope.launch {
+//        println("start")
+//        doSmth()
+//        println("end!") // вывод результата после задержки
+//    }
 
     println("Hello,") // пока сопрограмма проводит вычисления, основной поток продолжает свою работу
-    Thread.sleep(2000L) // блокировка основного потока на 2 секунды, чтобы сопрограмма успела произвести вычисления
+    readln()
 
 }
+
+suspend fun doSmth() = suspendCoroutine<Unit> {
+    Executors.newSingleThreadExecutor().execute {
+        Thread.sleep(500)
+        println("...some job...")
+        it.resume(Unit)
+    }
+}
+
 
 // Основной поток, вызывающий runBlocking, блокируется до завершения сопрограммы внутри runBlocking.
 suspend fun main2() {
