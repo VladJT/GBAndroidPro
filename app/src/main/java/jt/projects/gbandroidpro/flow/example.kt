@@ -9,7 +9,14 @@ import kotlinx.coroutines.launch
 
 fun main() {
     println("СТАРТ")
-    singleFlow(listOf<String>("TEN").asFlow())
+
+    val t = testStateFlow()
+    collectFlow(t)// 1 observer
+    collectFlow(t)// 2 observer
+
+
+    Thread.sleep(500)
+    t.value = 10
     readln()
 }
 
@@ -38,7 +45,7 @@ private fun <T : Any> singleFlow(flow: Flow<T>) {
                 .onCompletion { println("onCompletion") }
                 .single()
         }
-        println("*** ${result.await()} ***")
+        println("*** single: ${result.await()} ***")
     }
 }
 
