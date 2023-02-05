@@ -11,6 +11,7 @@ import jt.projects.gbandroidpro.presentation.viewmodel.MainViewModel
 import jt.projects.gbandroidpro.utils.Test
 import jt.projects.gbandroidpro.utils.network.INetworkStatus
 import jt.projects.gbandroidpro.utils.network.NetworkStatus
+import kotlinx.coroutines.flow.Flow
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
@@ -33,11 +34,11 @@ val application = module {
 
     single<App> { androidApplication().applicationContext as App }
 
-    single<Repository<List<DataModel>>>(qualifier = named(NAME_REMOTE)) {
+    single<Repository<Flow<DataModel>>>(qualifier = named(NAME_REMOTE)) {
         RepositoryImpl(RetrofitImpl())
     }
 
-    single<Repository<List<DataModel>>>(qualifier = named(NAME_LOCAL)) {
+    single<Repository<Flow<DataModel>>>(qualifier = named(NAME_LOCAL)) {
         RepositoryImpl(RoomDatabaseImpl())
     }
 

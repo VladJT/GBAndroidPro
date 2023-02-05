@@ -30,17 +30,6 @@
             app:layout_constraintBottom_toBottomOf="@+id/frame_search"
             app:layout_constraintStart_toEndOf="@+id/tv_result" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnFlow"
-            style="@style/Widget.Material3.Button.IconButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="F"
-            android:textSize="26sp"
-            app:layout_constraintBottom_toBottomOf="@+id/frame_search"
-            app:layout_constraintStart_toEndOf="@+id/btnPlus" />
-
-
         <include
             android:id="@+id/frame_search"
             layout="@layout/search_dialog_fragment"

@@ -4,8 +4,11 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import jt.projects.gbandroidpro.interactor.MainInteractorImpl
 import jt.projects.gbandroidpro.model.domain.AppState
+import jt.projects.gbandroidpro.model.domain.DataModel
 import jt.projects.gbandroidpro.utils.network.INetworkStatus
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainViewModel(
     private val interactor: MainInteractorImpl,
@@ -33,11 +36,10 @@ class MainViewModel(
         cancelJob()
         // Запускаем корутину для асинхронного доступа к серверу с помощью launch
         viewModelCoroutineScope.launch {
-            val response = CoroutineScope(Dispatchers.IO).async {
-                delay(2000)
-                interactor.getData(word, isOnline)
+            withContext(Dispatchers.IO) {
+                val response = interactor.getData(word, isOnline)
+                _mutableLiveData.postValue(AppState.Success(response))
             }
-            _mutableLiveData.value = AppState.Success(response.await())
         }
     }
     // withContext(Dispatchers.IO) указывает, что доступ в сеть должен

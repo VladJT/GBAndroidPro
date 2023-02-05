@@ -1,22 +1,25 @@
 package jt.projects.gbandroidpro.interactor
 
 
+import jt.projects.gbandroidpro.model.domain.AppState
 import jt.projects.gbandroidpro.model.domain.DataModel
 import jt.projects.gbandroidpro.model.repository.Repository
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.Flow
 
 
 //    Снабжаем интерактор репозиторием для получения локальных или внешних данных
 class MainInteractorImpl(
-    private val repositoryRemote: Repository<List<DataModel>>,
-    private val repositoryLocal: Repository<List<DataModel>>
+    private val repositoryRemote: Repository<Flow<DataModel>>,
+    private val repositoryLocal: Repository<Flow<DataModel>>
 ) : Interactor<DataModel> {
 
     // Добавляем suspend
     override suspend fun getData(word: String, fromRemoteSource: Boolean): List<DataModel> {
         return if (fromRemoteSource) {
-            repositoryRemote.getData(word)
+           repositoryRemote.getData(word).toList()
         } else {
-            repositoryLocal.getData(word)
+            repositoryLocal.getData(word).toList()
         }
     }
 
