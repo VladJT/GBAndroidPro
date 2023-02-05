@@ -1,6 +1,7 @@
 package jt.projects.gbandroidpro.flow
 
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 
 
@@ -15,19 +16,49 @@ fun zipFlow() = flowOne.zip(flowTwo) { firstString, secondString ->
     "$firstString $secondString"
 }
 
+val flow1 = flow {
+    var inc = 100
+    while (true) {
+        delay(100)
+        emit(inc++)
+    }
+}
+
+val flow2 = flow {
+    var inc = 50
+    while (true) {
+        delay(100)
+        emit(inc++)
+    }
+}
+
+// объединяет потоки
+fun mergeFlow() =
+    merge(flow1, flow2)
+
+// совмещает значения потоков
+fun combineFlow() = combine(flow1, flow2) { flow1, flow2 -> flow1 + flow2 }
+
 
 /**
  * Обработка ошибок
  * !! Независимо от того, обрабатываем мы ошибку или нет, поток прервется и вызовется onCompletion
  */
 fun getRange() =
-    (1..5)
+    (1..10)
         .asFlow()
-        .map {
-        //выбрасывается ошибка, если значение == 3
-        check(it != 3) { "Значение == $it" }//текст ошибки
-        it * it
-    }
+        //.filter { it % 2 == 0 }
+        .distinctUntilChanged { old, new -> true } // повторяющиеся значения - отбрасываются
+        .withIndex()// индексирует элементы
+        .debounce(500)// если не прошло ? ms - Данные "отскакивают"
+        .onEach {
+            delay(500)
+            //выбрасывается ошибка, если значение == 3
+            // check(it.value != 8) { "Значение == $it" }//текст ошибки
+
+        }
+
+//.sample(1000)//ограничивает интервал опроса изменения данных (некоторые значения выпадут!!)
 
 /**
 Задача терминальных операторов — собирать данные от источника. Они же запускают поток. Если в
@@ -39,6 +70,9 @@ val myFlow = { /* */ }
 myFlow.collect { /* */ }
 myFlow.single { /* */ }
 myFlow.toList { /* */ }
+myFlow.count() - количество полученных элементов
+
+
 А еще мы можем трансформировать Flow в LiveData и подписываться уже на нее:
 val myFlow = flow { /* */ }
 val myLiveData = flow.asLiveData()

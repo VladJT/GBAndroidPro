@@ -10,35 +10,37 @@ import kotlinx.coroutines.flow.single
 fun main() {
     println("СТАРТ")
 
-//    val t = testStateFlow()
-//    collectFlow(t)// 1 observer
-//    collectFlow(t)// 2 observer
-//
-//    Thread.sleep(50)
-//    t.value = 10
+   // collectFlow(combineFlow( ))
+
+    val t = testStateFlow()
+    collectFlow(t)// 1 observer
+    collectFlow(t)// 2 observer
+
+    Thread.sleep(50)
+    t.value = 10
 
     //  testException()
 
-    val observable = FlowCallback()
-    val flow = createCallbackFlow(observable)
-
-    val scope = CoroutineScope(Dispatchers.IO)
-
-    val job = scope.launch {
-        flow.collect {
-            println("from callback: $it")
-        }
-    }
-
-    scope.launch {
-        while (isActive) {
-            delay(500)
-            observable.invoke()
-        }
-    }
-
-    Thread.sleep(2500)
-    scope.coroutineContext.cancelChildren()
+//    val observable = FlowCallback()
+//    val flow = createCallbackFlow(observable)
+//
+//    val scope = CoroutineScope(Dispatchers.IO)
+//
+//    val job = scope.launch {
+//        flow.collect {
+//            println("from callback: $it")
+//        }
+//    }
+//
+//    scope.launch {
+//        while (isActive) {
+//            delay(500)
+//            observable.invoke()
+//        }
+//    }
+//
+//    Thread.sleep(2500)
+//    scope.coroutineContext.cancelChildren()
 
 
 
