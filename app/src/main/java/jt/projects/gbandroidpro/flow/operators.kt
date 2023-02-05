@@ -21,7 +21,9 @@ fun zipFlow() = flowOne.zip(flowTwo) { firstString, secondString ->
  * !! Независимо от того, обрабатываем мы ошибку или нет, поток прервется и вызовется onCompletion
  */
 fun getRange() =
-    (1..5).asFlow().map {
+    (1..5)
+        .asFlow()
+        .map {
         //выбрасывается ошибка, если значение == 3
         check(it != 3) { "Значение == $it" }//текст ошибки
         it * it
