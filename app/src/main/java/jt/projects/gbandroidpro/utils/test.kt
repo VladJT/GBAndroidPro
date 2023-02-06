@@ -19,7 +19,7 @@ suspend fun main() {
     val scope = CoroutineScope(Dispatchers.IO)
 
     scope.launch {
-        repeat(100){
+        repeat(100) {
             delay(500)
             println(it)
         }
@@ -29,7 +29,7 @@ suspend fun main() {
     scope.coroutineContext.cancelChildren()
 
     scope.launch {
-        repeat(100){
+        repeat(100) {
             delay(500)
             println(it)
         }

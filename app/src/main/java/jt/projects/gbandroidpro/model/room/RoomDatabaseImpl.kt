@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 
 class RoomDatabaseImpl : DataSource<Flow<DataModel>> {
+
     override suspend fun getData(word: String): Flow<DataModel> {
         return listOf<DataModel>().asFlow()
     }

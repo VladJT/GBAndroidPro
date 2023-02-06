@@ -6,9 +6,7 @@ import jt.projects.gbandroidpro.interactor.MainInteractorImpl
 import jt.projects.gbandroidpro.model.domain.AppState
 import jt.projects.gbandroidpro.model.domain.DataModel
 import jt.projects.gbandroidpro.utils.network.INetworkStatus
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
 
 class MainViewModel(
@@ -32,9 +30,12 @@ class MainViewModel(
         initQueryStateFlow()
     }
 
-    private fun initQueryStateFlow() {
-        //  cancelJob()
 
+    // withContext(Dispatchers.IO) указывает, что доступ в сеть должен
+    // осуществляться через диспетчер IO (который предназначен именно для таких
+    // операций), хотя это и не обязательно указывать явно, потому что Retrofit
+    // и так делает это благодаря CoroutineCallAdapterFactory(). Это же касается и Room
+    private fun initQueryStateFlow() {
         viewModelCoroutineScope.launch {
             val result = mutableListOf<DataModel>()
             queryStateFlow.debounce(1000)
@@ -49,38 +50,19 @@ class MainViewModel(
                     interactor.getData(word, isOnline).catch {
                         _mutableLiveData.postValue(AppState.Error(it))
                     }
+                }.onCompletion {
+                    _mutableLiveData.postValue(AppState.Error(Throwable("Поток закрылся")))
                 }
                 .collect {
                     result.add(it)
                     _mutableLiveData.postValue(AppState.Success(result))
                 }
-
-
         }
     }
-
-    // В этой переменной хранится последнее состояние Activity
-    private var appState: AppState? = null
 
     override fun getData(word: String) {
         queryStateFlow.value = word
-        if(viewModelCoroutineScope.coroutineContext.job.isCancelled){
-            initQueryStateFlow()
-        }
-//        _mutableLiveData.value = AppState.Loading(null)
-//        cancelJob()
-//        // Запускаем корутину для асинхронного доступа к серверу с помощью launch
-//        viewModelCoroutineScope.launch {
-//            withContext(Dispatchers.IO) {
-//                val response = interactor.getData(word, isOnline)
-//                _mutableLiveData.postValue(AppState.Success(response))
-//            }
-//        }
     }
-    // withContext(Dispatchers.IO) указывает, что доступ в сеть должен
-    // осуществляться через диспетчер IO (который предназначен именно для таких
-    // операций), хотя это и не обязательно указывать явно, потому что Retrofit
-    // и так делает это благодаря CoroutineCallAdapterFactory(). Это же касается и Room
 
 
     // Обрабатываем ошибки
@@ -93,35 +75,4 @@ class MainViewModel(
         _mutableLiveData.value = AppState.Success(null)
         super.onCleared()
     }
-
-
-//    override fun getData(word: String): LiveData<AppState> {
-//        compositeDisposable.add(
-//            interactor.getData(word, isOnline)
-//                .subscribeOn(schedulerProvider.io())
-//                .observeOn(schedulerProvider.ui())
-//                .doOnSubscribe { liveDataForViewToObserve.value = AppState.Loading(null) }
-//                .subscribeWith(getObserver())
-//        )
-//        return super.getData(word)
-//    }
-
-//    private fun getObserver(): DisposableObserver<AppState> {
-//        return object : DisposableObserver<AppState>() {
-//            override fun onNext(t: AppState) {
-//                appState = t
-//                liveDataForViewToObserve.value = t
-//            }
-//
-//            override fun onError(e: Throwable) {
-//                liveDataForViewToObserve.value = AppState.Error(e)
-//                Log.d("TAG", e.message.toString())
-//            }
-//
-//            override fun onComplete() {
-//                //    Log.d("TAG", "DisposableObserver Complete")
-//            }
-//
-//        }
-//    }
 }

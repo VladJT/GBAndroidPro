@@ -9,6 +9,5 @@ import kotlinx.coroutines.flow.Flow
 class DataSourceLocal(private val remoteProvider: RoomDatabaseImpl = RoomDatabaseImpl()) :
     DataSource<Flow<DataModel>> {
 
-    // override fun getData(word: String): Observable<List<DataModel>> = remoteProvider.getData(word)
     override suspend fun getData(word: String): Flow<DataModel> = remoteProvider.getData(word)
 }

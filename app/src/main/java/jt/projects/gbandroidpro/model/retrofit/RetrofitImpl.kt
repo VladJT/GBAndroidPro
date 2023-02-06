@@ -6,6 +6,7 @@ import jt.projects.gbandroidpro.model.domain.DataModel
 import jt.projects.gbandroidpro.utils.BASE_URL_LOCATIONS
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.onEmpty
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -25,8 +26,10 @@ class RetrofitImpl : DataSource<Flow<DataModel>> {
     // Добавляем suspend и .await()
     override suspend fun getData(word: String): Flow<DataModel> {
         val response = getService(BaseInterceptor.interceptor).searchAsync(word).await()
-        if (response.isEmpty()) throw Throwable("Перевод не найден")
-        return response.asFlow()
+        // if (response.isEmpty()) throw Throwable("Перевод не найден")
+        return response.asFlow().onEmpty {
+            throw Throwable("Перевод не найден")
+        }
     }
 
     private fun getService(interceptor: Interceptor): DictionaryApi {

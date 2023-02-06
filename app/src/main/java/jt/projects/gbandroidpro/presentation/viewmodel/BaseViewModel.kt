@@ -13,13 +13,13 @@ import kotlinx.coroutines.*
 abstract class BaseViewModel<T : AppState> : ViewModel() {
     protected val _mutableLiveData: MutableLiveData<T> = MutableLiveData()
 
-    public val liveDataForViewToObserve: LiveData<T>
+    val liveDataForViewToObserve: LiveData<T>
         get() {
             return _mutableLiveData
         }
 
     protected val compositeDisposable = CompositeDisposable()
-//    protected val schedulerProvider = SchedulerProvider()
+
 
     /**
      * Объявляем свой собственный скоуп

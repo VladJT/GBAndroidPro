@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.single
 fun main() {
     println("СТАРТ")
 
-   // collectFlow(combineFlow( ))
+    // collectFlow(combineFlow( ))
 
     val t = testStateFlow()
     collectFlow(t)// 1 observer
@@ -41,7 +41,6 @@ fun main() {
 //
 //    Thread.sleep(2500)
 //    scope.coroutineContext.cancelChildren()
-
 
 
     //Thread.sleep(2500)

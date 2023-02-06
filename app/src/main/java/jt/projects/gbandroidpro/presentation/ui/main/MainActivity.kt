@@ -41,6 +41,8 @@ import org.koin.core.parameter.parametersOf
 очень много проектов. Их легко поддерживать, расширять и тестировать.
  */
 class MainActivity : BaseActivity<AppState>() {
+    // Теперь ViewModel инициализируется через функцию by viewModel()
+    // Это функция, предоставляемая Koin из коробки через зависимость
     override val model: MainViewModel by viewModel()
 
     private lateinit var binding: ActivityMainBinding
@@ -89,11 +91,6 @@ class MainActivity : BaseActivity<AppState>() {
         if (binding.mainActivityRecyclerview.adapter != null) {
             throw IllegalStateException("The ViewModel should be initialised first")
         }
-        // Теперь ViewModel инициализируется через функцию by viewModel()
-        // Это функция, предоставляемая Koin из коробки через зависимость
-        // import org.koin.androidx.viewmodel.ext.android.viewModel
-//        val viewModel: MainViewModel by viewModel()
-//        model = viewModel
 
         model.liveDataForViewToObserve.observe(this, Observer<AppState> {
             renderData(it)
