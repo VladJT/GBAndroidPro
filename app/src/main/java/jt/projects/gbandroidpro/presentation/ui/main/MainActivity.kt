@@ -2,8 +2,6 @@ package jt.projects.gbandroidpro.presentation.ui.main
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.Toast
@@ -54,7 +52,6 @@ class MainActivity : BaseActivity<AppState>() {
         }
     }
 
-    @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //        val session =
@@ -66,17 +63,17 @@ class MainActivity : BaseActivity<AppState>() {
         initViewModel()
         test()
 
+        initBtnPlus()
+        initFabButton()
+
+        binding.searchEditText.doOnTextChanged { text, start, before, count ->
+            model.getData(text.toString())
+        }
+    }
+
+    private fun initBtnPlus() {
         binding.btnPlus.setOnClickListener {
             model.counter.value = model.counter.value?.plus(1)
-        }
-
-
-        initFabButton()
-        initSearchButton()
-        initSearchEditTextWatcher()
-
-        binding.frameSearch.searchEditText.doOnTextChanged { text, start, before, count ->
-            model.getData(text.toString())
         }
     }
 
@@ -101,30 +98,6 @@ class MainActivity : BaseActivity<AppState>() {
         }
     }
 
-
-    private fun initSearchEditTextWatcher() {
-        val textWatcher = object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                binding.frameSearch.searchButton.isEnabled =
-                    !binding.frameSearch.searchEditText.text.isNullOrEmpty()
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-            }
-        }
-
-        binding.frameSearch.searchEditText.addTextChangedListener(textWatcher)
-    }
-
-    private fun initSearchButton() {
-        binding.frameSearch.searchButton.isEnabled = false
-        binding.frameSearch.searchButton.setOnClickListener {
-            model.getData(binding.frameSearch.searchEditText.text.toString())
-        }
-    }
 
     private fun initFabButton() {
         binding.searchFab.setOnClickListener {
@@ -188,8 +161,7 @@ class MainActivity : BaseActivity<AppState>() {
     private fun showViewError(error: String?) {
         binding.errorTextview.text = error ?: getString(R.string.undefined_error)
         binding.reloadButton.setOnClickListener {
-            val s = "TEST"
-            binding.frameSearch.searchEditText.setText(s)
+            binding.searchEditText.setText("test")
         }
         binding.loadingFrameLayout.visibility = GONE
         binding.errorLinearLayout.visibility = VISIBLE
