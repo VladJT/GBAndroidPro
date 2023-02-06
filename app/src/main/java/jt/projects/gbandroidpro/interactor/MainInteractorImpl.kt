@@ -15,11 +15,11 @@ class MainInteractorImpl(
 ) : Interactor<DataModel> {
 
     // Добавляем suspend
-    override suspend fun getData(word: String, fromRemoteSource: Boolean): List<DataModel> {
+    override suspend fun getData(word: String, fromRemoteSource: Boolean): Flow<DataModel> {
         return if (fromRemoteSource) {
-           repositoryRemote.getData(word).toList()
+           repositoryRemote.getData(word)//.toList()
         } else {
-            repositoryLocal.getData(word).toList()
+            repositoryLocal.getData(word)//.toList()
         }
     }
 

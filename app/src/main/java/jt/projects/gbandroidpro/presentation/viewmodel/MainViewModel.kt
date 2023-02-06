@@ -6,9 +6,8 @@ import jt.projects.gbandroidpro.interactor.MainInteractorImpl
 import jt.projects.gbandroidpro.model.domain.AppState
 import jt.projects.gbandroidpro.model.domain.DataModel
 import jt.projects.gbandroidpro.utils.network.INetworkStatus
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class MainViewModel(
     private val interactor: MainInteractorImpl,
@@ -19,6 +18,7 @@ class MainViewModel(
     private var isOnline: Boolean = true
 
     var counter: MutableLiveData<Int> = MutableLiveData(0)
+    val queryStateFlow = MutableStateFlow("")
 
     init {
         Log.d("TAG", "init viewModel")
@@ -26,21 +26,52 @@ class MainViewModel(
             networkStatus.isOnline().subscribe() { status ->
                 isOnline = status
             })
+
+        initQueryStateFlowFlow()
+    }
+
+    private fun initQueryStateFlowFlow() {
+        cancelJob()
+
+        viewModelCoroutineScope.launch {
+            val result = mutableListOf<DataModel>()
+            queryStateFlow.debounce(1000)
+                .filter { word ->     //фильтрует пустые строки.
+                    return@filter word.isNotEmpty()
+                }
+                .distinctUntilChanged()       //позволяет избегать дублирующие запросы
+                .flatMapLatest { word ->// возвращает в поток только самый последний запрос и игнорирует более ранние
+                    _mutableLiveData.value = AppState.Loading(null)
+                    result.clear()
+
+                    interactor.getData(word, isOnline)
+//                        .catch {
+//                            _mutableLiveData.postValue(AppState.Error(it))
+//                        }
+                }
+
+                .collect {
+                    result.add(it)
+                    _mutableLiveData.postValue(AppState.Success(result))
+                }
+
+
+        }
     }
 
     // В этой переменной хранится последнее состояние Activity
     private var appState: AppState? = null
 
     override fun getData(word: String) {
-        _mutableLiveData.value = AppState.Loading(null)
-        cancelJob()
-        // Запускаем корутину для асинхронного доступа к серверу с помощью launch
-        viewModelCoroutineScope.launch {
-            withContext(Dispatchers.IO) {
-                val response = interactor.getData(word, isOnline)
-                _mutableLiveData.postValue(AppState.Success(response))
-            }
-        }
+//        _mutableLiveData.value = AppState.Loading(null)
+//        cancelJob()
+//        // Запускаем корутину для асинхронного доступа к серверу с помощью launch
+//        viewModelCoroutineScope.launch {
+//            withContext(Dispatchers.IO) {
+//                val response = interactor.getData(word, isOnline)
+//                _mutableLiveData.postValue(AppState.Success(response))
+//            }
+//        }
     }
     // withContext(Dispatchers.IO) указывает, что доступ в сеть должен
     // осуществляться через диспетчер IO (который предназначен именно для таких

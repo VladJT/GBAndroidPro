@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 // Ещё выше стоит интерактор. Здесь уже чистая бизнес-логика
 interface Interactor<T> {
 
-    suspend fun getData(word: String, fromRemoteSource: Boolean): List<T>
+    suspend fun getData(word: String, fromRemoteSource: Boolean): Flow<T>
 
     suspend fun Flow<T>.toList() : List<T> {
         val currentFlow = this

@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.Toast
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import jt.projects.gbandroidpro.R
@@ -71,6 +72,10 @@ class MainActivity : BaseActivity<AppState>() {
         initFabButton()
         initSearchButton()
         initSearchEditTextWatcher()
+
+        binding.frameSearch.searchEditText.doOnTextChanged { text, start, before, count ->
+            model.queryStateFlow.value = text.toString()
+        }
 
     }
 
