@@ -1,6 +1,5 @@
 package jt.projects.gbandroidpro.presentation.ui.main
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -18,7 +17,6 @@ import jt.projects.gbandroidpro.presentation.ui.search_dialog.SearchDialogFragme
 import jt.projects.gbandroidpro.presentation.viewmodel.MainViewModel
 import jt.projects.gbandroidpro.utils.BOTTOM_SHEET_FRAGMENT_DIALOG_TAG
 import jt.projects.gbandroidpro.utils.Test
-import kotlinx.coroutines.flow.*
 import org.koin.android.ext.android.getKoin
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -61,14 +59,14 @@ class MainActivity : BaseActivity<AppState>() {
         setContentView(binding.root)
 
         initViewModel()
-        test()
-
         initBtnPlus()
         initFabButton()
 
         binding.searchEditText.doOnTextChanged { text, start, before, count ->
             model.getData(text.toString())
         }
+
+        test()
     }
 
     private fun initBtnPlus() {
@@ -104,7 +102,8 @@ class MainActivity : BaseActivity<AppState>() {
             val searchDialogFragment = SearchDialogFragment.newInstance()
             searchDialogFragment.setOnSearchClickListener(object : OnSearchClickListener {
                 override fun onClick(searchWord: String) {
-                    model.getData(searchWord)
+                    //model.getData(searchWord)
+                    binding.searchEditText.setText(searchWord)
                 }
             })
             searchDialogFragment.show(supportFragmentManager, BOTTOM_SHEET_FRAGMENT_DIALOG_TAG)
