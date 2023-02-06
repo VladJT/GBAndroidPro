@@ -24,7 +24,9 @@ class RetrofitImpl : DataSource<Flow<DataModel>> {
 
     // Добавляем suspend и .await()
     override suspend fun getData(word: String): Flow<DataModel> {
-        return getService(BaseInterceptor.interceptor).searchAsync(word).await().asFlow()
+        val response = getService(BaseInterceptor.interceptor).searchAsync(word).await()
+        if (response.isEmpty()) throw Throwable("Перевод не найден")
+        return response.asFlow()
     }
 
     private fun getService(interceptor: Interceptor): DictionaryApi {

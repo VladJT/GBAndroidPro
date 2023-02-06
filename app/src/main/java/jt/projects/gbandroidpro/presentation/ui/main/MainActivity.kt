@@ -74,9 +74,8 @@ class MainActivity : BaseActivity<AppState>() {
         initSearchEditTextWatcher()
 
         binding.frameSearch.searchEditText.doOnTextChanged { text, start, before, count ->
-            model.queryStateFlow.value = text.toString()
+            model.getData(text.toString())
         }
-
     }
 
 
@@ -101,7 +100,7 @@ class MainActivity : BaseActivity<AppState>() {
         })
 
         model.counter.observe(this) {
-            binding.tvResult.text = model.counter.value.toString()
+            binding.btnPlus.text = model.counter.value.toString()
         }
     }
 
@@ -192,7 +191,8 @@ class MainActivity : BaseActivity<AppState>() {
     private fun showViewError(error: String?) {
         binding.errorTextview.text = error ?: getString(R.string.undefined_error)
         binding.reloadButton.setOnClickListener {
-            model.getData("hi")
+            val s = "TEST"
+            binding.frameSearch.searchEditText.setText(s)
         }
         binding.loadingFrameLayout.visibility = GONE
         binding.errorLinearLayout.visibility = VISIBLE

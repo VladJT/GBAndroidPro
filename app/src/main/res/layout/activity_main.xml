@@ -11,24 +11,15 @@
         android:layout_height="match_parent"
         android:gravity="center">
 
-        <TextView
-            android:id="@+id/tv_result"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:text="0"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@+id/frame_search"
-            app:layout_constraintStart_toStartOf="parent" />
-
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnPlus"
-            style="@style/Widget.Material3.Button.IconButton"
+            style="@style/Widget.AppCompat.Button.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="+"
             android:textSize="26sp"
             app:layout_constraintBottom_toBottomOf="@+id/frame_search"
-            app:layout_constraintStart_toEndOf="@+id/tv_result" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <include
             android:id="@+id/frame_search"
