@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import jt.projects.gbandroidpro.R
 import jt.projects.gbandroidpro.model.domain.DataModel
+import jt.projects.gbandroidpro.model.domain.toOneString
 
 class MainAdapter(
     private var onListItemClickListener: OnListItemClickListener,
@@ -40,12 +41,8 @@ class MainAdapter(
             if (layoutPosition != RecyclerView.NO_POSITION) {
                 with(itemView) {
                     findViewById<TextView>(R.id.header_textview_recycler_item).text = data.text
-                    val sb = StringBuilder()
-                    data.meanings?.forEach {
-                        sb.append(it.translation?.translation.plus(", "))
-                    }
                     findViewById<TextView>(R.id.description_textview_recycler_item).text =
-                        sb.dropLast(2).toString()
+                        data.meanings?.toOneString()
                     setOnClickListener { openInNewWindow(data) }
                 }
             }

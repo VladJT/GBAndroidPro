@@ -15,7 +15,9 @@ import jt.projects.gbandroidpro.R
 import jt.projects.gbandroidpro.databinding.ActivityMainBinding
 import jt.projects.gbandroidpro.model.domain.AppState
 import jt.projects.gbandroidpro.model.domain.DataModel
+import jt.projects.gbandroidpro.model.domain.toOneString
 import jt.projects.gbandroidpro.presentation.ui.base.BaseActivity
+import jt.projects.gbandroidpro.presentation.ui.description.DescriptionActivity
 import jt.projects.gbandroidpro.presentation.ui.search_dialog.SearchDialogCallback
 import jt.projects.gbandroidpro.presentation.ui.search_dialog.SearchDialogFragment
 import jt.projects.gbandroidpro.presentation.viewmodel.MainViewModel
@@ -50,7 +52,15 @@ class MainActivity : BaseActivity<AppState>() {
 
     private val onListItemClickListener = object : MainAdapter.OnListItemClickListener {
         override fun onItemClick(data: DataModel) {
-            Toast.makeText(this@MainActivity, data.text, Toast.LENGTH_SHORT).show()
+            //  Toast.makeText(this@MainActivity, data.text, Toast.LENGTH_SHORT).show()
+            startActivity(
+                DescriptionActivity.getIntent(
+                    this@MainActivity,
+                    data.text!!,
+                    data.meanings?.toOneString(),
+                    data?.meanings?.get(0)?.imageUrl
+                )
+            )
         }
     }
 

@@ -93,4 +93,12 @@ dependencies {
 
     //КОРУТИНЫ для Retrofit
     implementation 'com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2'
+
+    //Picasso
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    //Glide
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    kapt 'com.github.bumptech.glide:compiler:4.12.0'
+
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 }
