@@ -32,10 +32,6 @@ class MainAdapter(
 
     override fun getItemCount(): Int = data.size
 
-    fun openInNewWindow(data: DataModel) {
-        onListItemClickListener.onItemClick(data)
-    }
-
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(data: DataModel) {
             if (layoutPosition != RecyclerView.NO_POSITION) {
@@ -49,6 +45,12 @@ class MainAdapter(
         }
     }
 
+    // Передаём событие в MainActivity
+    private fun openInNewWindow(listItemData: DataModel) {
+        onListItemClickListener.onItemClick(listItemData)
+    }
+
+    // Определяем интерфейс обратного вызова
     interface OnListItemClickListener {
         fun onItemClick(data: DataModel)
     }

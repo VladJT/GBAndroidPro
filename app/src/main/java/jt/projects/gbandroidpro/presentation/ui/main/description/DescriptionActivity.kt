@@ -1,4 +1,4 @@
-package jt.projects.gbandroidpro.presentation.ui.description
+package jt.projects.gbandroidpro.presentation.ui.main.description
 
 import android.content.Context
 import android.content.Intent
@@ -17,10 +17,17 @@ import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import jt.projects.gbandroidpro.R
 import jt.projects.gbandroidpro.databinding.ActivityDescriptionBinding
+import jt.projects.gbandroidpro.di.NETWORK_SERVICE
+import jt.projects.gbandroidpro.utils.custom_view.CoilImageLoader
+import jt.projects.gbandroidpro.utils.network.INetworkStatus
+import org.koin.android.ext.android.getKoin
+import org.koin.android.ext.android.inject
+import org.koin.core.qualifier.named
 
 class DescriptionActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDescriptionBinding
-    //  val networkStatus by inject<NetworkStatus>()
+
+    val coilImageLoader: CoilImageLoader by inject()
 
     companion object {
         private const val DIALOG_FRAGMENT_TAG = "8c7dff51-9769-4f6d-bbee-a3896085e76e"
@@ -72,13 +79,14 @@ class DescriptionActivity : AppCompatActivity() {
         if (imageLink.isNullOrBlank()) {
             stopRefreshAnimationIfNeeded()
         } else {
-            //usePicassoToLoadPhoto(binding.descriptionImageview, imageLink)
-            useGlideToLoadPhoto(binding.descriptionImageview, imageLink)
+            useCoilToLoadPhoto(binding.descriptionImageview, imageLink)
+            // usePicassoToLoadPhoto(binding.descriptionImageview, imageLink)
+            //  useGlideToLoadPhoto(binding.descriptionImageview, imageLink)
         }
     }
 
     private fun startLoadingOrShowError() {
-        if (true) {
+        if (getKoin().get<INetworkStatus>(named(NETWORK_SERVICE)).isOnline) {
             setData()
         } else {
 //            AlertDialogFragment.newInstance(
@@ -109,6 +117,11 @@ class DescriptionActivity : AppCompatActivity() {
                     imageView.setImageResource(R.drawable.ic_load_error_vector)
                 }
             })
+    }
+
+    private fun useCoilToLoadPhoto(imageView: ImageView, imageLink: String) {
+        coilImageLoader.loadToRoundedCornersView(imageView, "https:$imageLink")
+        // getKoin().get<CoilImageLoader>().loadToRoundedCornersView(imageView, "https:$imageLink")
     }
 
     private fun useGlideToLoadPhoto(imageView: ImageView, imageLink: String) {

@@ -17,9 +17,9 @@ import org.koin.core.component.KoinComponent
 приложении доступ к таким функциям, как get, inject, getKoin, viewModel и т. д.
 
  */
-class NetworkStatus() : INetworkStatus, KoinComponent {
+class NetworkStatus : INetworkStatus, KoinComponent {
 
-    // private val app: App by inject()
+    override var isOnline: Boolean = false
 
     private val statusSubject: BehaviorSubject<Boolean> = BehaviorSubject.create()
 
@@ -37,6 +37,10 @@ class NetworkStatus() : INetworkStatus, KoinComponent {
                 override fun onUnavailable() = statusSubject.onNext(false)
                 override fun onLost(network: Network) = statusSubject.onNext(false)
             })
+
+        statusSubject.subscribe() { status ->
+            isOnline = status
+        }
     }
 
     override fun isOnline(): Observable<Boolean> = statusSubject

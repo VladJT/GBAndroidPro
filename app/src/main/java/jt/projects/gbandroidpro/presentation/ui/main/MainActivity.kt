@@ -17,7 +17,7 @@ import jt.projects.gbandroidpro.model.domain.AppState
 import jt.projects.gbandroidpro.model.domain.DataModel
 import jt.projects.gbandroidpro.model.domain.toOneString
 import jt.projects.gbandroidpro.presentation.ui.base.BaseActivity
-import jt.projects.gbandroidpro.presentation.ui.description.DescriptionActivity
+import jt.projects.gbandroidpro.presentation.ui.main.description.DescriptionActivity
 import jt.projects.gbandroidpro.presentation.ui.search_dialog.SearchDialogCallback
 import jt.projects.gbandroidpro.presentation.ui.search_dialog.SearchDialogFragment
 import jt.projects.gbandroidpro.presentation.viewmodel.MainViewModel

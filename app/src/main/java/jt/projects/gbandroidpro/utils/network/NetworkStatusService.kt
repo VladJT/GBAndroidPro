@@ -14,7 +14,7 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 import jt.projects.gbandroidpro.utils.NETWORK_STATUS_INTENT_FILTER
 
-class NetworkStatusService : Service(), INetworkStatus {
+class NetworkStatusService(override var isOnline: Boolean = false) : Service(), INetworkStatus {
     private val statusSubject: BehaviorSubject<Boolean> = BehaviorSubject.create()
 
     override fun onBind(intent: Intent?): IBinder? {

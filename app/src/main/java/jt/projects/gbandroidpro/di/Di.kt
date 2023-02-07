@@ -12,6 +12,7 @@ import jt.projects.gbandroidpro.model.retrofit.RetrofitImpl
 import jt.projects.gbandroidpro.model.room.RoomDatabaseImpl
 import jt.projects.gbandroidpro.presentation.viewmodel.MainViewModel
 import jt.projects.gbandroidpro.utils.Test
+import jt.projects.gbandroidpro.utils.custom_view.CoilImageLoader
 import jt.projects.gbandroidpro.utils.network.INetworkStatus
 import jt.projects.gbandroidpro.utils.network.NetworkStatus
 import kotlinx.coroutines.flow.Flow
@@ -54,6 +55,8 @@ val application = module {
     }
 
     single<INetworkStatus>(qualifier = named(NETWORK_SERVICE)) { NetworkStatus() }
+
+    single<CoilImageLoader> {CoilImageLoader()}
 }
 
 //зависимости конкретного экрана
