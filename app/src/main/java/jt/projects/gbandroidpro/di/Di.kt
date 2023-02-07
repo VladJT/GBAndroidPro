@@ -2,6 +2,9 @@ package jt.projects.gbandroidpro.di
 
 import jt.projects.gbandroidpro.App
 import jt.projects.gbandroidpro.interactor.MainInteractorImpl
+import jt.projects.gbandroidpro.model.datasource.DataSource
+import jt.projects.gbandroidpro.model.datasource.DataSourceLocal
+import jt.projects.gbandroidpro.model.datasource.DataSourceRemote
 import jt.projects.gbandroidpro.model.domain.DataModel
 import jt.projects.gbandroidpro.model.repository.Repository
 import jt.projects.gbandroidpro.model.repository.RepositoryImpl
@@ -35,11 +38,19 @@ val application = module {
     single<App> { androidApplication().applicationContext as App }
 
     single<Repository<Flow<DataModel>>>(qualifier = named(NAME_REMOTE)) {
-        RepositoryImpl(RetrofitImpl())
+        RepositoryImpl(get(named(DATA_SOURCE_REMOTE)))
     }
 
     single<Repository<Flow<DataModel>>>(qualifier = named(NAME_LOCAL)) {
-        RepositoryImpl(RoomDatabaseImpl())
+        RepositoryImpl(get(named(DATA_SOURCE_LOCAL)))
+    }
+
+    single<DataSource<Flow<DataModel>>>(qualifier = named(DATA_SOURCE_REMOTE)) {
+        DataSourceRemote(remoteProvider = RetrofitImpl())
+    }
+
+    single<DataSource<Flow<DataModel>>>(qualifier = named(DATA_SOURCE_LOCAL)) {
+        DataSourceLocal(localProvider = RoomDatabaseImpl())
     }
 
     single<INetworkStatus>(qualifier = named(NETWORK_SERVICE)) { NetworkStatus() }
