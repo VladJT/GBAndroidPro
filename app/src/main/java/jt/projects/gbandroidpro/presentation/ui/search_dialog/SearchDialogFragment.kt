@@ -18,17 +18,17 @@ class SearchDialogFragment : BottomSheetDialogFragment() {
         }
     }
 
-    private var onSearchClickListener: OnSearchClickListener? = null
+    private var searchDialogCallback: SearchDialogCallback? = null
 
     // приходит из MainActivity
-    internal fun setOnSearchClickListener(listener: OnSearchClickListener) {
-        onSearchClickListener = listener
+    internal fun setOnSearchClickListener(callback: SearchDialogCallback) {
+        searchDialogCallback = callback
     }
 
 
     private val onSearchClick = View.OnClickListener {
         // отправляем результат в MainActivity
-        onSearchClickListener?.onClick(binding.searchView.query.toString())
+        searchDialogCallback?.onClickSearchButton(binding.searchView.query.toString())
         dismiss()
     }
 
@@ -57,5 +57,10 @@ class SearchDialogFragment : BottomSheetDialogFragment() {
                 return true
             }
         })
+    }
+
+    override fun onDestroyView() {
+        searchDialogCallback?.onCloseSearchDialog()
+        super.onDestroyView()
     }
 }

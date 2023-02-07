@@ -1,9 +1,13 @@
 package jt.projects.gbandroidpro.presentation.ui.main
 
+import android.graphics.RenderEffect
+import android.graphics.Shader
+import android.os.Build
 import android.os.Bundle
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,7 +16,7 @@ import jt.projects.gbandroidpro.databinding.ActivityMainBinding
 import jt.projects.gbandroidpro.model.domain.AppState
 import jt.projects.gbandroidpro.model.domain.DataModel
 import jt.projects.gbandroidpro.presentation.ui.base.BaseActivity
-import jt.projects.gbandroidpro.presentation.ui.search_dialog.OnSearchClickListener
+import jt.projects.gbandroidpro.presentation.ui.search_dialog.SearchDialogCallback
 import jt.projects.gbandroidpro.presentation.ui.search_dialog.SearchDialogFragment
 import jt.projects.gbandroidpro.presentation.viewmodel.MainViewModel
 import jt.projects.gbandroidpro.utils.BOTTOM_SHEET_FRAGMENT_DIALOG_TAG
@@ -99,14 +103,35 @@ class MainActivity : BaseActivity<AppState>() {
 
     private fun initFabButton() {
         binding.searchFab.setOnClickListener {
+            setBlur(true)
             val searchDialogFragment = SearchDialogFragment.newInstance()
-            searchDialogFragment.setOnSearchClickListener(object : OnSearchClickListener {
-                override fun onClick(searchWord: String) {
+            searchDialogFragment.setOnSearchClickListener(object : SearchDialogCallback {
+                @RequiresApi(Build.VERSION_CODES.S)
+                override fun onClickSearchButton(searchWord: String) {
                     //model.getData(searchWord)
                     binding.searchEditText.setText(searchWord)
                 }
+
+                override fun onCloseSearchDialog() {
+                    setBlur(false)
+                }
             })
             searchDialogFragment.show(supportFragmentManager, BOTTOM_SHEET_FRAGMENT_DIALOG_TAG)
+        }
+    }
+
+
+    private fun setBlur(isBlur: Boolean) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val blurEffect = RenderEffect.createBlurEffect(
+                15f, 0f,
+                Shader.TileMode.CLAMP
+            )
+            if (isBlur) {
+                binding.root.setRenderEffect(blurEffect)
+            } else {
+                binding.root.setRenderEffect(null)
+            }
         }
     }
 
