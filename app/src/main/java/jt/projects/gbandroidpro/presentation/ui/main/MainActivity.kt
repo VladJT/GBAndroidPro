@@ -1,7 +1,10 @@
 package jt.projects.gbandroidpro.presentation.ui.main
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -15,6 +18,7 @@ import jt.projects.gbandroidpro.model.domain.DataModel
 import jt.projects.gbandroidpro.model.domain.toOneString
 import jt.projects.gbandroidpro.presentation.ui.base.BaseActivity
 import jt.projects.gbandroidpro.presentation.ui.description.DescriptionActivity
+import jt.projects.gbandroidpro.presentation.ui.history.HistoryActivity
 import jt.projects.gbandroidpro.presentation.ui.search_dialog.SearchDialogCallback
 import jt.projects.gbandroidpro.presentation.ui.search_dialog.SearchDialogFragment
 import jt.projects.gbandroidpro.presentation.viewmodel.MainViewModel
@@ -68,6 +72,10 @@ class MainActivity : BaseActivity<AppState>() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.apply {
+            subtitle = "main screen"
+            setLogo(R.drawable.icon)
+        }
 
         initViewModel()
         initBtnPlus()
@@ -78,6 +86,21 @@ class MainActivity : BaseActivity<AppState>() {
         }
 
         test()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.history_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_history -> {
+                startActivity(Intent(this, HistoryActivity::class.java))
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     private fun initBtnPlus() {

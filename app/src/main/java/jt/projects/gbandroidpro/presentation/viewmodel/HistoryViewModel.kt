@@ -14,9 +14,13 @@ class HistoryViewModel(
     BaseViewModel<AppState>() {
 
     override fun getData(word: String) {
+        liveData.value = AppState.Loading(null)
+        cancelJob()
+
         viewModelCoroutineScope.launch {
             withContext(Dispatchers.IO) {
-                val response = interactor.getData(word, networkStatus.isOnline)
+               // val response = interactor.getData(word, networkStatus.isOnline)
+                val response = interactor.getData(word, false)
                 liveData.postValue(response)
             }
         }

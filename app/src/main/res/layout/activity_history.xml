@@ -15,8 +15,16 @@
             android:id="@+id/history_activity_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:scrollbars="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
     </FrameLayout>
 
-    <include layout="@layout/loading_layout" />
+    <FrameLayout
+        android:id="@+id/loading_frame_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <include layout="@layout/loading_layout" />
+    </FrameLayout>
 </FrameLayout>

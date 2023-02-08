@@ -10,22 +10,16 @@ import kotlinx.coroutines.flow.*
 
 class MainViewModel(
     private val interactor: MainInteractorImpl,
-    networkStatus: INetworkStatus
+    private val networkStatus: INetworkStatus
 ) :
     BaseViewModel<AppState>() {
 
-    private var isOnline: Boolean = true
     private val queryStateFlow = MutableStateFlow("")
 
     var counter: MutableLiveData<Int> = MutableLiveData(0)//TEST SAVE STATE
 
     init {
         Log.d("TAG", "init viewModel")
-        compositeDisposable.add(
-            networkStatus.isOnline().subscribe() { status ->
-                isOnline = status
-            })
-
         initQueryStateFlow()
     }
 
@@ -54,7 +48,7 @@ class MainViewModel(
         cancelJob()
         viewModelCoroutineScope.launch {
             withContext(Dispatchers.IO) {
-                val response = interactor.getData(word, isOnline)
+                val response = interactor.getData(word, networkStatus.isOnline)
                 liveData.postValue(response)
             }
         }

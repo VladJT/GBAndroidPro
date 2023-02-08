@@ -18,9 +18,6 @@ abstract class BaseViewModel<T : AppState> : ViewModel() {
             return liveData
         }
 
-    protected val compositeDisposable = CompositeDisposable()
-
-
     /**
      * Объявляем свой собственный скоуп
     В качестве аргумента передается CoroutineContext, который мы составляем
@@ -49,7 +46,6 @@ abstract class BaseViewModel<T : AppState> : ViewModel() {
     // !! Единственный метод класса ViewModel, который вызывается перед  уничтожением Activity
     override fun onCleared() {
         Log.d("TAG", "onCleared ViewModel")
-        compositeDisposable.clear()
         cancelJob()
         super.onCleared()
     }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GBAndroidPro</string>
+    <string name="app_name">JTTranslator</string>
     <string name="error_textview_stub">Error</string>
     <string name="reload_button">Reload</string>
     <string name="undefined_error">Undefined error</string>
@@ -9,4 +9,6 @@
     <string name="delete_description">X</string>
     <string name="image_stub">Картинка</string>
     <string name="menu_title_history">История</string>
+    <string name="dialog_title_device_is_offline">Внимание</string>
+    <string name="dialog_message_device_is_offline">Отсутствует подключение к интернету</string>
 </resources>

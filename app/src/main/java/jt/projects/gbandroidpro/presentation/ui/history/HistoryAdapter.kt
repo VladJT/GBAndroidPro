@@ -50,14 +50,16 @@ class HistoryAdapter :
                     findViewById<TextView>(R.id.description_history_textview_recycler_item).text =
                         data.meanings.toOneString()
                     setOnClickListener {
-                        Toast.makeText(
-                            itemView.context, "on click: ${data.text}",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        openInNewWindow(data)
                     }
                 }
 
             }
+        }
+
+        // Передаём событие в MainActivity
+        private fun openInNewWindow(listItemData: DataModel) {
+          //  onListItemClickListener.onItemClick(listItemData)
         }
     }
 }

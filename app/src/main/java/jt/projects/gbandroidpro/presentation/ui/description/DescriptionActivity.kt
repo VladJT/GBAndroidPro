@@ -18,8 +18,9 @@ import com.squareup.picasso.Picasso
 import jt.projects.gbandroidpro.R
 import jt.projects.gbandroidpro.databinding.ActivityDescriptionBinding
 import jt.projects.gbandroidpro.di.NETWORK_SERVICE
-import jt.projects.gbandroidpro.utils.ui.CoilImageLoader
 import jt.projects.gbandroidpro.utils.network.INetworkStatus
+import jt.projects.gbandroidpro.utils.ui.AlertDialogFragment
+import jt.projects.gbandroidpro.utils.ui.CoilImageLoader
 import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.android.inject
 import org.koin.core.qualifier.named
@@ -49,7 +50,9 @@ class DescriptionActivity : AppCompatActivity() {
         binding = ActivityDescriptionBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportActionBar?.subtitle = "Карточка детализации"
         setActionbarHomeButtonAsUp()
+
         binding.descriptionScreenSwipeRefreshLayout.setOnRefreshListener {
             startLoadingOrShowError()
         }
@@ -89,12 +92,12 @@ class DescriptionActivity : AppCompatActivity() {
         if (getKoin().get<INetworkStatus>(named(NETWORK_SERVICE)).isOnline) {
             setData()
         } else {
-//            AlertDialogFragment.newInstance(
-//                getString(R.string.dialog_title_device_is_offline),
-//                getString(R.string.dialog_message_device_is_offline)
-//            ).show(
-//                supportFragmentManager, DIALOG_FRAGMENT_TAG
-//            )
+            AlertDialogFragment.newInstance(
+                getString(R.string.dialog_title_device_is_offline),
+                getString(R.string.dialog_message_device_is_offline)
+            ).show(
+                supportFragmentManager, DIALOG_FRAGMENT_TAG
+            )
             stopRefreshAnimationIfNeeded()
         }
     }
