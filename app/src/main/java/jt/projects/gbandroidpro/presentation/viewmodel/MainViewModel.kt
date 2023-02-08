@@ -41,7 +41,7 @@ class MainViewModel(
                 }
                 .distinctUntilChanged()       //позволяет избегать дублирующие запросы
                 .onCompletion {
-                    _mutableLiveData.postValue(AppState.Error(Throwable("initQueryStateFlow закрылся")))
+                    liveData.postValue(AppState.Error(Throwable("initQueryStateFlow закрылся")))
                 }
                 .collect { word ->
                     loadData(word)
@@ -50,12 +50,12 @@ class MainViewModel(
     }
 
     private fun loadData(word: String) {
-        _mutableLiveData.value = AppState.Loading(null)
+        liveData.value = AppState.Loading(null)
         cancelJob()
         viewModelCoroutineScope.launch {
             withContext(Dispatchers.IO) {
                 val response = interactor.getData(word, isOnline)
-                _mutableLiveData.postValue(response)
+                liveData.postValue(response)
             }
         }
     }
@@ -66,12 +66,12 @@ class MainViewModel(
 
     // Обрабатываем ошибки
     override fun handleError(error: Throwable) {
-        _mutableLiveData.postValue(AppState.Error(error))
+        liveData.postValue(AppState.Error(error))
         cancelJob()
     }
 
     override fun onCleared() {
-        _mutableLiveData.value = AppState.Success(null)
+        liveData.value = AppState.Success(null)
         super.onCleared()
     }
 }

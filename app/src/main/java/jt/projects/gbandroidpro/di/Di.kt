@@ -2,6 +2,7 @@ package jt.projects.gbandroidpro.di
 
 import androidx.room.Room
 import jt.projects.gbandroidpro.App
+import jt.projects.gbandroidpro.interactor.HistoryInteractorImpl
 import jt.projects.gbandroidpro.interactor.MainInteractorImpl
 import jt.projects.gbandroidpro.model.repository.RepositoryImpl
 import jt.projects.gbandroidpro.model.repository.RepositoryLocalImpl
@@ -9,6 +10,7 @@ import jt.projects.gbandroidpro.model.retrofit.RetrofitImpl
 import jt.projects.gbandroidpro.model.room.HistoryDao
 import jt.projects.gbandroidpro.model.room.HistoryDatabase
 import jt.projects.gbandroidpro.model.room.RoomDatabaseImpl
+import jt.projects.gbandroidpro.presentation.viewmodel.HistoryViewModel
 import jt.projects.gbandroidpro.presentation.viewmodel.MainViewModel
 import jt.projects.gbandroidpro.utils.Test
 import jt.projects.gbandroidpro.utils.custom_view.CoilImageLoader
@@ -36,13 +38,9 @@ val application = module {
 
     single<App> { androidApplication().applicationContext as App }
 
-    single<RepositoryImpl>(qualifier = named(NAME_REMOTE)) {
-        RepositoryImpl(RetrofitImpl())
-    }
+    single<RepositoryImpl> { RepositoryImpl(RetrofitImpl()) }
 
-    single<RepositoryLocalImpl>(qualifier = named(NAME_LOCAL)) {
-        RepositoryLocalImpl(RoomDatabaseImpl(get<HistoryDao>()))
-    }
+    single<RepositoryLocalImpl> { RepositoryLocalImpl(RoomDatabaseImpl(get<HistoryDao>())) }
 
     single<INetworkStatus>(qualifier = named(NETWORK_SERVICE)) { NetworkStatus() }
 
@@ -62,10 +60,10 @@ val roomModule = module {
 
 //зависимости конкретного экрана
 val mainScreen = module {
-    factory(qualifier = named(INTERACTOR)) {
+    factory {
         MainInteractorImpl(
-            get<RepositoryImpl>(named(NAME_REMOTE)),
-            get<RepositoryLocalImpl>(named(NAME_LOCAL))
+            get<RepositoryImpl>(),
+            get<RepositoryLocalImpl>()
         )
     }
 
@@ -73,13 +71,24 @@ val mainScreen = module {
     //определения зависимости
     viewModel {
         MainViewModel(
-            get(named(INTERACTOR)),
+            get<MainInteractorImpl>(),
             get(named(NETWORK_SERVICE))
         )
     }
 }
 
 val historyScreen = module {
-    //   factory { HistoryViewModel(get()) }
-    //   factory { HistoryInteractorImpl(get(), get()) }
+    factory {
+        HistoryInteractorImpl(
+            get<RepositoryImpl>(),
+            get<RepositoryLocalImpl>()
+        )
+    }
+
+    viewModel {
+        HistoryViewModel(
+            get<HistoryInteractorImpl>(),
+            get(named(NETWORK_SERVICE))
+        )
+    }
 }

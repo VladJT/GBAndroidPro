@@ -11,11 +11,11 @@ import kotlinx.coroutines.*
 
 //Создадим базовую ViewModel, куда вынесем общий для всех функционал
 abstract class BaseViewModel<T : AppState> : ViewModel() {
-    protected val _mutableLiveData: MutableLiveData<T> = MutableLiveData()
+    protected val liveData: MutableLiveData<T> = MutableLiveData()
 
     val liveDataForViewToObserve: LiveData<T>
         get() {
-            return _mutableLiveData
+            return liveData
         }
 
     protected val compositeDisposable = CompositeDisposable()

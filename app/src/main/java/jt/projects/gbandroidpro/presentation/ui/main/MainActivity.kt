@@ -167,14 +167,15 @@ class MainActivity : BaseActivity<AppState>() {
             }
             is AppState.Loading -> {
                 showViewLoading()
-                if (appState.progress != null) {
-                    binding.progressBarHorizontal.visibility = VISIBLE
-                    binding.progressBarRound.visibility = GONE
-                    binding.progressBarHorizontal.progress = appState.progress
-                } else {
-                    binding.progressBarHorizontal.visibility = GONE
-                    binding.progressBarRound.visibility = VISIBLE
-                }
+//                if (appState.progress != null) {
+//
+//                    binding.progressBarHorizontal.visibility = VISIBLE
+//                    binding.progressBarRound.visibility = GONE
+//                    binding.progressBarHorizontal.progress = appState.progress
+//                } else {
+//                    binding.progressBarHorizontal.visibility = GONE
+//                    binding.progressBarRound.visibility = VISIBLE
+//                }
             }
             is AppState.Error -> {
                 showViewError(appState.error.message)

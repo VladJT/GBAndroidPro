@@ -1,11 +1,9 @@
 package jt.projects.gbandroidpro.presentation.ui.main
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import jt.projects.gbandroidpro.R
+import jt.projects.gbandroidpro.databinding.ActivityMainRecyclerviewItemBinding
 import jt.projects.gbandroidpro.model.domain.DataModel
 import jt.projects.gbandroidpro.model.domain.toOneString
 
@@ -19,11 +17,13 @@ class MainAdapter(
         notifyDataSetChanged()
     }
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v: View = LayoutInflater.from(parent.context)
-            .inflate(R.layout.activity_main_recyclerview_item, parent, false)
-        return ViewHolder(v)
+        val binding = ActivityMainRecyclerviewItemBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -32,15 +32,17 @@ class MainAdapter(
 
     override fun getItemCount(): Int = data.size
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class ViewHolder(private val binding: ActivityMainRecyclerviewItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(data: DataModel) {
             if (layoutPosition != RecyclerView.NO_POSITION) {
-                with(itemView) {
-                    findViewById<TextView>(R.id.header_textview_recycler_item).text = data.text
-                    findViewById<TextView>(R.id.description_textview_recycler_item).text =
+                with(binding) {
+                    headerTextviewRecyclerItem.text = data.text
+                    descriptionTextviewRecyclerItem.text =
                         data.meanings?.toOneString()
-                    setOnClickListener { openInNewWindow(data) }
+                    root.setOnClickListener { openInNewWindow(data) }
                 }
+
             }
         }
     }
