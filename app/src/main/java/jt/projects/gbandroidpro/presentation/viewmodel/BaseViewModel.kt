@@ -57,6 +57,5 @@ abstract class BaseViewModel<T : AppState> : ViewModel() {
     // Завершаем все незавершённые корутины, потому что пользователь закрыл экран
     protected fun cancelJob() {
         viewModelCoroutineScope.coroutineContext.cancelChildren()
-        viewModelCoroutineScope.coroutineContext.cancel()
     }
 }

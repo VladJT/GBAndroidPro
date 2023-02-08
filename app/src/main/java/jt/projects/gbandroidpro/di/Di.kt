@@ -1,21 +1,19 @@
 package jt.projects.gbandroidpro.di
 
+import androidx.room.Room
 import jt.projects.gbandroidpro.App
 import jt.projects.gbandroidpro.interactor.MainInteractorImpl
-import jt.projects.gbandroidpro.model.datasource.DataSource
-import jt.projects.gbandroidpro.model.datasource.DataSourceLocal
-import jt.projects.gbandroidpro.model.datasource.DataSourceRemote
-import jt.projects.gbandroidpro.model.domain.DataModel
-import jt.projects.gbandroidpro.model.repository.Repository
 import jt.projects.gbandroidpro.model.repository.RepositoryImpl
+import jt.projects.gbandroidpro.model.repository.RepositoryLocalImpl
 import jt.projects.gbandroidpro.model.retrofit.RetrofitImpl
+import jt.projects.gbandroidpro.model.room.HistoryDao
+import jt.projects.gbandroidpro.model.room.HistoryDatabase
 import jt.projects.gbandroidpro.model.room.RoomDatabaseImpl
 import jt.projects.gbandroidpro.presentation.viewmodel.MainViewModel
 import jt.projects.gbandroidpro.utils.Test
 import jt.projects.gbandroidpro.utils.custom_view.CoilImageLoader
 import jt.projects.gbandroidpro.utils.network.INetworkStatus
 import jt.projects.gbandroidpro.utils.network.NetworkStatus
-import kotlinx.coroutines.flow.Flow
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
@@ -38,33 +36,36 @@ val application = module {
 
     single<App> { androidApplication().applicationContext as App }
 
-    single<Repository<Flow<DataModel>>>(qualifier = named(NAME_REMOTE)) {
-        RepositoryImpl(get(named(DATA_SOURCE_REMOTE)))
+    single<RepositoryImpl>(qualifier = named(NAME_REMOTE)) {
+        RepositoryImpl(RetrofitImpl())
     }
 
-    single<Repository<Flow<DataModel>>>(qualifier = named(NAME_LOCAL)) {
-        RepositoryImpl(get(named(DATA_SOURCE_LOCAL)))
-    }
-
-    single<DataSource<Flow<DataModel>>>(qualifier = named(DATA_SOURCE_REMOTE)) {
-        DataSourceRemote(remoteProvider = RetrofitImpl())
-    }
-
-    single<DataSource<Flow<DataModel>>>(qualifier = named(DATA_SOURCE_LOCAL)) {
-        DataSourceLocal(localProvider = RoomDatabaseImpl())
+    single<RepositoryLocalImpl>(qualifier = named(NAME_LOCAL)) {
+        RepositoryLocalImpl(RoomDatabaseImpl(get<HistoryDao>()))
     }
 
     single<INetworkStatus>(qualifier = named(NETWORK_SERVICE)) { NetworkStatus() }
 
-    single<CoilImageLoader> {CoilImageLoader()}
+    single<CoilImageLoader> { CoilImageLoader() }
+
+    single { Room.databaseBuilder(get(), HistoryDatabase::class.java, "History.db").build() }
+
+    single { get<HistoryDatabase>().historyDao() }
 }
+
+val roomModule = module {
+//    single { Room.databaseBuilder(get(), HistoryDatabase::class.java, "History.db").build() }
+//
+//    single { get<HistoryDatabase>().historyDao() }
+}
+
 
 //зависимости конкретного экрана
 val mainScreen = module {
     factory(qualifier = named(INTERACTOR)) {
         MainInteractorImpl(
-            get(named(NAME_REMOTE)),
-            get(named(NAME_LOCAL))
+            get<RepositoryImpl>(named(NAME_REMOTE)),
+            get<RepositoryLocalImpl>(named(NAME_LOCAL))
         )
     }
 
@@ -76,4 +77,9 @@ val mainScreen = module {
             get(named(NETWORK_SERVICE))
         )
     }
+}
+
+val historyScreen = module {
+    //   factory { HistoryViewModel(get()) }
+    //   factory { HistoryInteractorImpl(get(), get()) }
 }

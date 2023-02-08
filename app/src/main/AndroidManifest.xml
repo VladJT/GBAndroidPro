@@ -35,7 +35,7 @@
                 android:value="" />
         </activity>
 
-        <activity android:name=".presentation.ui.main.description.DescriptionActivity" />
+        <activity android:name=".presentation.ui.description.DescriptionActivity" />
     </application>
 
 </manifest>

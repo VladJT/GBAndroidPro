@@ -1,13 +1,13 @@
 package jt.projects.gbandroidpro.model.datasource
 
 
+import jt.projects.gbandroidpro.model.domain.AppState
 import jt.projects.gbandroidpro.model.domain.DataModel
 import jt.projects.gbandroidpro.model.room.RoomDatabaseImpl
 import kotlinx.coroutines.flow.Flow
 
-// Для локальных данных используется Room
-class DataSourceLocal(private val localProvider: RoomDatabaseImpl) :
-    DataSource<Flow<DataModel>> {
+// Наследуемся от DataSource и добавляем нужный метод
+interface DataSourceLocal<T> : DataSource<T> {
 
-    override suspend fun getData(word: String): Flow<DataModel> = localProvider.getData(word)
+    suspend fun saveToDB(appState: AppState)
 }

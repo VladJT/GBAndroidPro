@@ -1,4 +1,4 @@
-package jt.projects.gbandroidpro.presentation.ui.main.description
+package jt.projects.gbandroidpro.presentation.ui.description
 
 import android.content.Context
 import android.content.Intent

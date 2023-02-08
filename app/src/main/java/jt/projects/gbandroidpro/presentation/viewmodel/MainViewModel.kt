@@ -4,10 +4,9 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import jt.projects.gbandroidpro.interactor.MainInteractorImpl
 import jt.projects.gbandroidpro.model.domain.AppState
-import jt.projects.gbandroidpro.model.domain.DataModel
 import jt.projects.gbandroidpro.utils.network.INetworkStatus
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 
 class MainViewModel(
     private val interactor: MainInteractorImpl,
@@ -16,7 +15,7 @@ class MainViewModel(
     BaseViewModel<AppState>() {
 
     private var isOnline: Boolean = true
-    val queryStateFlow = MutableStateFlow("")
+    private val queryStateFlow = MutableStateFlow("")
 
     var counter: MutableLiveData<Int> = MutableLiveData(0)//TEST SAVE STATE
 
@@ -30,40 +29,40 @@ class MainViewModel(
         initQueryStateFlow()
     }
 
-
     // withContext(Dispatchers.IO) указывает, что доступ в сеть должен
     // осуществляться через диспетчер IO (который предназначен именно для таких
     // операций), хотя это и не обязательно указывать явно, потому что Retrofit
     // и так делает это благодаря CoroutineCallAdapterFactory(). Это же касается и Room
     private fun initQueryStateFlow() {
-        viewModelCoroutineScope.launch {
-            val result = mutableListOf<DataModel>()
+        CoroutineScope(Dispatchers.Main + SupervisorJob()).launch {
             queryStateFlow.debounce(1000)
                 .filter { word ->     //фильтрует пустые строки.
                     return@filter word.isNotEmpty()
                 }
                 .distinctUntilChanged()       //позволяет избегать дублирующие запросы
-                .flatMapLatest { word ->// возвращает в поток только самый последний запрос и игнорирует более ранние
-                    _mutableLiveData.value = AppState.Loading(null)
-                    result.clear()
+                .onCompletion {
+                    _mutableLiveData.postValue(AppState.Error(Throwable("initQueryStateFlow закрылся")))
+                }
+                .collect { word ->
+                    loadData(word)
+                }
+        }
+    }
 
-                    interactor.getData(word, isOnline).catch {
-                        _mutableLiveData.postValue(AppState.Error(it))
-                    }
-                }.onCompletion {
-                    _mutableLiveData.postValue(AppState.Error(Throwable("Поток закрылся")))
-                }
-                .collect {
-                    result.add(it)
-                    _mutableLiveData.postValue(AppState.Success(result))
-                }
+    private fun loadData(word: String) {
+        _mutableLiveData.value = AppState.Loading(null)
+        cancelJob()
+        viewModelCoroutineScope.launch {
+            withContext(Dispatchers.IO) {
+                val response = interactor.getData(word, isOnline)
+                _mutableLiveData.postValue(response)
+            }
         }
     }
 
     override fun getData(word: String) {
         queryStateFlow.value = word
     }
-
 
     // Обрабатываем ошибки
     override fun handleError(error: Throwable) {
