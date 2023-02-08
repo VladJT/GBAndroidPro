@@ -1,4 +1,4 @@
-package jt.projects.gbandroidpro.utils.custom_view
+package jt.projects.gbandroidpro.utils.ui
 
 import android.widget.ImageView
 import coil.load

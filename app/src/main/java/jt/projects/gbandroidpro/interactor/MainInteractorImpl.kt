@@ -33,7 +33,7 @@ class MainInteractorImpl(
                     result.add(it)
                 }
             appState = AppState.Success(result)
-            //   repositoryLocal.saveToDb(appState)
+            repositoryLocal.saveToDb(appState)
         } else {
             appState = AppState.Success(repositoryLocal.getData(word).toList())
         }

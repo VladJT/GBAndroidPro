@@ -18,7 +18,7 @@ import com.squareup.picasso.Picasso
 import jt.projects.gbandroidpro.R
 import jt.projects.gbandroidpro.databinding.ActivityDescriptionBinding
 import jt.projects.gbandroidpro.di.NETWORK_SERVICE
-import jt.projects.gbandroidpro.utils.custom_view.CoilImageLoader
+import jt.projects.gbandroidpro.utils.ui.CoilImageLoader
 import jt.projects.gbandroidpro.utils.network.INetworkStatus
 import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.android.inject

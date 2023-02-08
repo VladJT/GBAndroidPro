@@ -13,7 +13,7 @@ import jt.projects.gbandroidpro.model.room.RoomDatabaseImpl
 import jt.projects.gbandroidpro.presentation.viewmodel.HistoryViewModel
 import jt.projects.gbandroidpro.presentation.viewmodel.MainViewModel
 import jt.projects.gbandroidpro.utils.Test
-import jt.projects.gbandroidpro.utils.custom_view.CoilImageLoader
+import jt.projects.gbandroidpro.utils.ui.CoilImageLoader
 import jt.projects.gbandroidpro.utils.network.INetworkStatus
 import jt.projects.gbandroidpro.utils.network.NetworkStatus
 import org.koin.android.ext.koin.androidApplication

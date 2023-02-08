@@ -1,11 +1,8 @@
 package jt.projects.gbandroidpro.presentation.ui.main
 
-import android.graphics.RenderEffect
-import android.graphics.Shader
 import android.os.Build
 import android.os.Bundle
-import android.view.View.GONE
-import android.view.View.VISIBLE
+import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.widget.doOnTextChanged
@@ -131,97 +128,34 @@ class MainActivity : BaseActivity<AppState>() {
     }
 
 
-    private fun setBlur(isBlur: Boolean) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            val blurEffect = RenderEffect.createBlurEffect(
-                15f, 0f,
-                Shader.TileMode.CLAMP
-            )
-            if (isBlur) {
-                binding.root.setRenderEffect(blurEffect)
-            } else {
-                binding.root.setRenderEffect(null)
-            }
-        }
+    override fun showViewSuccess() {
+        binding.loadingFrameLayout.visibility = View.GONE
+        binding.errorLinearLayout.visibility = View.GONE
     }
 
-    override fun renderData(appState: AppState) {
-        when (appState) {
-            is AppState.Success -> {
-                val data = appState.data
-                if (data.isNullOrEmpty()) {
-                    showViewError(getString(R.string.empty_server_response_on_success))
-                } else {
-                    showViewSuccess()
-                    if (adapter == null) {
-                        binding.mainActivityRecyclerview.apply {
-                            layoutManager = LinearLayoutManager(applicationContext)
-                            adapter = MainAdapter(onListItemClickListener, data)
-                        }
-
-                    } else {
-                        adapter?.setData(data)
-                    }
-                }
-
-            }
-            is AppState.Loading -> {
-                showViewLoading()
-//                if (appState.progress != null) {
-//
-//                    binding.progressBarHorizontal.visibility = VISIBLE
-//                    binding.progressBarRound.visibility = GONE
-//                    binding.progressBarHorizontal.progress = appState.progress
-//                } else {
-//                    binding.progressBarHorizontal.visibility = GONE
-//                    binding.progressBarRound.visibility = VISIBLE
-//                }
-            }
-            is AppState.Error -> {
-                showViewError(appState.error.message)
-            }
-        }
+    override fun showViewLoading() {
+        binding.loadingFrameLayout.visibility = View.VISIBLE
+        binding.errorLinearLayout.visibility = View.GONE
     }
 
-    private fun showViewSuccess() {
-        binding.loadingFrameLayout.visibility = GONE
-        binding.errorLinearLayout.visibility = GONE
-    }
-
-    private fun showViewLoading() {
-        binding.loadingFrameLayout.visibility = VISIBLE
-        binding.errorLinearLayout.visibility = GONE
-    }
-
-    private fun showViewError(error: String?) {
+    override fun showViewError(error: String?) {
         binding.errorTextview.text = error ?: getString(R.string.undefined_error)
         binding.reloadButton.setOnClickListener {
             binding.searchEditText.setText("test")
         }
-        binding.loadingFrameLayout.visibility = GONE
-        binding.errorLinearLayout.visibility = VISIBLE
+        binding.loadingFrameLayout.visibility = View.GONE
+        binding.errorLinearLayout.visibility = View.VISIBLE
     }
 
-
-//    var isOnline = true
-//    private val receiver = object : BroadcastReceiver() {
-//        override fun onReceive(context: Context?, intent: Intent) {
-//            isOnline = intent.getBooleanExtra("STATUS", true)
-//            Toast.makeText(this@MainActivity, "Internet: $isOnline", Toast.LENGTH_SHORT).show()
-//        }
-//    }
-
-    override fun onStart() {
-        super.onStart()
-        //     startService(Intent(this, NetworkStatusService::class.java))
-//        LocalBroadcastManager.getInstance(this)
-//            .registerReceiver(receiver, IntentFilter(NETWORK_STATUS_INTENT_FILTER))
+    override fun setDataToAdapter(data: List<DataModel>) {
+        if (adapter == null) {
+            binding.mainActivityRecyclerview.apply {
+                layoutManager = LinearLayoutManager(applicationContext)
+                adapter = MainAdapter(onListItemClickListener, data)
+            }
+        } else {
+            adapter?.setData(data)
+        }
     }
 
-    override fun onStop() {
-        super.onStop()
-//        LocalBroadcastManager.getInstance(this)
-//            .unregisterReceiver(receiver)
-//        stopService(Intent(this, NetworkStatusService::class.java))
-    }
 }
