@@ -10,7 +10,7 @@ import androidx.room.RoomDatabase
 // разработке)
 
 @Database(entities = [HistoryEntity::class], version = 1, exportSchema = false)
-abstract class HistoryDatabase: RoomDatabase() {
+abstract class HistoryDatabase : RoomDatabase() {
     // Возвращаем DAO
-    abstract fun historyDao() : HistoryDao
+    abstract fun historyDao(): HistoryDao
 }

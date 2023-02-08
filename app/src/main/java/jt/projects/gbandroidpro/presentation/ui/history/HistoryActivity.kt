@@ -8,7 +8,6 @@ import jt.projects.gbandroidpro.databinding.ActivityHistoryBinding
 import jt.projects.gbandroidpro.model.domain.AppState
 import jt.projects.gbandroidpro.model.domain.DataModel
 import jt.projects.gbandroidpro.presentation.ui.base.BaseActivity
-import jt.projects.gbandroidpro.presentation.ui.main.MainAdapter
 import jt.projects.gbandroidpro.presentation.viewmodel.HistoryViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -18,7 +17,7 @@ class HistoryActivity : BaseActivity<AppState>() {
     override val model: HistoryViewModel by viewModel()
 
     private lateinit var binding: ActivityHistoryBinding
-    private val historyAdapter: HistoryAdapter by lazy { HistoryAdapter() }
+    private val historyAdapter: HistoryAdapter by lazy { HistoryAdapter(onListItemClickListener) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

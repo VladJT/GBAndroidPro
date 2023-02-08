@@ -6,11 +6,13 @@ import androidx.recyclerview.widget.RecyclerView
 import jt.projects.gbandroidpro.databinding.ActivityMainRecyclerviewItemBinding
 import jt.projects.gbandroidpro.model.domain.DataModel
 import jt.projects.gbandroidpro.model.domain.toOneString
+import jt.projects.gbandroidpro.presentation.ui.base.BaseActivity
 
 class MainAdapter(
-    private var onListItemClickListener: OnListItemClickListener,
-    private var data: List<DataModel>
+    private var onListItemClickListener: BaseActivity.OnListItemClickListener
 ) : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
+
+    private var data: List<DataModel> = arrayListOf()
 
     fun setData(newData: List<DataModel>) {
         this.data = newData
@@ -50,10 +52,5 @@ class MainAdapter(
     // Передаём событие в MainActivity
     private fun openInNewWindow(listItemData: DataModel) {
         onListItemClickListener.onItemClick(listItemData)
-    }
-
-    // Определяем интерфейс обратного вызова
-    interface OnListItemClickListener {
-        fun onItemClick(data: DataModel)
     }
 }

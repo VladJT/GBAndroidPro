@@ -19,7 +19,7 @@ class HistoryViewModel(
 
         viewModelCoroutineScope.launch {
             withContext(Dispatchers.IO) {
-               // val response = interactor.getData(word, networkStatus.isOnline)
+                // val response = interactor.getData(word, networkStatus.isOnline)
                 val response = interactor.getData(word, false)
                 liveData.postValue(response)
             }

@@ -1,7 +1,6 @@
 package jt.projects.gbandroidpro.presentation.viewmodel
 
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import jt.projects.gbandroidpro.interactor.MainInteractorImpl
 import jt.projects.gbandroidpro.model.domain.AppState
 import jt.projects.gbandroidpro.utils.network.INetworkStatus
@@ -15,8 +14,6 @@ class MainViewModel(
     BaseViewModel<AppState>() {
 
     private val queryStateFlow = MutableStateFlow("")
-
-    var counter: MutableLiveData<Int> = MutableLiveData(0)//TEST SAVE STATE
 
     init {
         Log.d("TAG", "init viewModel")

@@ -5,11 +5,14 @@ import android.graphics.Shader
 import android.os.Build
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.snackbar.Snackbar
 import jt.projects.gbandroidpro.R
 import jt.projects.gbandroidpro.databinding.LoadingLayoutBinding
 import jt.projects.gbandroidpro.di.NETWORK_SERVICE
 import jt.projects.gbandroidpro.model.domain.AppState
 import jt.projects.gbandroidpro.model.domain.DataModel
+import jt.projects.gbandroidpro.model.domain.toOneString
+import jt.projects.gbandroidpro.presentation.ui.description.DescriptionActivity
 import jt.projects.gbandroidpro.presentation.viewmodel.BaseViewModel
 import jt.projects.gbandroidpro.utils.network.INetworkStatus
 import jt.projects.gbandroidpro.utils.ui.AlertDialogFragment
@@ -24,9 +27,22 @@ abstract class BaseActivity<T : AppState> : AppCompatActivity() {
 
     private val networkStatus: INetworkStatus by inject(named(NETWORK_SERVICE))
 
+    val onListItemClickListener = object : OnListItemClickListener {
+        override fun onItemClick(data: DataModel) {
+            //  Toast.makeText(this@MainActivity, data.text, Toast.LENGTH_SHORT).show()
+            startActivity(
+                DescriptionActivity.getIntent(
+                    this@BaseActivity,
+                    data.text!!,
+                    data.meanings?.toOneString(),
+                    data?.meanings?.get(0)?.imageUrl
+                )
+            )
+        }
+    }
+
     // В каждой Активити будет своя ViewModel, которая наследуется от BaseViewModel
     abstract val model: BaseViewModel<T>
-
 
     override fun onResume() {
         super.onResume()
@@ -76,16 +92,16 @@ abstract class BaseActivity<T : AppState> : AppCompatActivity() {
         binding.loadingFrameLayout.visibility = View.GONE
     }
 
-    fun setBlur(isBlur: Boolean) {
+    fun setBlur(view: View, isBlur: Boolean) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             val blurEffect = RenderEffect.createBlurEffect(
                 15f, 0f,
                 Shader.TileMode.CLAMP
             )
             if (isBlur) {
-                binding.root.setRenderEffect(blurEffect)
+                view.setRenderEffect(blurEffect)
             } else {
-                binding.root.setRenderEffect(null)
+                view.setRenderEffect(null)
             }
         }
     }
@@ -99,14 +115,20 @@ abstract class BaseActivity<T : AppState> : AppCompatActivity() {
     abstract fun setDataToAdapter(data: List<DataModel>)
 
     protected fun showNoInternetConnectionDialog() {
-        showAlertDialog(
-            "Внимание",
-            "device_is_offline"
-        )
+//        showAlertDialog(
+//            "Внимание",
+//            "device_is_offline"
+//        )
+        Snackbar.make(binding.root, "Связь с интернет потеряна...", Snackbar.LENGTH_SHORT).show()
     }
 
     protected fun showAlertDialog(title: String?, message: String?) {
         AlertDialogFragment.newInstance(title, message)
             .show(supportFragmentManager, DIALOG_FRAGMENT_TAG)
+    }
+
+    // Определяем интерфейс обратного вызова
+    interface OnListItemClickListener {
+        fun onItemClick(data: DataModel)
     }
 }

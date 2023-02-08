@@ -11,6 +11,7 @@ import jt.projects.gbandroidpro.model.room.HistoryEntity
 fun parseOnlineSearchResults(appState: AppState): AppState {
     return AppState.Success(mapResult(appState, true))
 }
+
 fun parseLocalSearchResults(appState: AppState): AppState {
     return AppState.Success(mapResult(appState, false))
 }
@@ -24,7 +25,8 @@ private fun mapResult(
         is AppState.Success -> {
             getSuccessResultData(appState, isOnline, newSearchResults)
         }
-        else -> {return listOf()
+        else -> {
+            return listOf()
         }
     }
     return newSearchResults
@@ -49,13 +51,16 @@ private fun getSuccessResultData(
     }
 }
 
-private fun parseOnlineResult(dataModel: DataModel, newDataModels:
-ArrayList<DataModel>) {
+private fun parseOnlineResult(
+    dataModel: DataModel, newDataModels:
+    ArrayList<DataModel>
+) {
     if (!dataModel.text.isNullOrBlank() && !dataModel.meanings.isNullOrEmpty()) {
         val newMeanings = arrayListOf<Meanings>()
         for (meaning in dataModel.meanings) {
             if (meaning.translation != null &&
-                !meaning.translation.translation.isNullOrBlank()) {
+                !meaning.translation.translation.isNullOrBlank()
+            ) {
                 newMeanings.add(Meanings(meaning.translation, meaning.imageUrl))
             }
         }
@@ -64,6 +69,7 @@ ArrayList<DataModel>) {
         }
     }
 }
+
 fun mapHistoryEntityToSearchResult(list: List<HistoryEntity>): List<DataModel> {
     val searchResult = ArrayList<DataModel>()
     if (!list.isNullOrEmpty()) {
@@ -78,8 +84,7 @@ fun convertDataModelSuccessToEntity(appState: AppState): HistoryEntity? {
     return when (appState) {
         is AppState.Success -> {
             val searchResult = appState.data
-            if (searchResult.isNullOrEmpty() || searchResult[0].text.isNullOrEmpty())
-            {
+            if (searchResult.isNullOrEmpty() || searchResult[0].text.isNullOrEmpty()) {
                 null
             } else {
                 HistoryEntity(searchResult[0].text!!, null)

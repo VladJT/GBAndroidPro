@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 import jt.projects.gbandroidpro.model.domain.AppState
 import kotlinx.coroutines.*
 

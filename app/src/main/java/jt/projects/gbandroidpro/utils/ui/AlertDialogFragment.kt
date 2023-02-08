@@ -5,7 +5,6 @@ import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
-import jt.projects.gbandroidpro.R
 
 class AlertDialogFragment : AppCompatDialogFragment() {
 
@@ -20,6 +19,7 @@ class AlertDialogFragment : AppCompatDialogFragment() {
         }
         return alertDialog
     }
+
     fun getStubAlertDialog(context: Context): AlertDialog {
         return getAlertDialog(context, null, null)
     }
