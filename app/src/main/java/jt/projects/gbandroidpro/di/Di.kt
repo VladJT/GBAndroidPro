@@ -29,11 +29,10 @@ import org.koin.dsl.module
 ● get() — создание экземпляра класса.
  */
 
-//  fun networkStatus(app: App): INetworkStatus = NetworkStatus(app)
+
 
 // зависимости, используемые во всём приложении
 val application = module {
-
     factory<Test> { (data: String) -> Test(data) }
 
     single<App> { androidApplication().applicationContext as App }
@@ -45,7 +44,10 @@ val application = module {
     single<INetworkStatus>(qualifier = named(NETWORK_SERVICE)) { NetworkStatus() }
 
     single<CoilImageLoader> { CoilImageLoader() }
+}
 
+
+val roomModule = module {
     single {
         Room.databaseBuilder(get(), HistoryDatabase::class.java, "History.db")
             .fallbackToDestructiveMigration()
@@ -53,12 +55,6 @@ val application = module {
     }
 
     single { get<HistoryDatabase>().historyDao() }
-}
-
-val roomModule = module {
-//    single { Room.databaseBuilder(get(), HistoryDatabase::class.java, "History.db").build() }
-//
-//    single { get<HistoryDatabase>().historyDao() }
 }
 
 
@@ -84,7 +80,6 @@ val mainScreen = module {
 val historyScreen = module {
     factory {
         HistoryInteractorImpl(
-            get<RepositoryImpl>(),
             get<RepositoryLocalImpl>()
         )
     }

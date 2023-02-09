@@ -1,9 +1,12 @@
 package jt.projects.gbandroidpro.presentation.ui.history
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import jt.projects.gbandroidpro.R
 import jt.projects.gbandroidpro.databinding.ActivityHistoryBinding
 import jt.projects.gbandroidpro.model.domain.AppState
 import jt.projects.gbandroidpro.model.domain.DataModel
@@ -36,9 +39,23 @@ class HistoryActivity : BaseActivity<AppState>() {
                 onBackPressed()
                 true
             }
+            R.id.menu_history->{
+                showDeleteDialog()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
+
+    private fun showDeleteDialog() {
+        model.cleanHistory()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.history_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
 
     private fun setActionbarHomeButtonAsUp() {
         supportActionBar?.setHomeButtonEnabled(true)

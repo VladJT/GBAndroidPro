@@ -7,4 +7,5 @@ import jt.projects.gbandroidpro.model.domain.AppState
 interface DataSourceLocal<T> : DataSource<T> {
 
     suspend fun saveToDB(appState: AppState)
+    suspend fun deleteAll()
 }

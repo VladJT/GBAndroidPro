@@ -52,6 +52,7 @@ abstract class BaseActivity<T : AppState> : AppCompatActivity() {
                 val data = appState.data
                 if (data.isNullOrEmpty()) {
                     showViewError(getString(R.string.empty_server_response_on_success))
+                    setDataToAdapter(listOf())
                 } else {
                     showViewSuccess()
                     setDataToAdapter(data)

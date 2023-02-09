@@ -7,7 +7,6 @@ import androidx.room.*
 
 @Dao
 interface HistoryDao {
-
     @Query("select * from HistoryEntity")
     suspend fun all(): List<HistoryEntity>
 
@@ -31,4 +30,8 @@ interface HistoryDao {
     // Удалить слово
     @Delete
     suspend fun delete(entity: HistoryEntity)
+
+    // Удалить ВСЕ
+    @Query("delete from HistoryEntity")
+    suspend fun deleteAll()
 }

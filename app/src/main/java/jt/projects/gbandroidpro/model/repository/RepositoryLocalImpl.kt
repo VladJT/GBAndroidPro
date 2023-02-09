@@ -10,12 +10,7 @@ class RepositoryLocalImpl(private val dataSource: DataSourceLocal<Flow<DataModel
 
     override suspend fun saveToDb(appState: AppState) = dataSource.saveToDB(appState)
 
+    override suspend fun deleteAll() = dataSource.deleteAll()
+
     override suspend fun getData(word: String): Flow<DataModel> = dataSource.getData(word)
 }
-
-//// Для локальных данных используется Room
-//class DataSourceLocal(private val localProvider: RoomDatabaseImpl) :
-//    DataSource<Flow<DataModel>> {
-//
-//    override suspend fun getData(word: String): Flow<DataModel> = localProvider.getData(word)
-//}

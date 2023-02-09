@@ -25,5 +25,9 @@ class RoomDatabaseImpl(private val historyDao: HistoryDao) : DataSourceLocal<Flo
         return mapHistoryEntityToSearchResult(historyDao.all()).asFlow()
     }
 
+    override suspend fun deleteAll() {
+        historyDao.deleteAll()
+    }
+
 }
 

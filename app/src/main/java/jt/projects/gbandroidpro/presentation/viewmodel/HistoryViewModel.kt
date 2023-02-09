@@ -3,6 +3,7 @@ package jt.projects.gbandroidpro.presentation.viewmodel
 import jt.projects.gbandroidpro.interactor.HistoryInteractorImpl
 import jt.projects.gbandroidpro.model.domain.AppState
 import jt.projects.network.INetworkStatus
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -23,6 +24,13 @@ class HistoryViewModel(
                 val response = interactor.getData(word, false)
                 liveData.postValue(response)
             }
+        }
+    }
+
+    fun cleanHistory() {
+        CoroutineScope(Dispatchers.IO).launch {
+            interactor.deleteAll()
+            liveData.postValue(AppState.Success(null))
         }
     }
 

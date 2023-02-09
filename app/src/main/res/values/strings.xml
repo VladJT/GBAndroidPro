@@ -11,4 +11,5 @@
     <string name="menu_title_history">История</string>
     <string name="dialog_title_device_is_offline">Внимание</string>
     <string name="dialog_message_device_is_offline">Отсутствует подключение к интернету</string>
+    <string name="menu_title_delete_all">Очистить историю</string>
 </resources>
