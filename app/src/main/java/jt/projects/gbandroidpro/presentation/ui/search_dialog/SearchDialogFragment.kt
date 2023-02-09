@@ -8,28 +8,16 @@ import android.widget.SearchView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import jt.projects.gbandroidpro.databinding.SearchDialogFragmentBinding
 
-class SearchDialogFragment : BottomSheetDialogFragment() {
+class SearchDialogFragment(private val onClose: (String?) -> Unit) : BottomSheetDialogFragment() {
     private var _binding: SearchDialogFragmentBinding? = null
     private val binding get() = _binding!!
 
+    private var word: String? = null
+
     companion object {
-        fun newInstance(): SearchDialogFragment {
-            return SearchDialogFragment()
+        fun newInstance(onClose: (String?) -> Unit): SearchDialogFragment {
+            return SearchDialogFragment(onClose)
         }
-    }
-
-    private var searchDialogCallback: SearchDialogCallback? = null
-
-    // приходит из MainActivity
-    internal fun setOnSearchClickListener(callback: SearchDialogCallback) {
-        searchDialogCallback = callback
-    }
-
-
-    private val onSearchClick = View.OnClickListener {
-        // отправляем результат в MainActivity
-        searchDialogCallback?.onClickSearchButton(binding.searchView.query.toString())
-        dismiss()
     }
 
     override fun onCreateView(
@@ -45,7 +33,10 @@ class SearchDialogFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.searchButton.setOnClickListener(onSearchClick)
+        binding.searchButton.setOnClickListener {
+            word = binding.searchView.query.toString()
+            dismiss()
+        }
 
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -59,8 +50,8 @@ class SearchDialogFragment : BottomSheetDialogFragment() {
         })
     }
 
-    override fun onDestroyView() {
-        searchDialogCallback?.onCloseSearchDialog()
-        super.onDestroyView()
+    override fun onDestroy() {
+        onClose(word)
+        super.onDestroy()
     }
 }

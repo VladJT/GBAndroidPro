@@ -48,7 +48,7 @@ class HistoryAdapter(
                     findViewById<TextView>(R.id.header_history_textview_recycler_item).text =
                         data.text
                     findViewById<TextView>(R.id.description_history_textview_recycler_item).text =
-                        data.meanings.toOneString()
+                        data.meanings.toOneString().split(",")[0]
                     setOnClickListener {
                         openInNewWindow(data)
                     }

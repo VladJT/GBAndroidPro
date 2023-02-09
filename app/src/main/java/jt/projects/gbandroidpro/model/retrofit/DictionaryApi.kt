@@ -9,8 +9,4 @@ interface DictionaryApi {
 
     @GET("words/search")
     fun searchAsync(@Query("search") wordToSearch: String): Deferred<List<DataModel>>
-
-// RX JAVA
-//    @GET("words/search")
-//    fun search(@Query("search") word: String): Observable<List<DataModel>>
 }

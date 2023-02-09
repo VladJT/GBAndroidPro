@@ -3,6 +3,7 @@ package jt.projects.gbandroidpro.presentation.ui.description
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ImageView
@@ -21,26 +22,37 @@ import jt.projects.gbandroidpro.di.NETWORK_SERVICE
 import jt.projects.gbandroidpro.utils.network.INetworkStatus
 import jt.projects.gbandroidpro.utils.ui.AlertDialogFragment
 import jt.projects.gbandroidpro.utils.ui.CoilImageLoader
+import jt.projects.gbandroidpro.utils.ui.showSnackbar
 import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.android.inject
 import org.koin.core.qualifier.named
 
+
 class DescriptionActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDescriptionBinding
 
-    val coilImageLoader: CoilImageLoader by inject()
+    private val coilImageLoader: CoilImageLoader by inject()
+
 
     companion object {
         private const val DIALOG_FRAGMENT_TAG = "8c7dff51-9769-4f6d-bbee-a3896085e76e"
         private const val WORD_EXTRA = "f76a288a-5dcc-43f1-ba89-7fe1d53f63b0"
         private const val DESCRIPTION_EXTRA = "0eeb92aa-520b-4fd1-bb4b-027fbf963d9a"
-        private const val URL_EXTRA = "6e4b154d-e01f-4953-a404-639fb3bf7281"
+        private const val IMAGE_URL_EXTRA = "IMAGE_URL_EXTRA"
+        private const val SOUND_URL_EXTRA = "SOUND_URL_EXTRA"
+
+
         fun getIntent(
-            context: Context, word: String, description: String?, url: String?
+            context: Context,
+            word: String,
+            description: String?,
+            imageUrl: String?,
+            soundUrl: String?
         ): Intent = Intent(context, DescriptionActivity::class.java).apply {
             putExtra(WORD_EXTRA, word)
             putExtra(DESCRIPTION_EXTRA, description)
-            putExtra(URL_EXTRA, url)
+            putExtra(IMAGE_URL_EXTRA, imageUrl)
+            putExtra(SOUND_URL_EXTRA, soundUrl)
         }
     }
 
@@ -56,8 +68,34 @@ class DescriptionActivity : AppCompatActivity() {
         binding.descriptionScreenSwipeRefreshLayout.setOnRefreshListener {
             startLoadingOrShowError()
         }
+
+        initButtonSound()
         setData()
     }
+
+    fun initButtonSound() {
+        binding.buttonSound.setOnClickListener {
+            val soundUrl = intent.extras?.getString(SOUND_URL_EXTRA)
+            if (soundUrl.isNullOrEmpty()) {
+                showSnackbar("Нет ссылки для прослушивания")
+            } else
+                if (!getKoin().get<INetworkStatus>(named(NETWORK_SERVICE)).isOnline) {
+                    showSnackbar("Отсутствует подключение к Интернет")
+                } else {
+                    val mp = MediaPlayer()
+                    try {
+                        mp.setDataSource(soundUrl)
+                        mp.prepare()
+                        mp.start()
+                    } catch (e: Exception) {
+                        showSnackbar("Error: Couldn't Play the Audio")
+                    }
+                }
+
+        }
+
+    }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
@@ -78,7 +116,7 @@ class DescriptionActivity : AppCompatActivity() {
         val bundle = intent.extras
         binding.descriptionHeader.text = bundle?.getString(WORD_EXTRA)
         binding.descriptionTextview.text = bundle?.getString(DESCRIPTION_EXTRA)
-        val imageLink = bundle?.getString(URL_EXTRA)
+        val imageLink = bundle?.getString(IMAGE_URL_EXTRA)
         if (imageLink.isNullOrBlank()) {
             stopRefreshAnimationIfNeeded()
         } else {

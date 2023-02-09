@@ -5,15 +5,13 @@
     android:id="@+id/description_screen_swipe_refresh_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingStart="@dimen/margin_xx_small"
-    android:paddingLeft="@dimen/margin_xx_small"
-    android:paddingEnd="@dimen/margin_xx_small"
-    android:paddingRight="@dimen/margin_xx_small">
+    android:paddingStart="@dimen/margin_medium"
+    android:paddingTop="@dimen/margin_medium"
+    android:paddingEnd="@dimen/margin_medium">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_medium"
         android:fitsSystemWindows="true"
         android:orientation="vertical">
 
@@ -22,15 +20,22 @@
             style="@style/HeaderTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium"
+
             tools:text="Header" />
 
         <TextView
+            android:id="@+id/transcription_textview"
+            style="@style/BaseTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Transcritpion" />
+
+        <TextView
+            android:layout_marginTop="20dp"
             android:id="@+id/description_textview"
             style="@style/BaseTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium"
             tools:text="Description: Lorem ipsum dolor sit amet, consectetur
 adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
 aliqua." />
@@ -40,12 +45,17 @@ aliqua." />
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/margin_medium"
             android:contentDescription="@string/image_stub"
             android:visibility="visible"
             app:srcCompat="@drawable/ic_no_photo_vector"
             tools:visibility="visible" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_sound"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/baseline_surround_sound_24"
+            android:text=" Прослушать" />
     </LinearLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

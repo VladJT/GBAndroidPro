@@ -13,21 +13,13 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-//Для корректной работы Ретрофита мы создадим два класса: BaseInterceptor и ApiService.
-//BaseInterceptor вам должен быть знаком из предыдущих курсов. Благодаря ему мы можем выводить в
-//логи запросы на сервер и его ответы, а также обрабатывать ошибки сервера.
-// DictionaryApi — это имплементация запроса через Retrofit
 class RetrofitImpl : DataSource<Flow<DataModel>> {
-
-//    override fun getData(word: String): Observable<List<DataModel>> {
-//        return getService(BaseInterceptor.interceptor).search(word)
-//    }
 
     // Добавляем suspend и .await()
     override suspend fun getData(word: String): Flow<DataModel> {
         val response = getService(BaseInterceptor.interceptor).searchAsync(word).await()
-        // if (response.isEmpty()) throw Throwable("Перевод не найден")
-        return response.asFlow()
+        return response
+            .asFlow()
             .onEmpty {
                 throw Throwable("Перевод не найден")
             }

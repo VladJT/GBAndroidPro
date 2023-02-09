@@ -33,7 +33,8 @@ abstract class BaseActivity<T : AppState> : AppCompatActivity() {
                 this@BaseActivity,
                 data.text!!,
                 data.meanings?.toOneString(),
-                data?.meanings?.get(0)?.imageUrl
+                data?.meanings?.get(0)?.imageUrl,
+                data?.meanings?.get(0)?.soundUrl
             )
         )
     }

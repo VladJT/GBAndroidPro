@@ -15,7 +15,6 @@ import jt.projects.gbandroidpro.model.domain.AppState
 import jt.projects.gbandroidpro.model.domain.DataModel
 import jt.projects.gbandroidpro.presentation.ui.base.BaseActivity
 import jt.projects.gbandroidpro.presentation.ui.history.HistoryActivity
-import jt.projects.gbandroidpro.presentation.ui.search_dialog.SearchDialogCallback
 import jt.projects.gbandroidpro.presentation.ui.search_dialog.SearchDialogFragment
 import jt.projects.gbandroidpro.presentation.viewmodel.MainViewModel
 import jt.projects.gbandroidpro.utils.BOTTOM_SHEET_FRAGMENT_DIALOG_TAG
@@ -114,18 +113,14 @@ class MainActivity : BaseActivity<AppState>() {
     private fun initFabButton() {
         binding.searchFab.setOnClickListener {
             setBlur(binding.root, true)
-            val searchDialogFragment = SearchDialogFragment.newInstance()
-            searchDialogFragment.setOnSearchClickListener(object : SearchDialogCallback {
 
-                override fun onClickSearchButton(searchWord: String) {
-                    //model.getData(searchWord)
-                    binding.searchEditText.setText(searchWord)
-                }
+            val onSearchDialogClose: (String?) -> Unit = { word: String? ->
+                if (word != null) binding.searchEditText.setText(word)
+                setBlur(binding.root, false)
+            }
 
-                override fun onCloseSearchDialog() {
-                    setBlur(binding.root, false)
-                }
-            })
+            val searchDialogFragment = SearchDialogFragment.newInstance(onSearchDialogClose)
+
             searchDialogFragment.show(supportFragmentManager, BOTTOM_SHEET_FRAGMENT_DIALOG_TAG)
         }
     }
@@ -150,8 +145,5 @@ class MainActivity : BaseActivity<AppState>() {
         binding.errorLinearLayout.visibility = View.VISIBLE
     }
 
-    override fun setDataToAdapter(data: List<DataModel>) {
-        mainAdapter.setData(data)
-    }
-
+    override fun setDataToAdapter(data: List<DataModel>) = mainAdapter.setData(data)
 }
