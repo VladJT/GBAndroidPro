@@ -1,6 +1,5 @@
 package jt.projects.gbandroidpro.presentation.ui.main
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -14,11 +13,13 @@ import jt.projects.gbandroidpro.databinding.ActivityMainBinding
 import jt.projects.gbandroidpro.model.domain.AppState
 import jt.projects.gbandroidpro.model.domain.DataModel
 import jt.projects.gbandroidpro.presentation.ui.base.BaseActivity
+import jt.projects.gbandroidpro.presentation.ui.dialogs.AlertDialogCallback
+import jt.projects.gbandroidpro.presentation.ui.dialogs.AlertDialogFragment
 import jt.projects.gbandroidpro.presentation.ui.dialogs.SearchDialogFragment
-import jt.projects.gbandroidpro.presentation.ui.history.HistoryActivity
 import jt.projects.gbandroidpro.presentation.viewmodel.MainViewModel
 import jt.projects.gbandroidpro.utils.BOTTOM_SHEET_FRAGMENT_DIALOG_TAG
 import jt.projects.gbandroidpro.utils.Test
+import jt.projects.gbandroidpro.utils.ui.showSnackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import org.koin.java.KoinJavaComponent.getKoin
@@ -86,7 +87,12 @@ class MainActivity : BaseActivity<AppState>() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_history -> {
-                startActivity(Intent(this, HistoryActivity::class.java))
+                AlertDialogFragment.newInstance(
+                    AlertDialogCallback(getString(R.string.dialog_title_device_is_offline),
+                        getString(R.string.dialog_message_device_is_offline),
+                        { showSnackbar("ok") })
+                ).show(supportFragmentManager, AlertDialogFragment.TAG)
+                // startActivity(Intent(this, HistoryActivity::class.java))
                 true
             }
             else -> super.onOptionsItemSelected(item)

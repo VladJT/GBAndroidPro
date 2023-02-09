@@ -126,12 +126,13 @@ class DescriptionActivity : AppCompatActivity() {
         if (getKoin().get<INetworkStatus>(named(NETWORK_SERVICE)).isOnline) {
             setData()
         } else {
-            AlertDialogFragment.newInstance(
-                getString(R.string.dialog_title_device_is_offline),
-                getString(R.string.dialog_message_device_is_offline)
-            ).show(
-                supportFragmentManager, DIALOG_FRAGMENT_TAG
-            )
+            TODO()
+//            AlertDialogFragment(
+//                getString(R.string.dialog_title_device_is_offline),
+//                getString(R.string.dialog_message_device_is_offline)
+//            ).show(
+//                supportFragmentManager, DIALOG_FRAGMENT_TAG
+//            )
             stopRefreshAnimationIfNeeded()
         }
     }

@@ -1,55 +1,56 @@
 package jt.projects.gbandroidpro.presentation.ui.dialogs
 
 import android.app.Dialog
-import android.content.Context
+import android.os.Build
 import android.os.Bundle
+import android.os.Parcelable
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
+import jt.projects.gbandroidpro.R
+import kotlinx.parcelize.Parcelize
 
-class AlertDialogFragment : AppCompatDialogFragment() {
+@Parcelize
+class AlertDialogCallback(
+    val title: String,
+    val message : String,
+    val okPressed: (()->Unit)?
+    ) : Parcelable
+
+class AlertDialogFragment() : AppCompatDialogFragment() {
 
     companion object {
         private const val TITLE_EXTRA = "89cbce59-e28f-418f-b470-ff67125c2e2f"
-        private const val MESSAGE_EXTRA = "0dd00b66-91c2-447d-b627-530065040905"
+        const val TAG = "MyFragmentDialog"
 
-        fun newInstance(title: String?, message: String?): AlertDialogFragment {
+        fun newInstance(data: AlertDialogCallback): AlertDialogFragment {
             val dialogFragment = AlertDialogFragment()
             val args = Bundle()
-            args.putString(TITLE_EXTRA, title)
-            args.putString(MESSAGE_EXTRA, message)
+            args.putParcelable(TITLE_EXTRA, data)
             dialogFragment.arguments = args
             return dialogFragment
         }
+
+
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val context = activity
-        var alertDialog = getStubAlertDialog(context!!)
-        val args = arguments
-        if (args != null) {
-            val title = args.getString(TITLE_EXTRA)
-            val message = args.getString(MESSAGE_EXTRA)
-            alertDialog = getAlertDialog(context, title, message)
-        }
-        return alertDialog
-    }
+        val args = arguments?.getParcelable(TITLE_EXTRA) as? AlertDialogCallback
+       // getParcelableExtra(TITLE_EXTRA, AlertDialogCallback::class.java)
 
-    private fun getStubAlertDialog(context: Context): AlertDialog {
-        return getAlertDialog(context, null, null)
-    }
+        val title = args?.title
+        val message = args?.message
+        var okPressed: (()->Unit)? = args?.okPressed
 
-    private fun getAlertDialog(context: Context, title: String?, message: String?): AlertDialog {
-        val builder = AlertDialog.Builder(context)
-        var finalTitle: String? = "title_stub"
-        if (!title.isNullOrBlank()) {
-            finalTitle = title
-        }
-        builder.setTitle(finalTitle)
-        if (!message.isNullOrBlank()) {
-            builder.setMessage(message)
-        }
-        builder.setCancelable(true)
-        builder.setPositiveButton("Ok") { dialog, _ -> dialog.dismiss() }
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle(title)
+            .setMessage(message)
+            .setIcon(R.drawable.icon)
+            .setPositiveButton("ОК") { dialog, _ ->
+                okPressed?.let { it() }
+                dialog.dismiss()
+            }
+            .setCancelable(false)
         return builder.create()
     }
 

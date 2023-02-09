@@ -116,9 +116,4 @@ abstract class BaseActivity<T : AppState> : AppCompatActivity() {
 //        )
         Snackbar.make(binding.root, "Связь с интернет потеряна...", Snackbar.LENGTH_SHORT).show()
     }
-
-    protected fun showAlertDialog(title: String?, message: String?) {
-        AlertDialogFragment.newInstance(title, message)
-            .show(supportFragmentManager, DIALOG_FRAGMENT_TAG)
-    }
 }
