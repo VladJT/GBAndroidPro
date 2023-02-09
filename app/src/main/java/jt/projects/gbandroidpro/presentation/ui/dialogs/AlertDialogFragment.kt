@@ -8,6 +8,20 @@ import androidx.appcompat.app.AppCompatDialogFragment
 
 class AlertDialogFragment : AppCompatDialogFragment() {
 
+    companion object {
+        private const val TITLE_EXTRA = "89cbce59-e28f-418f-b470-ff67125c2e2f"
+        private const val MESSAGE_EXTRA = "0dd00b66-91c2-447d-b627-530065040905"
+
+        fun newInstance(title: String?, message: String?): AlertDialogFragment {
+            val dialogFragment = AlertDialogFragment()
+            val args = Bundle()
+            args.putString(TITLE_EXTRA, title)
+            args.putString(MESSAGE_EXTRA, message)
+            dialogFragment.arguments = args
+            return dialogFragment
+        }
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val context = activity
         var alertDialog = getStubAlertDialog(context!!)
@@ -20,11 +34,11 @@ class AlertDialogFragment : AppCompatDialogFragment() {
         return alertDialog
     }
 
-    fun getStubAlertDialog(context: Context): AlertDialog {
+    private fun getStubAlertDialog(context: Context): AlertDialog {
         return getAlertDialog(context, null, null)
     }
 
-    fun getAlertDialog(context: Context, title: String?, message: String?): AlertDialog {
+    private fun getAlertDialog(context: Context, title: String?, message: String?): AlertDialog {
         val builder = AlertDialog.Builder(context)
         var finalTitle: String? = "title_stub"
         if (!title.isNullOrBlank()) {
@@ -39,18 +53,4 @@ class AlertDialogFragment : AppCompatDialogFragment() {
         return builder.create()
     }
 
-    companion object {
-
-        private const val TITLE_EXTRA = "89cbce59-e28f-418f-b470-ff67125c2e2f"
-        private const val MESSAGE_EXTRA = "0dd00b66-91c2-447d-b627-530065040905"
-
-        fun newInstance(title: String?, message: String?): AlertDialogFragment {
-            val dialogFragment = AlertDialogFragment()
-            val args = Bundle()
-            args.putString(TITLE_EXTRA, title)
-            args.putString(MESSAGE_EXTRA, message)
-            dialogFragment.arguments = args
-            return dialogFragment
-        }
-    }
 }

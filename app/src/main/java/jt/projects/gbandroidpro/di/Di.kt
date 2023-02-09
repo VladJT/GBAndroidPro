@@ -43,7 +43,7 @@ val application = module {
 
     single<INetworkStatus>(qualifier = named(NETWORK_SERVICE)) { NetworkStatus() }
 
-    single<CoilImageLoader> { CoilImageLoader() }
+    single { CoilImageLoader() }
 }
 
 

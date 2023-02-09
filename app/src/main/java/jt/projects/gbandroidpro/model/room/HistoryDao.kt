@@ -24,7 +24,7 @@ interface HistoryDao {
     suspend fun insertAll(entities: List<HistoryEntity>)
 
     // Обновить слово
-    @Update
+    @Update(onConflict = OnConflictStrategy.IGNORE)
     suspend fun update(entity: HistoryEntity)
 
     // Удалить слово

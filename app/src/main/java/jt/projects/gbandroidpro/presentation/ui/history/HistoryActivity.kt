@@ -1,6 +1,5 @@
 package jt.projects.gbandroidpro.presentation.ui.history
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -12,6 +11,7 @@ import jt.projects.gbandroidpro.model.domain.AppState
 import jt.projects.gbandroidpro.model.domain.DataModel
 import jt.projects.gbandroidpro.presentation.ui.base.BaseActivity
 import jt.projects.gbandroidpro.presentation.viewmodel.HistoryViewModel
+import jt.projects.gbandroidpro.utils.ui.showSnackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HistoryActivity : BaseActivity<AppState>() {
@@ -39,7 +39,7 @@ class HistoryActivity : BaseActivity<AppState>() {
                 onBackPressed()
                 true
             }
-            R.id.menu_history->{
+            R.id.menu_history -> {
                 showDeleteDialog()
                 true
             }
@@ -49,6 +49,7 @@ class HistoryActivity : BaseActivity<AppState>() {
 
     private fun showDeleteDialog() {
         model.cleanHistory()
+        showSnackbar("Данные истории очищены")
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
