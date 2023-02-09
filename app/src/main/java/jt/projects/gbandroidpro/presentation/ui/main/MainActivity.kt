@@ -47,7 +47,7 @@ class MainActivity : BaseActivity<AppState>() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private val mainAdapter: MainAdapter by lazy { MainAdapter(onListItemClickListener) }
+    private val mainAdapter: MainAdapter by lazy { MainAdapter(::onItemClick) }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

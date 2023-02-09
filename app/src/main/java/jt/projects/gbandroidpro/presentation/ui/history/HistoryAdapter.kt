@@ -8,10 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import jt.projects.gbandroidpro.R
 import jt.projects.gbandroidpro.model.domain.DataModel
 import jt.projects.gbandroidpro.model.domain.toOneString
-import jt.projects.gbandroidpro.presentation.ui.base.BaseActivity
 
 class HistoryAdapter(
-    private var onListItemClickListener: BaseActivity.OnListItemClickListener
+    private var onListItemClick: (DataModel) -> Unit
 ) : RecyclerView.Adapter<HistoryAdapter.RecyclerItemViewHolder>() {
 
     private var data: List<DataModel> = arrayListOf()
@@ -60,7 +59,7 @@ class HistoryAdapter(
 
         // Передаём событие в MainActivity
         private fun openInNewWindow(listItemData: DataModel) {
-            onListItemClickListener.onItemClick(listItemData)
+            onListItemClick(listItemData)
         }
     }
 }

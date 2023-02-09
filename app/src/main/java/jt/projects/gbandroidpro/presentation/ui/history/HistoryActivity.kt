@@ -17,7 +17,7 @@ class HistoryActivity : BaseActivity<AppState>() {
     override val model: HistoryViewModel by viewModel()
 
     private lateinit var binding: ActivityHistoryBinding
-    private val historyAdapter: HistoryAdapter by lazy { HistoryAdapter(onListItemClickListener) }
+    private val historyAdapter: HistoryAdapter by lazy { HistoryAdapter(::onItemClick) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

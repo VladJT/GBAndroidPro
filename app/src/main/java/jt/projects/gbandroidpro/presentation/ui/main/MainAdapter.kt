@@ -9,7 +9,7 @@ import jt.projects.gbandroidpro.model.domain.toOneString
 import jt.projects.gbandroidpro.presentation.ui.base.BaseActivity
 
 class MainAdapter(
-    private var onListItemClickListener: BaseActivity.OnListItemClickListener
+    private var onListItemClick: (DataModel)->Unit
 ) : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
 
     private var data: List<DataModel> = arrayListOf()
@@ -51,6 +51,6 @@ class MainAdapter(
 
     // Передаём событие в MainActivity
     private fun openInNewWindow(listItemData: DataModel) {
-        onListItemClickListener.onItemClick(listItemData)
+        onListItemClick(listItemData)
     }
 }

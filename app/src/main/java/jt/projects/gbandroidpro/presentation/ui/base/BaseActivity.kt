@@ -27,18 +27,15 @@ abstract class BaseActivity<T : AppState> : AppCompatActivity() {
 
     private val networkStatus: INetworkStatus by inject(named(NETWORK_SERVICE))
 
-    val onListItemClickListener = object : OnListItemClickListener {
-        override fun onItemClick(data: DataModel) {
-            //  Toast.makeText(this@MainActivity, data.text, Toast.LENGTH_SHORT).show()
-            startActivity(
-                DescriptionActivity.getIntent(
-                    this@BaseActivity,
-                    data.text!!,
-                    data.meanings?.toOneString(),
-                    data?.meanings?.get(0)?.imageUrl
-                )
+    fun onItemClick(data: DataModel) {
+        startActivity(
+            DescriptionActivity.getIntent(
+                this@BaseActivity,
+                data.text!!,
+                data.meanings?.toOneString(),
+                data?.meanings?.get(0)?.imageUrl
             )
-        }
+        )
     }
 
     // В каждой Активити будет своя ViewModel, которая наследуется от BaseViewModel
@@ -125,10 +122,5 @@ abstract class BaseActivity<T : AppState> : AppCompatActivity() {
     protected fun showAlertDialog(title: String?, message: String?) {
         AlertDialogFragment.newInstance(title, message)
             .show(supportFragmentManager, DIALOG_FRAGMENT_TAG)
-    }
-
-    // Определяем интерфейс обратного вызова
-    interface OnListItemClickListener {
-        fun onItemClick(data: DataModel)
     }
 }
