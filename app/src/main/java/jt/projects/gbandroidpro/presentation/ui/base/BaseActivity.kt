@@ -31,10 +31,7 @@ abstract class BaseActivity<T : AppState> : AppCompatActivity() {
         startActivity(
             DescriptionActivity.getIntent(
                 this@BaseActivity,
-                data.text!!,
-                data.meanings?.toOneString(),
-                data?.meanings?.get(0)?.imageUrl,
-                data?.meanings?.get(0)?.soundUrl
+                data
             )
         )
     }

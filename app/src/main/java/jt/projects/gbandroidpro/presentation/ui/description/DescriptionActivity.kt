@@ -4,9 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.media.MediaPlayer
+import android.os.Build
 import android.os.Bundle
+import android.provider.ContactsContract.Data
 import android.view.MenuItem
 import android.widget.ImageView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -19,6 +22,8 @@ import com.squareup.picasso.Picasso
 import jt.projects.gbandroidpro.R
 import jt.projects.gbandroidpro.databinding.ActivityDescriptionBinding
 import jt.projects.gbandroidpro.di.NETWORK_SERVICE
+import jt.projects.gbandroidpro.model.domain.DataModel
+import jt.projects.gbandroidpro.model.domain.toOneString
 import jt.projects.gbandroidpro.utils.network.INetworkStatus
 import jt.projects.gbandroidpro.utils.ui.AlertDialogFragment
 import jt.projects.gbandroidpro.utils.ui.CoilImageLoader
@@ -37,22 +42,12 @@ class DescriptionActivity : AppCompatActivity() {
     companion object {
         private const val DIALOG_FRAGMENT_TAG = "8c7dff51-9769-4f6d-bbee-a3896085e76e"
         private const val WORD_EXTRA = "f76a288a-5dcc-43f1-ba89-7fe1d53f63b0"
-        private const val DESCRIPTION_EXTRA = "0eeb92aa-520b-4fd1-bb4b-027fbf963d9a"
-        private const val IMAGE_URL_EXTRA = "IMAGE_URL_EXTRA"
-        private const val SOUND_URL_EXTRA = "SOUND_URL_EXTRA"
-
 
         fun getIntent(
             context: Context,
-            word: String,
-            description: String?,
-            imageUrl: String?,
-            soundUrl: String?
+            data: DataModel
         ): Intent = Intent(context, DescriptionActivity::class.java).apply {
-            putExtra(WORD_EXTRA, word)
-            putExtra(DESCRIPTION_EXTRA, description)
-            putExtra(IMAGE_URL_EXTRA, imageUrl)
-            putExtra(SOUND_URL_EXTRA, soundUrl)
+            putExtra(WORD_EXTRA, data)
         }
     }
 
@@ -75,7 +70,7 @@ class DescriptionActivity : AppCompatActivity() {
 
     fun initButtonSound() {
         binding.buttonSound.setOnClickListener {
-            val soundUrl = intent.extras?.getString(SOUND_URL_EXTRA)
+            val soundUrl = extractData()?.meanings?.get(0)?.soundUrl
             if (soundUrl.isNullOrEmpty()) {
                 showSnackbar("Нет ссылки для прослушивания")
             } else
@@ -112,11 +107,20 @@ class DescriptionActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
+
+    private fun extractData(): DataModel?{
+        val bundle = intent.extras
+        return intent.getParcelableExtra(WORD_EXTRA)
+    }
+
+
     private fun setData() {
         val bundle = intent.extras
-        binding.descriptionHeader.text = bundle?.getString(WORD_EXTRA)
-        binding.descriptionTextview.text = bundle?.getString(DESCRIPTION_EXTRA)
-        val imageLink = bundle?.getString(IMAGE_URL_EXTRA)
+        val data = extractData()
+        binding.descriptionHeader.text = data?.text
+        binding.transcription.text = data?.meanings?.get(0)?.transcription
+        binding.descriptionTextview.text = data?.meanings?.toOneString()
+        val imageLink = data?.meanings?.get(0)?.imageUrl
         if (imageLink.isNullOrBlank()) {
             stopRefreshAnimationIfNeeded()
         } else {
@@ -125,6 +129,7 @@ class DescriptionActivity : AppCompatActivity() {
             //  useGlideToLoadPhoto(binding.descriptionImageview, imageLink)
         }
     }
+
 
     private fun startLoadingOrShowError() {
         if (getKoin().get<INetworkStatus>(named(NETWORK_SERVICE)).isOnline) {

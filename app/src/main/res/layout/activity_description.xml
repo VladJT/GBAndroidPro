@@ -24,7 +24,7 @@
             tools:text="Header" />
 
         <TextView
-            android:id="@+id/transcription_textview"
+            android:id="@+id/transcription"
             style="@style/BaseTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
