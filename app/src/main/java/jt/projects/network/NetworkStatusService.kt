@@ -1,4 +1,4 @@
-package jt.projects.gbandroidpro.utils.network
+package jt.projects.network
 
 import android.app.Service
 import android.content.Context

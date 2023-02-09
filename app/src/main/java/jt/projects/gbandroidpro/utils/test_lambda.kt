@@ -27,8 +27,8 @@ fun math(x: (Int, Int) -> Int, a: Int, b: Int, e: () -> Unit) {
 /**
  * возврат функции
  */
-fun makeString(s1: String, s2:String): String = "$s1 + $s2"
+fun makeString(s1: String, s2: String): String = "$s1 + $s2"
 
-fun higherFun(): (String,String) -> String {
+fun higherFun(): (String, String) -> String {
     return ::makeString
 }

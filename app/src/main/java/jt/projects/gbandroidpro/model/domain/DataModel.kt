@@ -19,9 +19,9 @@ class Meanings(
     @field:SerializedName("imageUrl")
     val imageUrl: String?,
     @field:SerializedName("soundUrl")
-    val soundUrl: String?="",
+    val soundUrl: String? = "",
     @field:SerializedName("transcription")
-    val transcription: String?=""
+    val transcription: String? = ""
 ) : Parcelable
 
 @Parcelize

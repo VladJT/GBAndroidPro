@@ -5,11 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import jt.projects.gbandroidpro.databinding.ActivityMainRecyclerviewItemBinding
 import jt.projects.gbandroidpro.model.domain.DataModel
-import jt.projects.gbandroidpro.model.domain.toOneString
-import jt.projects.gbandroidpro.presentation.ui.base.BaseActivity
+import jt.projects.gbandroidpro.utils.toOneString
 
 class MainAdapter(
-    private var onListItemClick: (DataModel)->Unit
+    private var onListItemClick: (DataModel) -> Unit
 ) : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
 
     private var data: List<DataModel> = arrayListOf()

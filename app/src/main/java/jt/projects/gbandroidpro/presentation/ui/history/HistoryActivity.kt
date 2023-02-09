@@ -68,7 +68,5 @@ class HistoryActivity : BaseActivity<AppState>() {
     }
 
     // Вызовется из базовой Activity, когда данные будут готовы
-    override fun setDataToAdapter(data: List<DataModel>) {
-        historyAdapter.setData(data)
-    }
+    override fun setDataToAdapter(data: List<DataModel>) = historyAdapter.setData(data)
 }

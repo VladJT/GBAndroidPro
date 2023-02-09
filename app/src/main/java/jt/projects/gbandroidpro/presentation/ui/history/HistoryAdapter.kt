@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import jt.projects.gbandroidpro.R
 import jt.projects.gbandroidpro.model.domain.DataModel
-import jt.projects.gbandroidpro.model.domain.toOneString
+import jt.projects.gbandroidpro.utils.toOneString
 
 class HistoryAdapter(
     private var onListItemClick: (DataModel) -> Unit

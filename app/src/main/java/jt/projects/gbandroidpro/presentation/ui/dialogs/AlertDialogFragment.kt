@@ -1,4 +1,4 @@
-package jt.projects.gbandroidpro.utils.ui
+package jt.projects.gbandroidpro.presentation.ui.dialogs
 
 import android.app.Dialog
 import android.content.Context

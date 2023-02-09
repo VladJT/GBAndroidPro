@@ -1,4 +1,4 @@
-package jt.projects.gbandroidpro.presentation.ui.search_dialog
+package jt.projects.gbandroidpro.presentation.ui.dialogs
 
 import android.os.Bundle
 import android.view.LayoutInflater

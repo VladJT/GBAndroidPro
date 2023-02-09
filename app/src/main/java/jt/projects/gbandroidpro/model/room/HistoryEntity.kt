@@ -4,6 +4,9 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import jt.projects.gbandroidpro.model.domain.DataModel
+import jt.projects.gbandroidpro.model.domain.Meanings
+import jt.projects.gbandroidpro.model.domain.Translation
 
 // Так как мы пишем на Kotlin, то достаточно написать поля в конструкторе
 // класса. В качестве основной ячейки мы используем ячейку "слово", то есть
@@ -17,5 +20,29 @@ class HistoryEntity(
     var word: String,
 
     @field: ColumnInfo(name = "description")
-    var description: String?
+    var description: String?,
+
+    @field: ColumnInfo(name = "imageUrl")
+    var imageUrl: String?,
+
+    @field: ColumnInfo(name = "soundUrl")
+    var soundUrl: String?,
+
+    @field: ColumnInfo(name = "transcription")
+    var transcription: String?
 )
+
+
+fun HistoryEntity.toDataModel(): DataModel {
+    return DataModel(
+        this.word,
+        meanings = listOf(
+            Meanings(
+                translation = Translation(this.description),
+                imageUrl = this.imageUrl,
+                soundUrl = this.soundUrl,
+                transcription = this.transcription
+            )
+        )
+    )
+}

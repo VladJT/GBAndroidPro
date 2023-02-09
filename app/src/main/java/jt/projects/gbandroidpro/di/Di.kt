@@ -13,9 +13,9 @@ import jt.projects.gbandroidpro.model.room.RoomDatabaseImpl
 import jt.projects.gbandroidpro.presentation.viewmodel.HistoryViewModel
 import jt.projects.gbandroidpro.presentation.viewmodel.MainViewModel
 import jt.projects.gbandroidpro.utils.Test
-import jt.projects.gbandroidpro.utils.network.INetworkStatus
-import jt.projects.gbandroidpro.utils.network.NetworkStatus
 import jt.projects.gbandroidpro.utils.ui.CoilImageLoader
+import jt.projects.network.INetworkStatus
+import jt.projects.network.NetworkStatus
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
@@ -46,7 +46,11 @@ val application = module {
 
     single<CoilImageLoader> { CoilImageLoader() }
 
-    single { Room.databaseBuilder(get(), HistoryDatabase::class.java, "History.db").build() }
+    single {
+        Room.databaseBuilder(get(), HistoryDatabase::class.java, "History.db")
+            .fallbackToDestructiveMigration()
+            .build()
+    }
 
     single { get<HistoryDatabase>().historyDao() }
 }

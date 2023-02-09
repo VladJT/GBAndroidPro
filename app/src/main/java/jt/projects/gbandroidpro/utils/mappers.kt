@@ -1,6 +1,9 @@
-package jt.projects.gbandroidpro.model.domain
+package jt.projects.gbandroidpro.utils
 
+import jt.projects.gbandroidpro.model.domain.DataModel
+import jt.projects.gbandroidpro.model.domain.Meanings
 import jt.projects.gbandroidpro.model.room.HistoryEntity
+import jt.projects.gbandroidpro.model.room.toDataModel
 
 fun List<Meanings>?.toOneString(): String {
     val sb = StringBuilder()
@@ -9,7 +12,6 @@ fun List<Meanings>?.toOneString(): String {
     }
     return sb.dropLast(2).toString()
 }
-
 
 // Принимаем на вход список слов в виде таблицы из БД и переводим его в List<SearchResult>
 fun mapHistoryEntityToSearchResult(data: List<HistoryEntity>): List<DataModel> {
@@ -20,31 +22,4 @@ fun mapHistoryEntityToSearchResult(data: List<HistoryEntity>): List<DataModel> {
         }
     }
     return dataModel
-}
-
-fun HistoryEntity.toDataModel(): DataModel {
-    return DataModel(
-        this.word,
-        meanings = listOf(
-            Meanings(
-                translation = Translation(
-                    this.description ?: ""
-                ), imageUrl = null
-            )
-        )
-    )
-}
-
-fun AppState.toHistoryEntity(): HistoryEntity? {
-    return when (this) {
-        is AppState.Success -> {
-            val searchResult = this.data
-            if (searchResult.isNullOrEmpty() || searchResult[0].text.isNullOrEmpty()) {
-                null
-            } else {
-                HistoryEntity(searchResult[0].text!!, searchResult[0].meanings.toOneString())
-            }
-        }
-        else -> null
-    }
 }

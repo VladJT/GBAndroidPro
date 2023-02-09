@@ -11,11 +11,10 @@ import jt.projects.gbandroidpro.databinding.LoadingLayoutBinding
 import jt.projects.gbandroidpro.di.NETWORK_SERVICE
 import jt.projects.gbandroidpro.model.domain.AppState
 import jt.projects.gbandroidpro.model.domain.DataModel
-import jt.projects.gbandroidpro.model.domain.toOneString
 import jt.projects.gbandroidpro.presentation.ui.description.DescriptionActivity
+import jt.projects.gbandroidpro.presentation.ui.dialogs.AlertDialogFragment
 import jt.projects.gbandroidpro.presentation.viewmodel.BaseViewModel
-import jt.projects.gbandroidpro.utils.network.INetworkStatus
-import jt.projects.gbandroidpro.utils.ui.AlertDialogFragment
+import jt.projects.network.INetworkStatus
 import org.koin.android.ext.android.inject
 import org.koin.core.qualifier.named
 
