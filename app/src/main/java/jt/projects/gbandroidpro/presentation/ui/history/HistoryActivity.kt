@@ -3,6 +3,7 @@ package jt.projects.gbandroidpro.presentation.ui.history
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import jt.projects.gbandroidpro.R
@@ -32,6 +33,8 @@ class HistoryActivity : BaseActivity<AppState>() {
 
         iniViewModel()
         initViews()
+
+        model.getData("")
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -70,12 +73,6 @@ class HistoryActivity : BaseActivity<AppState>() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
-    // Сразу запрашиваем данные из локального репозитория
-    override fun onResume() {
-        super.onResume()
-        model.getData("")
-    }
-
     private fun iniViewModel() {
         if (binding.historyActivityRecyclerview.adapter != null) {
             throw IllegalStateException("The ViewModel should be initialised first")
@@ -83,6 +80,11 @@ class HistoryActivity : BaseActivity<AppState>() {
         model.liveDataForViewToObserve.observe(this@HistoryActivity, Observer<AppState> {
             renderData(it)
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+     //   model.getData("")
     }
 
     private fun initViews() {

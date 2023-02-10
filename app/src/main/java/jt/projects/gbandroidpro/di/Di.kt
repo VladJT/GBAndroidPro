@@ -51,7 +51,7 @@ val application = module {
 val roomModule = module {
     val MIGRATION_2_4 = object : Migration(2, 4) {
         override fun migrate(database: SupportSQLiteDatabase) {
-            database.execSQL("")
+         //   database.execSQL("")
         }
 
     }

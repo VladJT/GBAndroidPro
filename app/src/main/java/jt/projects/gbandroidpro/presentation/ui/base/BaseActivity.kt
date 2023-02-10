@@ -5,18 +5,15 @@ import android.graphics.Shader
 import android.os.Build
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.snackbar.Snackbar
 import jt.projects.gbandroidpro.R
 import jt.projects.gbandroidpro.databinding.LoadingLayoutBinding
 import jt.projects.gbandroidpro.di.NETWORK_SERVICE
 import jt.projects.gbandroidpro.model.domain.AppState
 import jt.projects.gbandroidpro.model.domain.DataModel
 import jt.projects.gbandroidpro.presentation.ui.description.DescriptionActivity
-import jt.projects.gbandroidpro.presentation.ui.dialogs.AlertDialogFragment
 import jt.projects.gbandroidpro.presentation.viewmodel.BaseViewModel
 import jt.projects.gbandroidpro.utils.network.INetworkStatus
 import jt.projects.gbandroidpro.utils.ui.showNoInternetConnectionDialog
-import jt.projects.gbandroidpro.utils.ui.showSnackbar
 import org.koin.android.ext.android.inject
 import org.koin.core.qualifier.named
 
@@ -24,7 +21,7 @@ private const val DIALOG_FRAGMENT_TAG = "74a54328-5d62-46bf-ab6b-cbf5d8c79522"
 
 abstract class BaseActivity<T : AppState> : AppCompatActivity() {
 
-    private lateinit var binding: LoadingLayoutBinding
+    val baseBinding: LoadingLayoutBinding by lazy { LoadingLayoutBinding.inflate(layoutInflater) }
 
     private val networkStatus: INetworkStatus by inject(named(NETWORK_SERVICE))
 
@@ -42,7 +39,7 @@ abstract class BaseActivity<T : AppState> : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        binding = LoadingLayoutBinding.inflate(layoutInflater)
+       // baseBinding = LoadingLayoutBinding.inflate(layoutInflater)
         if (!networkStatus.isOnline && isDialogNull()) {
             showNoInternetConnectionDialog()
         }
@@ -78,15 +75,15 @@ abstract class BaseActivity<T : AppState> : AppCompatActivity() {
     }
 
     open fun showViewSuccess() {
-        binding.loadingFrameLayout.visibility = View.GONE
+        baseBinding.loadingFrameLayout.visibility = View.GONE
     }
 
     open fun showViewLoading() {
-        binding.loadingFrameLayout.visibility = View.VISIBLE
+        baseBinding.loadingFrameLayout.visibility = View.VISIBLE
     }
 
     open fun showViewError(error: String?) {
-        binding.loadingFrameLayout.visibility = View.GONE
+        baseBinding.loadingFrameLayout.visibility = View.GONE
     }
 
     fun setBlur(view: View, isBlur: Boolean) {
