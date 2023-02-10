@@ -1,6 +1,8 @@
 package jt.projects.gbandroidpro.di
 
 import androidx.room.Room
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import jt.projects.gbandroidpro.App
 import jt.projects.gbandroidpro.interactor.HistoryInteractorImpl
 import jt.projects.gbandroidpro.interactor.MainInteractorImpl
@@ -30,7 +32,6 @@ import org.koin.dsl.module
  */
 
 
-
 // зависимости, используемые во всём приложении
 val application = module {
     factory<Test> { (data: String) -> Test(data) }
@@ -48,9 +49,22 @@ val application = module {
 
 
 val roomModule = module {
+    val MIGRATION_2_4 = object : Migration(2, 4) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("")
+        }
+
+    }
+    val MIGRATION_4_5 = object : Migration(4, 5) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("ALTER TABLE HistoryEntity ADD COLUMN comment TEXT DEFAULT ''")
+        }
+
+    }
+
     single {
         Room.databaseBuilder(get(), HistoryDatabase::class.java, "History.db")
-            .fallbackToDestructiveMigration()
+            .addMigrations(MIGRATION_2_4, MIGRATION_4_5)
             .build()
     }
 
