@@ -2,7 +2,7 @@ package jt.projects.gbandroidpro.presentation.viewmodel
 
 import jt.projects.gbandroidpro.interactor.HistoryInteractorImpl
 import jt.projects.gbandroidpro.model.domain.AppState
-import jt.projects.network.INetworkStatus
+import jt.projects.gbandroidpro.utils.network.INetworkStatus
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

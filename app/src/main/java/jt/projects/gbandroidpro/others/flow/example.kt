@@ -1,4 +1,4 @@
-package jt.projects.gbandroidpro.flow
+package jt.projects.gbandroidpro.others.flow
 
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow

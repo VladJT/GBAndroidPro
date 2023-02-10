@@ -1,4 +1,4 @@
-package jt.projects.network
+package jt.projects.gbandroidpro.utils.network
 
 import android.content.Context
 import android.net.ConnectivityManager

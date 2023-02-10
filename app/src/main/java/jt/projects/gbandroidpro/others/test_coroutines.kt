@@ -1,4 +1,4 @@
-package jt.projects.gbandroidpro.utils
+package jt.projects.gbandroidpro.others
 
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.actor
