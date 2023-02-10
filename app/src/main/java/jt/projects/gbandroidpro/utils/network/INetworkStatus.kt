@@ -1,4 +1,4 @@
-package jt.projects.network
+package jt.projects.gbandroidpro.utils.network
 
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single

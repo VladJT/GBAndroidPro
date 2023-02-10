@@ -14,7 +14,9 @@ import jt.projects.gbandroidpro.model.domain.DataModel
 import jt.projects.gbandroidpro.presentation.ui.description.DescriptionActivity
 import jt.projects.gbandroidpro.presentation.ui.dialogs.AlertDialogFragment
 import jt.projects.gbandroidpro.presentation.viewmodel.BaseViewModel
-import jt.projects.network.INetworkStatus
+import jt.projects.gbandroidpro.utils.network.INetworkStatus
+import jt.projects.gbandroidpro.utils.ui.showNoInternetConnectionDialog
+import jt.projects.gbandroidpro.utils.ui.showSnackbar
 import org.koin.android.ext.android.inject
 import org.koin.core.qualifier.named
 
@@ -108,12 +110,4 @@ abstract class BaseActivity<T : AppState> : AppCompatActivity() {
     // Объявим абстрактный метод и будем вызывать его в renderData, когда данные
     // будут готовы для отображения
     abstract fun setDataToAdapter(data: List<DataModel>)
-
-    protected fun showNoInternetConnectionDialog() {
-//        showAlertDialog(
-//            "Внимание",
-//            "device_is_offline"
-//        )
-        Snackbar.make(binding.root, "Связь с интернет потеряна...", Snackbar.LENGTH_SHORT).show()
-    }
 }

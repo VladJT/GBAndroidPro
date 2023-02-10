@@ -18,7 +18,7 @@ import jt.projects.gbandroidpro.presentation.ui.dialogs.SearchDialogFragment
 import jt.projects.gbandroidpro.presentation.ui.history.HistoryActivity
 import jt.projects.gbandroidpro.presentation.viewmodel.MainViewModel
 import jt.projects.gbandroidpro.utils.BOTTOM_SHEET_FRAGMENT_DIALOG_TAG
-import jt.projects.gbandroidpro.utils.Test
+import jt.projects.gbandroidpro.others.Test
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import org.koin.java.KoinJavaComponent.getKoin
