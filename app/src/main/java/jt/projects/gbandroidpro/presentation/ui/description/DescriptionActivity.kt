@@ -25,8 +25,7 @@ import jt.projects.gbandroidpro.presentation.ui.dialogs.AlertDialogFragment
 import jt.projects.gbandroidpro.utils.toOneString
 import jt.projects.gbandroidpro.utils.ui.CoilImageLoader
 import jt.projects.gbandroidpro.utils.ui.showSnackbar
-import jt.projects.gbandroidpro.utils.network.INetworkStatus
-import jt.projects.gbandroidpro.utils.ui.showNoInternetConnectionDialog
+import jt.projects.network.INetworkStatus
 import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.android.inject
 import org.koin.core.qualifier.named
@@ -39,6 +38,7 @@ class DescriptionActivity : AppCompatActivity() {
 
 
     companion object {
+        private const val DIALOG_FRAGMENT_TAG = "8c7dff51-9769-4f6d-bbee-a3896085e76e"
         private const val WORD_EXTRA = "f76a288a-5dcc-43f1-ba89-7fe1d53f63b0"
 
         fun getIntent(
@@ -73,7 +73,7 @@ class DescriptionActivity : AppCompatActivity() {
                 showSnackbar("Нет ссылки для прослушивания")
             } else
                 if (!getKoin().get<INetworkStatus>(named(NETWORK_SERVICE)).isOnline) {
-                    showNoInternetConnectionDialog()
+                    showSnackbar(getString(R.string.dialog_message_device_is_offline))
                 } else {
                     val mp = MediaPlayer()
                     try {
