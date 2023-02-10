@@ -82,11 +82,6 @@ class HistoryActivity : BaseActivity<AppState>() {
         })
     }
 
-    override fun onResume() {
-        super.onResume()
-     //   model.getData("")
-    }
-
     private fun initViews() {
         binding.historyActivityRecyclerview.apply {
             layoutManager = LinearLayoutManager(applicationContext)
