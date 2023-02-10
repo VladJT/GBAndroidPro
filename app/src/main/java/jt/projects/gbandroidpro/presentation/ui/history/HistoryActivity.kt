@@ -10,6 +10,7 @@ import jt.projects.gbandroidpro.databinding.ActivityHistoryBinding
 import jt.projects.gbandroidpro.model.domain.AppState
 import jt.projects.gbandroidpro.model.domain.DataModel
 import jt.projects.gbandroidpro.presentation.ui.base.BaseActivity
+import jt.projects.gbandroidpro.presentation.ui.dialogs.AlertDialogFragment
 import jt.projects.gbandroidpro.presentation.viewmodel.HistoryViewModel
 import jt.projects.gbandroidpro.utils.ui.showSnackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -48,8 +49,14 @@ class HistoryActivity : BaseActivity<AppState>() {
     }
 
     private fun showDeleteDialog() {
-        model.cleanHistory()
-        showSnackbar("Данные истории очищены")
+        AlertDialogFragment.newInstance("Подтверждение",
+            "Вы точно желаете удалить историю запросов",
+            okPressed = {
+                model.cleanHistory()
+                showSnackbar("Данные успешно очищены")
+            },
+            cancelPressed = {})
+            .show(supportFragmentManager, AlertDialogFragment.TAG)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

@@ -7,6 +7,7 @@ import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -72,7 +73,7 @@ class DescriptionActivity : AppCompatActivity() {
                 showSnackbar("Нет ссылки для прослушивания")
             } else
                 if (!getKoin().get<INetworkStatus>(named(NETWORK_SERVICE)).isOnline) {
-                    showSnackbar("Отсутствует подключение к Интернет")
+                    showSnackbar(getString(R.string.dialog_message_device_is_offline))
                 } else {
                     val mp = MediaPlayer()
                     try {
@@ -85,7 +86,6 @@ class DescriptionActivity : AppCompatActivity() {
                 }
 
         }
-
     }
 
 
@@ -126,13 +126,7 @@ class DescriptionActivity : AppCompatActivity() {
         if (getKoin().get<INetworkStatus>(named(NETWORK_SERVICE)).isOnline) {
             setData()
         } else {
-            TODO()
-//            AlertDialogFragment(
-//                getString(R.string.dialog_title_device_is_offline),
-//                getString(R.string.dialog_message_device_is_offline)
-//            ).show(
-//                supportFragmentManager, DIALOG_FRAGMENT_TAG
-//            )
+            showSnackbar(getString(R.string.dialog_message_device_is_offline))
             stopRefreshAnimationIfNeeded()
         }
     }
