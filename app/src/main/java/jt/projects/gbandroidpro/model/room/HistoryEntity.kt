@@ -29,7 +29,10 @@ class HistoryEntity(
     var soundUrl: String?,
 
     @field: ColumnInfo(name = "transcription")
-    var transcription: String?
+    var transcription: String?,
+
+    @field: ColumnInfo(name = "comment")
+    var comment: String? = ""
 )
 
 

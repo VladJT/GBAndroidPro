@@ -1,6 +1,8 @@
 package jt.projects.gbandroidpro.di
 
 import androidx.room.Room
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import jt.projects.gbandroidpro.App
 import jt.projects.gbandroidpro.interactor.HistoryInteractorImpl
 import jt.projects.gbandroidpro.interactor.MainInteractorImpl
@@ -12,10 +14,10 @@ import jt.projects.gbandroidpro.model.room.HistoryDatabase
 import jt.projects.gbandroidpro.model.room.RoomDatabaseImpl
 import jt.projects.gbandroidpro.presentation.viewmodel.HistoryViewModel
 import jt.projects.gbandroidpro.presentation.viewmodel.MainViewModel
-import jt.projects.gbandroidpro.utils.Test
+import jt.projects.gbandroidpro.others.Test
 import jt.projects.gbandroidpro.utils.ui.CoilImageLoader
-import jt.projects.network.INetworkStatus
-import jt.projects.network.NetworkStatus
+import jt.projects.gbandroidpro.utils.network.INetworkStatus
+import jt.projects.gbandroidpro.utils.network.NetworkStatus
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
@@ -28,7 +30,6 @@ import org.koin.dsl.module
 ● single { } — генерация синглтона;
 ● get() — создание экземпляра класса.
  */
-
 
 
 // зависимости, используемые во всём приложении
@@ -48,9 +49,22 @@ val application = module {
 
 
 val roomModule = module {
+    val MIGRATION_2_4 = object : Migration(2, 4) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("")
+        }
+
+    }
+    val MIGRATION_4_5 = object : Migration(4, 5) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("ALTER TABLE HistoryEntity ADD COLUMN comment TEXT DEFAULT ''")
+        }
+
+    }
+
     single {
         Room.databaseBuilder(get(), HistoryDatabase::class.java, "History.db")
-            .fallbackToDestructiveMigration()
+            .addMigrations(MIGRATION_2_4, MIGRATION_4_5)
             .build()
     }
 
