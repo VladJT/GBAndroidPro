@@ -32,7 +32,7 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = Config.isMinifyEnabled
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
@@ -50,7 +50,7 @@ android {
 
 dependencies {
     // PROJECTS
-   // implementation(project(Modules.core))
+   implementation(project(Modules.utils))
 
 
     // AndroidX
