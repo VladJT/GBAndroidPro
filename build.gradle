@@ -4,3 +4,35 @@ plugins {
     id 'com.android.library' version '7.4.1' apply false
     id 'org.jetbrains.kotlin.android' version '1.7.21' apply false
 }
+
+
+// Так как у нас должно быть много модулей с одинаковыми параметрами, такими как
+//compileSdkVersion, minSdkVersion, targetSdkVersion и Java compatibility, имеет смысл
+//автоматически прописывать эти параметры для всех модулей. Сами данные для зависимостей мы
+//уже берем из файла Dependencies.
+//subprojects {
+//    afterEvaluate { project ->
+//        if (project.plugins.findPlugin('android') ?:
+//                project.plugins.findPlugin('android-library')) {
+//            android {
+//                compileSdkVersion Config.compile_sdk
+//                buildFeatures {
+//                    viewBinding true
+//                }
+//                defaultConfig {
+//                    minSdkVersion Config.min_sdk
+//                    targetSdkVersion Config.target_sdk
+//                }
+//                compileOptions {
+//                    sourceCompatibility Config.java_version
+//                    targetCompatibility Config.java_version
+//                }
+//            }
+//        }
+//    }
+//}
+
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

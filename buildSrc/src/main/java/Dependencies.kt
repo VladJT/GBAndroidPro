@@ -7,6 +7,7 @@ object Config {
     const val min_sdk = 29
     const val target_sdk = 33
     val java_version = JavaVersion.VERSION_1_8
+    val jvmTarget_version = "1.8"
 }
 
 object Releases {
@@ -133,8 +134,8 @@ object RxJava {
 
 object Dagger2 {
     const val dagger = "com.google.dagger:dagger:2.44"
-    const val dagger_android =  "com.google.dagger:dagger-android:2.44"
-    const val dagger_android_support =  "com.google.dagger:dagger-android-support:2.44"
-    const val dagger_compiler =  "com.google.dagger:dagger-compiler:2.44"
-    const val dagger_android_processor =  "com.google.dagger:dagger-android-processor:2.44"
+    const val dagger_android = "com.google.dagger:dagger-android:2.44"
+    const val dagger_android_support = "com.google.dagger:dagger-android-support:2.44"
+    const val dagger_compiler = "com.google.dagger:dagger-compiler:2.44"
+    const val dagger_android_processor = "com.google.dagger:dagger-android-processor:2.44"
 }
