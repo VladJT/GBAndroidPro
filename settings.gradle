@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "GBAndroidPro"
 include ':app'
+include ':utils'

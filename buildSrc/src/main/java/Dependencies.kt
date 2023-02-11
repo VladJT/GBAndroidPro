@@ -7,7 +7,8 @@ object Config {
     const val min_sdk = 29
     const val target_sdk = 33
     val java_version = JavaVersion.VERSION_1_8
-    val jvmTarget_version = "1.8"
+    const val jvmTarget_version = "1.8"
+    const val isMinifyEnabled = false
 }
 
 object Releases {
