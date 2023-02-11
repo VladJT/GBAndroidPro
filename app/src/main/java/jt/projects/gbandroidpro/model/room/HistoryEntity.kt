@@ -4,9 +4,9 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import jt.projects.gbandroidpro.model.domain.DataModel
-import jt.projects.gbandroidpro.model.domain.Meanings
-import jt.projects.gbandroidpro.model.domain.Translation
+import jt.projects.model.data.DataModel
+import jt.projects.model.data.Meanings
+import jt.projects.model.data.Translation
 
 // Так как мы пишем на Kotlin, то достаточно написать поля в конструкторе
 // класса. В качестве основной ячейки мы используем ячейку "слово", то есть

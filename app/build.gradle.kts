@@ -50,7 +50,8 @@ android {
 
 dependencies {
     // PROJECTS
-   implementation(project(Modules.utils))
+    implementation(project(Modules.utils))
+    implementation(project(Modules.model))
 
 
     // AndroidX
@@ -66,9 +67,6 @@ dependencies {
     // КОРУТИНЫ
     implementation(Kotlin.coroutines_core)
     implementation(Kotlin.coroutines_android)
-
-    //Coil
-    implementation(Coil.coil)
 
     // Koin for Android
     implementation(Koin.core)

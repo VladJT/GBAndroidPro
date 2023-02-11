@@ -1,9 +1,11 @@
 package jt.projects.gbandroidpro.utils
 
-import jt.projects.gbandroidpro.model.domain.DataModel
-import jt.projects.gbandroidpro.model.domain.Meanings
+
 import jt.projects.gbandroidpro.model.room.HistoryEntity
 import jt.projects.gbandroidpro.model.room.toDataModel
+import jt.projects.model.data.AppState
+import jt.projects.model.data.DataModel
+import jt.projects.model.data.Meanings
 
 fun List<Meanings>?.toOneString(): String {
     val sb = StringBuilder()
@@ -22,4 +24,24 @@ fun mapHistoryEntityToSearchResult(data: List<HistoryEntity>): List<DataModel> {
         }
     }
     return dataModel
+}
+
+fun AppState.toHistoryEntity(): HistoryEntity? {
+    return when (this) {
+        is AppState.Success -> {
+            val data = this.data
+            if (data.isNullOrEmpty() || data[0].text.isNullOrEmpty()) {
+                null
+            } else {
+                HistoryEntity(
+                    word = data[0].text!!,
+                    description = data[0].meanings.toOneString(),
+                    imageUrl = data[0].meanings?.get(0)?.imageUrl,
+                    soundUrl = data[0].meanings?.get(0)?.soundUrl,
+                    transcription = data[0].meanings?.get(0)?.transcription
+                )
+            }
+        }
+        else -> null
+    }
 }

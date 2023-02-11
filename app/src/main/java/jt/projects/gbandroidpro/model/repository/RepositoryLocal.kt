@@ -1,6 +1,6 @@
 package jt.projects.gbandroidpro.model.repository
 
-import jt.projects.gbandroidpro.model.domain.AppState
+import jt.projects.model.data.AppState
 
 
 // Репозиторий представляет собой слой получения и хранения данных, которые он передаёт интерактору

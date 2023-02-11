@@ -1,4 +1,4 @@
-package jt.projects.gbandroidpro.utils.ui
+package jt.projects.utils.ui
 
 import android.content.Context
 import android.util.AttributeSet

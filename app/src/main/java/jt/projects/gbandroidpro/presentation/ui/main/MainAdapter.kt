@@ -4,8 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import jt.projects.gbandroidpro.databinding.ActivityMainRecyclerviewItemBinding
-import jt.projects.gbandroidpro.model.domain.DataModel
 import jt.projects.gbandroidpro.utils.toOneString
+import jt.projects.model.data.DataModel
 
 class MainAdapter(
     private var onListItemClick: (DataModel) -> Unit

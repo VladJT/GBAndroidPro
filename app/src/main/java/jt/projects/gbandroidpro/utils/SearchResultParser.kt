@@ -1,8 +1,9 @@
 package jt.projects.gbandroidpro.utils
 
-import jt.projects.gbandroidpro.model.domain.AppState
-import jt.projects.gbandroidpro.model.domain.DataModel
-import jt.projects.gbandroidpro.model.domain.Meanings
+import jt.projects.model.data.AppState
+import jt.projects.model.data.DataModel
+import jt.projects.model.data.Meanings
+
 
 // Все методы говорят сами за себя, универсальны и парсят данные в зависимости
 // от источника данных (интернет или БД), возвращая их в понятном для наших
@@ -56,9 +57,9 @@ private fun parseOnlineResult(
 ) {
     if (!dataModel.text.isNullOrBlank() && !dataModel.meanings.isNullOrEmpty()) {
         val newMeanings = arrayListOf<Meanings>()
-        for (meaning in dataModel.meanings) {
+        for (meaning in dataModel.meanings!!) {
             if (meaning.translation != null &&
-                !meaning.translation.translation.isNullOrBlank()
+                !meaning.translation!!.translation.isNullOrBlank()
             ) {
                 newMeanings.add(Meanings(meaning.translation, meaning.imageUrl))
             }

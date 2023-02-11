@@ -1,6 +1,6 @@
 package jt.projects.gbandroidpro.model.retrofit
 
-import jt.projects.gbandroidpro.model.domain.DataModel
+import jt.projects.model.data.DataModel
 import kotlinx.coroutines.Deferred
 import retrofit2.http.GET
 import retrofit2.http.Query

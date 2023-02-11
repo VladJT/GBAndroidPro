@@ -2,8 +2,8 @@ package jt.projects.gbandroidpro.model.retrofit
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import jt.projects.gbandroidpro.model.datasource.DataSource
-import jt.projects.gbandroidpro.model.domain.DataModel
-import jt.projects.gbandroidpro.utils.BASE_URL_LOCATIONS
+import jt.projects.model.data.DataModel
+import jt.projects.utils.BASE_URL_LOCATIONS
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.onEmpty

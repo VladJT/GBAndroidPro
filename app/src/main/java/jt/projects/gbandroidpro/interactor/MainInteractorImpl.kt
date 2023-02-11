@@ -1,10 +1,10 @@
 package jt.projects.gbandroidpro.interactor
 
 
-import jt.projects.gbandroidpro.model.domain.AppState
-import jt.projects.gbandroidpro.model.domain.DataModel
 import jt.projects.gbandroidpro.model.repository.Repository
 import jt.projects.gbandroidpro.model.repository.RepositoryLocal
+import jt.projects.model.data.AppState
+import jt.projects.model.data.DataModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onCompletion
