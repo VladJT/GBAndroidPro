@@ -1,4 +1,4 @@
-package jt.projects.gbandroidpro.utils
+package jt.projects.utils
 
 import androidx.annotation.MainThread
 import androidx.lifecycle.LifecycleOwner

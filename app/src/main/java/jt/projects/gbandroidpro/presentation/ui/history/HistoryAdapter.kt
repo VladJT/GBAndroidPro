@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import jt.projects.gbandroidpro.R
-import jt.projects.gbandroidpro.model.domain.DataModel
 import jt.projects.gbandroidpro.utils.toOneString
+import jt.projects.model.data.DataModel
 
 class HistoryAdapter(
     private var onListItemClick: (DataModel) -> Unit

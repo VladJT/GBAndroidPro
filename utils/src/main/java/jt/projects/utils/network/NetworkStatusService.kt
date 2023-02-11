@@ -1,4 +1,4 @@
-package jt.projects.gbandroidpro.utils.network
+package jt.projects.utils.network
 
 import android.app.Service
 import android.content.Context
@@ -12,7 +12,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.subjects.BehaviorSubject
-import jt.projects.gbandroidpro.utils.NETWORK_STATUS_INTENT_FILTER
+import jt.projects.utils.NETWORK_STATUS_INTENT_FILTER
 
 class NetworkStatusService(override var isOnline: Boolean = false) : Service(), INetworkStatus {
     private val statusSubject: BehaviorSubject<Boolean> = BehaviorSubject.create()

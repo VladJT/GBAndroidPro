@@ -1,10 +1,11 @@
-package jt.projects.gbandroidpro.utils.ui
+package jt.projects.utils.ui
 
 import android.app.Activity
 import android.view.View
 import android.widget.Toast
 import com.google.android.material.snackbar.Snackbar
-import jt.projects.gbandroidpro.R
+import jt.projects.utils.R
+
 
 fun View.showSnackbar(text: String) {
     Snackbar.make(this, text, Snackbar.LENGTH_SHORT).show()

@@ -1,4 +1,4 @@
-package jt.projects.gbandroidpro.utils.network
+package jt.projects.utils.network
 
 import android.content.BroadcastReceiver
 import android.content.Context

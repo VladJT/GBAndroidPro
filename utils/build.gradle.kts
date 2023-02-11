@@ -43,6 +43,9 @@ dependencies {
     // AndroidX
     implementation(Design.appcompat)
 
+    // Design
+    implementation(Design.material)
+
     // Kotlin
     implementation(Kotlin.core)
     implementation(Kotlin.stdlib)
@@ -52,5 +55,18 @@ dependencies {
     androidTestImplementation(TestImpl.runner)
     androidTestImplementation(TestImpl.espresso)
     androidTestImplementation(TestImpl.extjunit)
-  //  implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Koin for Android
+    implementation(Koin.core)
+    implementation(Koin.viewmodel)
+    implementation(Koin.compat)
+    testImplementation(Koin.test)
+
+    // RXJAVA
+    implementation(RxJava.rxjava)
+    implementation(RxJava.rxandroid)
+    implementation(RxJava.adapter_rxjava3)
+
+    //Coil
+    implementation(Coil.coil)
 }

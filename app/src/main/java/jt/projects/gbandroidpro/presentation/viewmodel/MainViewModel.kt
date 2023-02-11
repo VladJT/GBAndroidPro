@@ -2,8 +2,8 @@ package jt.projects.gbandroidpro.presentation.viewmodel
 
 import android.util.Log
 import jt.projects.gbandroidpro.interactor.MainInteractorImpl
-import jt.projects.gbandroidpro.model.domain.AppState
-import jt.projects.gbandroidpro.utils.network.INetworkStatus
+import jt.projects.model.data.AppState
+import jt.projects.utils.network.INetworkStatus
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 

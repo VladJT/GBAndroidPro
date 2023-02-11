@@ -1,4 +1,4 @@
-package jt.projects.gbandroidpro.utils.network
+package jt.projects.gbandroidpro
 
 import android.content.Context
 import android.net.ConnectivityManager
@@ -7,7 +7,7 @@ import android.net.NetworkRequest
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.subjects.BehaviorSubject
-import jt.projects.gbandroidpro.App
+import jt.projects.utils.network.INetworkStatus
 import org.koin.core.component.KoinComponent
 
 /**

@@ -1,8 +1,9 @@
-package jt.projects.gbandroidpro.utils.ui
+package jt.projects.utils.ui
 
 import android.widget.ImageView
 import coil.load
-import jt.projects.gbandroidpro.R
+import jt.projects.utils.R
+
 
 class CoilImageLoader {
 

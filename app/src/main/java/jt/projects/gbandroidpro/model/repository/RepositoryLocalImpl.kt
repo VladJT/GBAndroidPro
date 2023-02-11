@@ -1,8 +1,8 @@
 package jt.projects.gbandroidpro.model.repository
 
 import jt.projects.gbandroidpro.model.datasource.DataSourceLocal
-import jt.projects.gbandroidpro.model.domain.AppState
-import jt.projects.gbandroidpro.model.domain.DataModel
+import jt.projects.model.data.AppState
+import jt.projects.model.data.DataModel
 import kotlinx.coroutines.flow.Flow
 
 class RepositoryLocalImpl(private val dataSource: DataSourceLocal<Flow<DataModel>>) :

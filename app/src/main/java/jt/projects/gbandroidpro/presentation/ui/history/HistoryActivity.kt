@@ -3,17 +3,16 @@ package jt.projects.gbandroidpro.presentation.ui.history
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import jt.projects.gbandroidpro.R
 import jt.projects.gbandroidpro.databinding.ActivityHistoryBinding
-import jt.projects.gbandroidpro.model.domain.AppState
-import jt.projects.gbandroidpro.model.domain.DataModel
 import jt.projects.gbandroidpro.presentation.ui.base.BaseActivity
 import jt.projects.gbandroidpro.presentation.ui.dialogs.AlertDialogFragment
 import jt.projects.gbandroidpro.presentation.viewmodel.HistoryViewModel
-import jt.projects.gbandroidpro.utils.ui.showSnackbar
+import jt.projects.model.data.AppState
+import jt.projects.model.data.DataModel
+import jt.projects.utils.ui.showSnackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HistoryActivity : BaseActivity<AppState>() {

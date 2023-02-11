@@ -8,12 +8,12 @@ import androidx.appcompat.app.AppCompatActivity
 import jt.projects.gbandroidpro.R
 import jt.projects.gbandroidpro.databinding.LoadingLayoutBinding
 import jt.projects.gbandroidpro.di.NETWORK_SERVICE
-import jt.projects.gbandroidpro.model.domain.AppState
-import jt.projects.gbandroidpro.model.domain.DataModel
 import jt.projects.gbandroidpro.presentation.ui.description.DescriptionActivity
 import jt.projects.gbandroidpro.presentation.viewmodel.BaseViewModel
-import jt.projects.gbandroidpro.utils.network.INetworkStatus
-import jt.projects.gbandroidpro.utils.ui.showNoInternetConnectionDialog
+import jt.projects.model.data.AppState
+import jt.projects.model.data.DataModel
+import jt.projects.utils.network.INetworkStatus
+import jt.projects.utils.ui.showNoInternetConnectionDialog
 import org.koin.android.ext.android.inject
 import org.koin.core.qualifier.named
 

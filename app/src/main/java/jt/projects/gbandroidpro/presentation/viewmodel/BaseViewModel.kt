@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import jt.projects.gbandroidpro.model.domain.AppState
+import jt.projects.model.data.AppState
 import kotlinx.coroutines.*
 
 
