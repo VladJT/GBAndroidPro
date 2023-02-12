@@ -60,7 +60,7 @@ object Versions {
     const val jUnit = "4.13.2"
     const val runner = "1.2.0"
     const val espressoCore = "3.5.0"
-    const val extjUnit = "1.1.4"
+    const val extjUnit = "1.1.5"
 }
 
 object Design {
@@ -113,7 +113,7 @@ object Room {
 
 object TestImpl {
     const val junit = "junit:junit:${Versions.jUnit}"
-    const val extjunit = "'androidx.test.ext:${Versions.extjUnit}"
+    const val extjunit = "androidx.test.ext:junit:${Versions.extjUnit}"
     const val runner = "androidx.test:runner:${Versions.runner}"
     const val espresso = "androidx.test.espresso:espresso-core:${Versions.espressoCore}"
 }
