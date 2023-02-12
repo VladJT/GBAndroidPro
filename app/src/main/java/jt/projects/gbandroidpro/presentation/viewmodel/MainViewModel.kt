@@ -11,7 +11,7 @@ class MainViewModel(
     private val interactor: MainInteractorImpl,
     private val networkStatus: INetworkStatus
 ) :
-    BaseViewModel<AppState>() {
+    jt.projects.core.BaseViewModel<AppState>() {
 
     private val queryStateFlow = MutableStateFlow("")
 

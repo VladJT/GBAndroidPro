@@ -17,5 +17,5 @@ dependencyResolutionManagement {
 rootProject.name = "GBAndroidPro"
 include ':app'
 include ':utils'
-include ':data'
 include ':model'
+include ':core'

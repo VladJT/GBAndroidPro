@@ -17,7 +17,7 @@ import jt.projects.gbandroidpro.presentation.viewmodel.MainViewModel
 import jt.projects.gbandroidpro.others.Test
 import jt.projects.utils.ui.CoilImageLoader
 import jt.projects.utils.network.INetworkStatus
-import jt.projects.gbandroidpro.NetworkStatus
+import jt.projects.utils.network.NetworkStatus
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
@@ -42,7 +42,7 @@ val application = module {
 
     single<RepositoryLocalImpl> { RepositoryLocalImpl(RoomDatabaseImpl(get<HistoryDao>())) }
 
-    single<INetworkStatus>(qualifier = named(NETWORK_SERVICE)) { NetworkStatus() }
+    single<INetworkStatus>(qualifier = named(NETWORK_SERVICE)) { NetworkStatus(get()) }
 
     single { CoilImageLoader() }
 }

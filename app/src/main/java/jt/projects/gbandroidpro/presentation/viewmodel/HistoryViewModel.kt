@@ -12,7 +12,7 @@ class HistoryViewModel(
     private val interactor: HistoryInteractorImpl,
     private val networkStatus: INetworkStatus
 ) :
-    BaseViewModel<AppState>() {
+    jt.projects.core.BaseViewModel<AppState>() {
 
     override fun getData(word: String) {
         liveData.value = AppState.Loading(null)

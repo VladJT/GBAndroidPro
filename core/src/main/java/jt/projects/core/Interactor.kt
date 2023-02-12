@@ -1,4 +1,4 @@
-package jt.projects.gbandroidpro.interactor
+package jt.projects.core
 
 
 // интерактор (чистая бизнес-логика)

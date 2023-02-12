@@ -7,7 +7,8 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import jt.projects.gbandroidpro.R
 import jt.projects.gbandroidpro.databinding.ActivityHistoryBinding
-import jt.projects.gbandroidpro.presentation.ui.base.BaseActivity
+import jt.projects.core.BaseActivity
+import jt.projects.gbandroidpro.presentation.ui.description.DescriptionActivity
 import jt.projects.gbandroidpro.presentation.ui.dialogs.AlertDialogFragment
 import jt.projects.gbandroidpro.presentation.viewmodel.HistoryViewModel
 import jt.projects.model.data.AppState
@@ -22,6 +23,15 @@ class HistoryActivity : BaseActivity<AppState>() {
 
     private lateinit var binding: ActivityHistoryBinding
     private val historyAdapter: HistoryAdapter by lazy { HistoryAdapter(::onItemClick) }
+
+    private fun onItemClick(data: DataModel) {
+        startActivity(
+            DescriptionActivity.getIntent(
+                this,
+                data
+            )
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
