@@ -53,6 +53,7 @@ dependencies {
     implementation(project(Modules.core))
     implementation(project(Modules.model))
     implementation(project(Modules.utils))
+    implementation(project(Modules.repository))
 
 
     // AndroidX
@@ -90,14 +91,6 @@ dependencies {
     // OTHERS
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
-
-    // Retrofit 2
-    implementation(Retrofit.retrofit)
-    implementation(Retrofit.converter_gson)
-    implementation(Retrofit.logging_interceptor)
-    implementation(Retrofit.adapter_rxjava2)//RxJava2 для Retrofit
-    implementation(Retrofit.adapter_coroutines)//КОРУТИНЫ для Retrofit
-
 
     // RXJAVA
     implementation(RxJava.rxjava)

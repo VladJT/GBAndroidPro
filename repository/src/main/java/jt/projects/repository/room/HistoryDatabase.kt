@@ -1,4 +1,4 @@
-package jt.projects.gbandroidpro.model.room
+package jt.projects.repository.room
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

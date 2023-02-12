@@ -1,7 +1,7 @@
-package jt.projects.gbandroidpro.model.retrofit
+package jt.projects.repository.retrofit
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
-import jt.projects.gbandroidpro.model.datasource.DataSource
+import jt.projects.repository.datasource.DataSource
 import jt.projects.model.data.DataModel
 import jt.projects.utils.BASE_URL_LOCATIONS
 import kotlinx.coroutines.flow.Flow

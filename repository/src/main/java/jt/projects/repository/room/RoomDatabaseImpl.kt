@@ -1,9 +1,9 @@
-package jt.projects.gbandroidpro.model.room
+package jt.projects.repository.room
 
 
-import jt.projects.gbandroidpro.model.datasource.DataSourceLocal
-import jt.projects.gbandroidpro.utils.mapHistoryEntityToSearchResult
-import jt.projects.gbandroidpro.utils.toHistoryEntity
+import jt.projects.repository.mapHistoryEntityToSearchResult
+import jt.projects.repository.datasource.DataSourceLocal
+import jt.projects.repository.toHistoryEntity
 import jt.projects.model.data.AppState
 import jt.projects.model.data.DataModel
 import kotlinx.coroutines.flow.Flow

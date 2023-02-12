@@ -1,4 +1,4 @@
-package jt.projects.gbandroidpro.model.datasource
+package jt.projects.repository.datasource
 
 
 // Источник данных для репозитория (Интернет, БД и т. п.)

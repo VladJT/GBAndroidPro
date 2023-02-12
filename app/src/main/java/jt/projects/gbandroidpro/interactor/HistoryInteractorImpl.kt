@@ -1,6 +1,6 @@
 package jt.projects.gbandroidpro.interactor
 
-import jt.projects.gbandroidpro.model.repository.RepositoryLocal
+import jt.projects.repository.RepositoryLocal
 import jt.projects.model.data.AppState
 import jt.projects.model.data.DataModel
 import kotlinx.coroutines.flow.Flow

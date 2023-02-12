@@ -1,8 +1,8 @@
-package jt.projects.gbandroidpro.utils
+package jt.projects.repository
 
 
-import jt.projects.gbandroidpro.model.room.HistoryEntity
-import jt.projects.gbandroidpro.model.room.toDataModel
+import jt.projects.repository.room.HistoryEntity
+import jt.projects.repository.room.toDataModel
 import jt.projects.model.data.AppState
 import jt.projects.model.data.DataModel
 import jt.projects.model.data.Meanings
