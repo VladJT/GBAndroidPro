@@ -1,4 +1,4 @@
-package jt.projects.gbandroidpro
+package jt.projects.utils.network
 
 import android.content.Context
 import android.net.ConnectivityManager
@@ -17,16 +17,16 @@ import org.koin.core.component.KoinComponent
 приложении доступ к таким функциям, как get, inject, getKoin, viewModel и т. д.
 
  */
-class NetworkStatus : INetworkStatus, KoinComponent {
+class NetworkStatus(context: Context) : INetworkStatus, KoinComponent {
 
     override var isOnline: Boolean = false
 
     private val statusSubject: BehaviorSubject<Boolean> = BehaviorSubject.create()
 
     init {
-        val connectivityManager =
-            getKoin().get<App>().applicationContext
-                .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+         //   getKoin().get<App>().applicationContext
+         //       .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
 
         statusSubject.onNext(false)

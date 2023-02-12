@@ -1,0 +1,3 @@
+<resources>
+    <string name="empty_server_response_on_success">Response from server is empty</string>
+</resources>

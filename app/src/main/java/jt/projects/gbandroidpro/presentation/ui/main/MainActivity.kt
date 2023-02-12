@@ -11,16 +11,22 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import jt.projects.gbandroidpro.R
 import jt.projects.gbandroidpro.databinding.ActivityMainBinding
-import jt.projects.gbandroidpro.presentation.ui.base.BaseActivity
+import jt.projects.gbandroidpro.di.NETWORK_SERVICE
+import jt.projects.core.BaseActivity
 import jt.projects.gbandroidpro.presentation.ui.dialogs.SearchDialogFragment
 import jt.projects.gbandroidpro.presentation.ui.history.HistoryActivity
 import jt.projects.gbandroidpro.presentation.viewmodel.MainViewModel
 import jt.projects.utils.BOTTOM_SHEET_FRAGMENT_DIALOG_TAG
 import jt.projects.gbandroidpro.others.Test
+import jt.projects.gbandroidpro.presentation.ui.description.DescriptionActivity
 import jt.projects.model.data.AppState
 import jt.projects.model.data.DataModel
+import jt.projects.utils.network.INetworkStatus
+import jt.projects.utils.ui.showNoInternetConnectionDialog
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
+import org.koin.core.qualifier.named
 import org.koin.java.KoinJavaComponent.getKoin
 
 
@@ -46,8 +52,18 @@ class MainActivity : BaseActivity<AppState>() {
 
     private lateinit var binding: ActivityMainBinding
 
+    private val networkStatus: INetworkStatus by inject(named(NETWORK_SERVICE))
+
     private val mainAdapter: MainAdapter by lazy { MainAdapter(::onItemClick) }
 
+    private fun onItemClick(data: DataModel) {
+        startActivity(
+            DescriptionActivity.getIntent(
+                this,
+                data
+            )
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,6 +85,13 @@ class MainActivity : BaseActivity<AppState>() {
         }
 
         test()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (!networkStatus.isOnline) {
+            showNoInternetConnectionDialog()
+        }
     }
 
     private fun initRecView() {

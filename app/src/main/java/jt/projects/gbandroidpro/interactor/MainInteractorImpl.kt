@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.toList
 class MainInteractorImpl(
     private val repositoryRemote: Repository<Flow<DataModel>>,
     private val repositoryLocal: RepositoryLocal<Flow<DataModel>>
-) : Interactor<AppState> {
+) : jt.projects.core.Interactor<AppState> {
 
     override suspend fun getData(word: String, fromRemoteSource: Boolean): AppState {
         var appState: AppState

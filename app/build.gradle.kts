@@ -50,8 +50,9 @@ android {
 
 dependencies {
     // PROJECTS
-    implementation(project(Modules.utils))
+    implementation(project(Modules.core))
     implementation(project(Modules.model))
+    implementation(project(Modules.utils))
 
 
     // AndroidX
