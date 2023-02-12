@@ -16,6 +16,15 @@ fun zipFlow() = flowOne.zip(flowTwo) { firstString, secondString ->
     "$firstString $secondString"
 }
 
+suspend fun combineTest(){
+    var flowOne = (0..10).asFlow()
+    var flowTwo =(-10..0).asFlow()
+    combine(flowOne, flowTwo) {a,b -> a+b}.collect{
+        println(it)
+    }
+
+}
+
 val flow1 = flow {
     var inc = 100
     while (true) {
