@@ -15,7 +15,6 @@ import jt.projects.gbandroidpro.di.NETWORK_SERVICE
 import jt.projects.core.BaseActivity
 import jt.projects.gbandroidpro.presentation.ui.dialogs.SearchDialogFragment
 import jt.projects.gbandroidpro.presentation.ui.history.HistoryActivity
-import jt.projects.gbandroidpro.presentation.viewmodel.MainViewModel
 import jt.projects.utils.BOTTOM_SHEET_FRAGMENT_DIALOG_TAG
 import jt.projects.gbandroidpro.others.Test
 import jt.projects.gbandroidpro.presentation.ui.description.DescriptionActivity

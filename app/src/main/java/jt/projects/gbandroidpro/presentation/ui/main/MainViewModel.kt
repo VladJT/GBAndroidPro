@@ -1,7 +1,6 @@
-package jt.projects.gbandroidpro.presentation.viewmodel
+package jt.projects.gbandroidpro.presentation.ui.main
 
 import android.util.Log
-import jt.projects.gbandroidpro.interactor.MainInteractorImpl
 import jt.projects.model.data.AppState
 import jt.projects.utils.network.INetworkStatus
 import kotlinx.coroutines.*

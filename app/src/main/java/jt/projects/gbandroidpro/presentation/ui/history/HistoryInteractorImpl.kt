@@ -1,4 +1,4 @@
-package jt.projects.gbandroidpro.interactor
+package jt.projects.gbandroidpro.presentation.ui.history
 
 import jt.projects.repository.RepositoryLocal
 import jt.projects.model.data.AppState
