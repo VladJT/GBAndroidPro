@@ -1,4 +1,4 @@
-package jt.projects.gbandroidpro.utils
+package jt.projects.gbandroidpro.others
 //
 //import jt.projects.model.data.AppState
 //import jt.projects.model.data.DataModel

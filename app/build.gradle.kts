@@ -89,7 +89,7 @@ dependencies {
     // implementation(fileTree(dir: 'libs', include: ['*.jar'])
 
     // OTHERS
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    //implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
     // RXJAVA
