@@ -1,4 +1,4 @@
-package jt.projects.gbandroidpro.model.retrofit
+package jt.projects.repository.retrofit
 
 import okhttp3.Interceptor
 import java.io.IOException

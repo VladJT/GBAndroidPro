@@ -1,6 +1,6 @@
-package jt.projects.gbandroidpro.model.repository
+package jt.projects.repository
 
-import jt.projects.gbandroidpro.model.datasource.DataSource
+import jt.projects.repository.datasource.DataSource
 import jt.projects.model.data.DataModel
 import kotlinx.coroutines.flow.Flow
 

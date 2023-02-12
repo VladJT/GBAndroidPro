@@ -1,4 +1,4 @@
-package jt.projects.gbandroidpro.model.datasource
+package jt.projects.repository.datasource
 
 import jt.projects.model.data.AppState
 

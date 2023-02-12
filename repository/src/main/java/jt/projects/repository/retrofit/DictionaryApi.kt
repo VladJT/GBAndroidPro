@@ -1,4 +1,4 @@
-package jt.projects.gbandroidpro.model.retrofit
+package jt.projects.repository.retrofit
 
 import jt.projects.model.data.DataModel
 import kotlinx.coroutines.Deferred

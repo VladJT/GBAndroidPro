@@ -19,7 +19,7 @@ import com.squareup.picasso.Picasso
 import jt.projects.gbandroidpro.R
 import jt.projects.gbandroidpro.databinding.ActivityDescriptionBinding
 import jt.projects.gbandroidpro.di.NETWORK_SERVICE
-import jt.projects.gbandroidpro.utils.toOneString
+import jt.projects.repository.toOneString
 import jt.projects.model.data.DataModel
 import jt.projects.utils.ui.CoilImageLoader
 import jt.projects.utils.ui.showSnackbar

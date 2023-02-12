@@ -1,4 +1,4 @@
-package jt.projects.gbandroidpro.model.repository
+package jt.projects.repository
 
 
 // Репозиторий представляет собой слой получения и хранения данных, которые он передаёт интерактору
