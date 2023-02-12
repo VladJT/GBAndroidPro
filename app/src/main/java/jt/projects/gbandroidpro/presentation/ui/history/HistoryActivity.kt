@@ -10,7 +10,6 @@ import jt.projects.gbandroidpro.databinding.ActivityHistoryBinding
 import jt.projects.core.BaseActivity
 import jt.projects.gbandroidpro.presentation.ui.description.DescriptionActivity
 import jt.projects.gbandroidpro.presentation.ui.dialogs.AlertDialogFragment
-import jt.projects.gbandroidpro.presentation.viewmodel.HistoryViewModel
 import jt.projects.model.data.AppState
 import jt.projects.model.data.DataModel
 import jt.projects.utils.ui.showSnackbar

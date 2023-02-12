@@ -1,6 +1,5 @@
-package jt.projects.gbandroidpro.presentation.viewmodel
+package jt.projects.gbandroidpro.presentation.ui.history
 
-import jt.projects.gbandroidpro.interactor.HistoryInteractorImpl
 import jt.projects.model.data.AppState
 import jt.projects.utils.network.INetworkStatus
 import kotlinx.coroutines.CoroutineScope

@@ -1,4 +1,4 @@
-package jt.projects.gbandroidpro.interactor
+package jt.projects.gbandroidpro.presentation.ui.main
 
 
 import jt.projects.repository.Repository
