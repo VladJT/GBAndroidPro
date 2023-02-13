@@ -1,0 +1,20 @@
+Скоупы можно объявлять так:
+
+module {
+    // Объявляем скоуп
+    scope(named(¨MY_SCOPE¨)) {
+    // Объявляем инстанс, который будет жить столько же, сколько и сам
+    // скоуп
+    scoped { ComponentA() }
+    // Или прибегаем к фабричному способу (создание нового инстанса каждый
+    // раз заново)
+    factory { ComponentB(get()) }
+    }
+}
+
+// Создаём скоуп "MY_SCOPE"
+val myScopeInstance = koin.createScope("myScopeId",named(¨MY_SCOPE¨))
+// Получаем нужный класс у созданного скоупа
+myScopeInstance.get<ComponentB>()
+// Удаляем скоуп со всем содержимым, когда он нам не нужен
+myScopeInstance.close()
