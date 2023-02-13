@@ -9,19 +9,21 @@ import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import jt.projects.core.BaseActivity
 import jt.projects.gbandroidpro.R
 import jt.projects.gbandroidpro.databinding.ActivityMainBinding
 import jt.projects.gbandroidpro.di.NETWORK_SERVICE
-import jt.projects.core.BaseActivity
-import jt.projects.gbandroidpro.presentation.ui.dialogs.SearchDialogFragment
-import jt.projects.gbandroidpro.presentation.ui.history.HistoryActivity
-import jt.projects.utils.BOTTOM_SHEET_FRAGMENT_DIALOG_TAG
 import jt.projects.gbandroidpro.others.Test
 import jt.projects.gbandroidpro.presentation.ui.description.DescriptionActivity
+import jt.projects.gbandroidpro.presentation.ui.dialogs.SearchDialogFragment
+import jt.projects.gbandroidpro.presentation.ui.history.HistoryActivity
 import jt.projects.model.data.AppState
 import jt.projects.model.data.DataModel
+import jt.projects.utils.BOTTOM_SHEET_FRAGMENT_DIALOG_TAG
 import jt.projects.utils.network.INetworkStatus
 import jt.projects.utils.ui.showNoInternetConnectionDialog
+import jt.projects.utils.ui.viewById
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -47,6 +49,7 @@ import org.koin.java.KoinJavaComponent.getKoin
 class MainActivity : BaseActivity<AppState>() {
     // Теперь ViewModel инициализируется через функцию by viewModel()
     // Это функция, предоставляемая Koin из коробки через зависимость
+    //override val model: MainViewModel by viewModel()
     override val model: MainViewModel by viewModel()
 
     private lateinit var binding: ActivityMainBinding
@@ -94,10 +97,13 @@ class MainActivity : BaseActivity<AppState>() {
     }
 
     private fun initRecView() {
-        binding.mainActivityRecyclerview.apply {
-            layoutManager = LinearLayoutManager(applicationContext)
-            adapter = mainAdapter
-        }
+        val mainActivityRecyclerview by viewById<RecyclerView>(viewId = R.id.main_activity_recyclerview)
+        mainActivityRecyclerview?.layoutManager = LinearLayoutManager(applicationContext)
+        mainActivityRecyclerview?.adapter = mainAdapter
+//        binding.mainActivityRecyclerview.apply {
+//            layoutManager = LinearLayoutManager(applicationContext)
+//            adapter = mainAdapter
+//        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

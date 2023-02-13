@@ -60,4 +60,10 @@ dependencies {
     androidTestImplementation(TestImpl.extjunit)
 
     implementation(Retrofit.converter_gson)
+
+    // Koin for Android
+    implementation(Koin.core)
+    implementation(Koin.viewmodel)
+    implementation(Koin.compat)
+    testImplementation(Koin.test)
 }

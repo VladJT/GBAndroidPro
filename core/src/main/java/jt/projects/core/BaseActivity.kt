@@ -4,14 +4,14 @@ import android.graphics.RenderEffect
 import android.graphics.Shader
 import android.os.Build
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import jt.projects.core.databinding.LoadingLayoutBinding
 import jt.projects.model.data.AppState
 import jt.projects.model.data.DataModel
+import org.koin.androidx.scope.ScopeActivity
 
 private const val DIALOG_FRAGMENT_TAG = "74a54328-5d62-46bf-ab6b-cbf5d8c79522"
 
-abstract class BaseActivity<T : AppState> : AppCompatActivity() {
+abstract class BaseActivity<T : AppState> : ScopeActivity() {
 
     val baseBinding: LoadingLayoutBinding by lazy { LoadingLayoutBinding.inflate(layoutInflater) }
 
