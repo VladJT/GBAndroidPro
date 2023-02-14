@@ -5,9 +5,9 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import jt.projects.core.BaseActivity
 import jt.projects.gbandroidpro.R
 import jt.projects.gbandroidpro.databinding.ActivityHistoryBinding
-import jt.projects.core.BaseActivity
 import jt.projects.gbandroidpro.presentation.ui.description.DescriptionActivity
 import jt.projects.gbandroidpro.presentation.ui.dialogs.AlertDialogFragment
 import jt.projects.model.data.AppState

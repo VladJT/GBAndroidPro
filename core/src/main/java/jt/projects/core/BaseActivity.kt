@@ -8,6 +8,7 @@ import android.view.View
 import jt.projects.core.databinding.LoadingLayoutBinding
 import jt.projects.model.data.AppState
 import jt.projects.model.data.DataModel
+import jt.projects.model.data.SearchResultDTO
 import jt.projects.utils.network.OnlineLiveData
 import jt.projects.utils.ui.showNoInternetConnectionDialog
 import org.koin.androidx.scope.ScopeActivity

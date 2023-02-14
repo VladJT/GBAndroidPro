@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import jt.projects.gbandroidpro.databinding.ActivityMainRecyclerviewItemBinding
-import jt.projects.repository.toOneString
 import jt.projects.model.data.DataModel
 
 class MainAdapter(
@@ -40,7 +39,7 @@ class MainAdapter(
                 with(binding) {
                     headerTextviewRecyclerItem.text = data.text
                     descriptionTextviewRecyclerItem.text =
-                        data.meanings?.toOneString()
+                        data.meanings
                     root.setOnClickListener { openInNewWindow(data) }
                 }
 
