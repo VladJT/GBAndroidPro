@@ -14,7 +14,7 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 import jt.projects.utils.NETWORK_STATUS_INTENT_FILTER
 
-class NetworkStatusService(override var isOnline: Boolean = false) : Service(), INetworkStatus {
+class NetworkStatusService() : Service(), INetworkStatus {
     private val statusSubject: BehaviorSubject<Boolean> = BehaviorSubject.create()
 
     override fun onBind(intent: Intent?): IBinder? {
@@ -53,6 +53,6 @@ class NetworkStatusService(override var isOnline: Boolean = false) : Service(), 
         }
     }
 
-    override fun isOnline(): Observable<Boolean> = statusSubject
-    override fun isOnlineSingle(): Single<Boolean> = statusSubject.first(false)
+    override fun isOnlineObservable(): Observable<Boolean> = statusSubject
+    override fun isOnline(): Boolean = statusSubject?.value ?: false
 }

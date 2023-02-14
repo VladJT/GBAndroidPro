@@ -1,5 +1,6 @@
 package jt.projects.gbandroidpro.presentation.ui.history
 
+import jt.projects.core.BaseViewModel
 import jt.projects.model.data.AppState
 import jt.projects.utils.network.INetworkStatus
 import kotlinx.coroutines.CoroutineScope
@@ -11,7 +12,7 @@ class HistoryViewModel(
     private val interactor: HistoryInteractorImpl,
     private val networkStatus: INetworkStatus
 ) :
-    jt.projects.core.BaseViewModel<AppState>() {
+    BaseViewModel<AppState>() {
 
     override fun getData(word: String) {
         liveData.value = AppState.Loading(null)
@@ -20,7 +21,7 @@ class HistoryViewModel(
         viewModelCoroutineScope.launch {
             withContext(Dispatchers.IO) {
                 // val response = interactor.getData(word, networkStatus.isOnline)
-                val response = interactor.getData(word, false)
+                val response = interactor.getAllData()
                 liveData.postValue(response)
             }
         }
