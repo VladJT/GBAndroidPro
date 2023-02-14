@@ -3,20 +3,47 @@ package jt.projects.core
 import android.graphics.RenderEffect
 import android.graphics.Shader
 import android.os.Build
+import android.os.Bundle
 import android.view.View
 import jt.projects.core.databinding.LoadingLayoutBinding
 import jt.projects.model.data.AppState
 import jt.projects.model.data.DataModel
+import jt.projects.utils.network.OnlineLiveData
+import jt.projects.utils.ui.showNoInternetConnectionDialog
 import org.koin.androidx.scope.ScopeActivity
 
 private const val DIALOG_FRAGMENT_TAG = "74a54328-5d62-46bf-ab6b-cbf5d8c79522"
 
 abstract class BaseActivity<T : AppState> : ScopeActivity() {
 
+    protected var isNetworkAvailable: Boolean = true
+
     val baseBinding: LoadingLayoutBinding by lazy { LoadingLayoutBinding.inflate(layoutInflater) }
 
     // В каждой Активити будет своя ViewModel, которая наследуется от BaseViewModel
     abstract val model: BaseViewModel<T>
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        subscribeToNetworkChange()
+
+    }
+
+    private fun subscribeToNetworkChange() {
+        OnlineLiveData(this).observe(this@BaseActivity) {
+            isNetworkAvailable = it
+            if (!isNetworkAvailable) {
+                showNoInternetConnectionDialog()
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (!isNetworkAvailable) {
+            showNoInternetConnectionDialog()
+        }
+    }
 
     protected fun renderData(appState: T) {
         when (appState) {

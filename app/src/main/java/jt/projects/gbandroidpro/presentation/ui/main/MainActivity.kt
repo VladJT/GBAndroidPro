@@ -49,12 +49,9 @@ import org.koin.java.KoinJavaComponent.getKoin
 class MainActivity : BaseActivity<AppState>() {
     // Теперь ViewModel инициализируется через функцию by viewModel()
     // Это функция, предоставляемая Koin из коробки через зависимость
-    //override val model: MainViewModel by viewModel()
     override val model: MainViewModel by viewModel()
 
     private lateinit var binding: ActivityMainBinding
-
-    private val networkStatus: INetworkStatus by inject(named(NETWORK_SERVICE))
 
     private val mainAdapter: MainAdapter by lazy { MainAdapter(::onItemClick) }
 
@@ -87,13 +84,6 @@ class MainActivity : BaseActivity<AppState>() {
         }
 
         test()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (!networkStatus.isOnline) {
-            showNoInternetConnectionDialog()
-        }
     }
 
     private fun initRecView() {

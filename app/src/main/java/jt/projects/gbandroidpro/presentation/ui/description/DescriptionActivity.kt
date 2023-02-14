@@ -70,7 +70,7 @@ class DescriptionActivity : AppCompatActivity() {
             if (soundUrl.isNullOrEmpty()) {
                 showSnackbar("Нет ссылки для прослушивания")
             } else
-                if (!getKoin().get<INetworkStatus>(named(NETWORK_SERVICE)).isOnline) {
+                if (!getKoin().get<INetworkStatus>(named(NETWORK_SERVICE)).isOnline()) {
                     showNoInternetConnectionDialog()
                 } else {
                     val mp = MediaPlayer()
@@ -121,7 +121,7 @@ class DescriptionActivity : AppCompatActivity() {
 
 
     private fun startLoadingOrShowError() {
-        if (getKoin().get<INetworkStatus>(named(NETWORK_SERVICE)).isOnline) {
+        if (getKoin().get<INetworkStatus>(named(NETWORK_SERVICE)).isOnline()) {
             setData()
         } else {
             showSnackbar(getString(R.string.dialog_message_device_is_offline))

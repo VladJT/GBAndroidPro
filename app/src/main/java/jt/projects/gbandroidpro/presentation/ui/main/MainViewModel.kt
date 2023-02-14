@@ -1,6 +1,7 @@
 package jt.projects.gbandroidpro.presentation.ui.main
 
 import android.util.Log
+import jt.projects.core.BaseViewModel
 import jt.projects.model.data.AppState
 import jt.projects.utils.network.INetworkStatus
 import kotlinx.coroutines.*
@@ -10,7 +11,7 @@ class MainViewModel(
     private val interactor: MainInteractorImpl,
     private val networkStatus: INetworkStatus
 ) :
-    jt.projects.core.BaseViewModel<AppState>() {
+    BaseViewModel<AppState>() {
 
     private val queryStateFlow = MutableStateFlow("")
 
@@ -44,7 +45,7 @@ class MainViewModel(
         cancelJob()
         viewModelCoroutineScope.launch {
             withContext(Dispatchers.IO) {
-                val response = interactor.getData(word, networkStatus.isOnline)
+                val response = interactor.getData(word, networkStatus.isOnline())
                 liveData.postValue(response)
             }
         }

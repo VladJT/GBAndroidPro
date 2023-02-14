@@ -5,9 +5,7 @@ import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkRequest
 import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.subjects.BehaviorSubject
-import jt.projects.utils.network.INetworkStatus
 import org.koin.core.component.KoinComponent
 
 /**
@@ -15,20 +13,14 @@ import org.koin.core.component.KoinComponent
 имеющих своего жизненного цикла. В Activity, сервисе или фрагменте он не нужен, а вот в других
 классах для получения зависимостей его нужно имплементировать. После этого вы получаете в своём
 приложении доступ к таким функциям, как get, inject, getKoin, viewModel и т. д.
-
  */
 class NetworkStatus(context: Context) : INetworkStatus, KoinComponent {
-
-    override var isOnline: Boolean = false
 
     private val statusSubject: BehaviorSubject<Boolean> = BehaviorSubject.create()
 
     init {
-        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-         //   getKoin().get<App>().applicationContext
-         //       .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
-
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         statusSubject.onNext(false)
         val request = NetworkRequest.Builder().build()
         connectivityManager.registerNetworkCallback(request,
@@ -37,12 +29,8 @@ class NetworkStatus(context: Context) : INetworkStatus, KoinComponent {
                 override fun onUnavailable() = statusSubject.onNext(false)
                 override fun onLost(network: Network) = statusSubject.onNext(false)
             })
-
-        statusSubject.subscribe() { status ->
-            isOnline = status
-        }
     }
 
-    override fun isOnline(): Observable<Boolean> = statusSubject
-    override fun isOnlineSingle(): Single<Boolean> = statusSubject.first(false)
+    override fun isOnlineObservable(): Observable<Boolean> = statusSubject
+    override fun isOnline(): Boolean = statusSubject?.value ?: false
 }
