@@ -9,8 +9,13 @@
         android:id="@+id/progress_bar_horizontal"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!--com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/progress_bar_horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center" />
+        android:paddingHorizontal="20dp" /-->
 
     <ProgressBar
         android:id="@+id/progress_bar_round"

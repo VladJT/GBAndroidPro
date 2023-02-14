@@ -41,12 +41,17 @@ class MainViewModel(
     }
 
     private fun loadData(word: String) {
-        liveData.value = AppState.Loading(null)
+        liveData.value = AppState.Loading(0)
         cancelJob()
         viewModelCoroutineScope.launch {
             withContext(Dispatchers.IO) {
                 val response = interactor.getData(word, networkStatus.isOnline())
+                (1..100).forEach {
+                    delay(10)
+               //     liveData.postValue(AppState.Loading(it))
+                }
                 liveData.postValue(response)
+                liveData.postValue(AppState.Loading(50))
             }
         }
     }
