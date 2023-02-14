@@ -5,10 +5,11 @@ import android.graphics.Shader
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import jt.projects.core.databinding.LoadingLayoutBinding
 import jt.projects.model.data.AppState
 import jt.projects.model.data.DataModel
-import jt.projects.model.data.SearchResultDTO
 import jt.projects.utils.network.OnlineLiveData
 import jt.projects.utils.ui.showNoInternetConnectionDialog
 import org.koin.androidx.scope.ScopeActivity
@@ -27,7 +28,6 @@ abstract class BaseActivity<T : AppState> : ScopeActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         subscribeToNetworkChange()
-
     }
 
     private fun subscribeToNetworkChange() {
@@ -36,11 +36,11 @@ abstract class BaseActivity<T : AppState> : ScopeActivity() {
             if (!isNetworkAvailable) {
                 showNoInternetConnectionDialog()
                 supportActionBar?.apply {
-                    title =  applicationInfo.loadLabel(packageManager).toString()
+                    title = applicationInfo.loadLabel(packageManager).toString()
                 }
-            }else{
+            } else {
                 supportActionBar?.apply {
-                    title = title.toString()+" ⚡"
+                    title = title.toString() + " ⚡"
                 }
             }
         }
@@ -51,6 +51,8 @@ abstract class BaseActivity<T : AppState> : ScopeActivity() {
         if (!isNetworkAvailable) {
             showNoInternetConnectionDialog()
         }
+        showViewLoading()
+        baseBinding.progressBarHorizontal.progress = 50
     }
 
     protected fun renderData(appState: T) {
@@ -67,14 +69,14 @@ abstract class BaseActivity<T : AppState> : ScopeActivity() {
             }
             is AppState.Loading -> {
                 showViewLoading()
-//                if (appState.progress != null) {
-//                    binding.progressBarHorizontal.visibility = VISIBLE
-//                    binding.progressBarRound.visibility = GONE
-//                    binding.progressBarHorizontal.progress = appState.progress
-//                } else {
-//                    binding.progressBarHorizontal.visibility = GONE
-//                    binding.progressBarRound.visibility = VISIBLE
-//                }
+                if (appState.progress != null) {
+                    baseBinding.progressBarHorizontal.visibility = VISIBLE
+                    baseBinding.progressBarRound.visibility = GONE
+                    baseBinding.progressBarHorizontal.progress = appState.progress!!
+                } else {
+                    baseBinding.progressBarHorizontal.visibility = GONE
+                    baseBinding.progressBarRound.visibility = VISIBLE
+                }
             }
             is AppState.Error -> {
                 showViewError(appState.error.message)
