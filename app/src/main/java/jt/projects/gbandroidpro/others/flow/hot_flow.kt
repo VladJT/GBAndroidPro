@@ -38,7 +38,6 @@ suspend fun main() {
 }
 
 
-
 suspend fun hotFlowExample() {
     var producer: ReceiveChannel<Int>
     CoroutineScope(Dispatchers.IO).launch {

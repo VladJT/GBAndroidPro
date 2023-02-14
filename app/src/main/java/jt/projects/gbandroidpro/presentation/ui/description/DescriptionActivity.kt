@@ -19,12 +19,11 @@ import com.squareup.picasso.Picasso
 import jt.projects.gbandroidpro.R
 import jt.projects.gbandroidpro.databinding.ActivityDescriptionBinding
 import jt.projects.gbandroidpro.di.NETWORK_SERVICE
-import jt.projects.repository.toOneString
 import jt.projects.model.data.DataModel
-import jt.projects.utils.ui.CoilImageLoader
-import jt.projects.utils.ui.showSnackbar
 import jt.projects.utils.network.INetworkStatus
+import jt.projects.utils.ui.CoilImageLoader
 import jt.projects.utils.ui.showNoInternetConnectionDialog
+import jt.projects.utils.ui.showSnackbar
 import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.android.inject
 import org.koin.core.qualifier.named
@@ -66,7 +65,7 @@ class DescriptionActivity : AppCompatActivity() {
 
     fun initButtonSound() {
         binding.buttonSound.setOnClickListener {
-            val soundUrl = extractData()?.meanings?.get(0)?.soundUrl
+            val soundUrl = extractData()?.soundUrl
             if (soundUrl.isNullOrEmpty()) {
                 showSnackbar("Нет ссылки для прослушивания")
             } else
@@ -107,9 +106,9 @@ class DescriptionActivity : AppCompatActivity() {
     private fun setData() {
         val data = extractData()
         binding.descriptionHeader.text = data?.text
-        binding.transcription.text = data?.meanings?.get(0)?.transcription
-        binding.descriptionTextview.text = data?.meanings?.toOneString()
-        val imageLink = data?.meanings?.get(0)?.imageUrl
+        binding.transcription.text = data?.transcription
+        binding.descriptionTextview.text = data?.meanings
+        val imageLink = data?.imageUrl
         if (imageLink.isNullOrBlank()) {
             stopRefreshAnimationIfNeeded()
         } else {

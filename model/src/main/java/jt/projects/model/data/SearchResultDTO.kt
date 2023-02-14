@@ -4,8 +4,9 @@ import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
-@Parcelize
-class Translation(
+class SearchResultDTO(
     @field:SerializedName("text")
-    val translation: String?
-) : Parcelable
+    val text: String?,
+    @field:SerializedName("meanings")
+    val meanings: List<MeaningsDTO>?
+)

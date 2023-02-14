@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import jt.projects.gbandroidpro.R
-import jt.projects.repository.toOneString
 import jt.projects.model.data.DataModel
 
 class HistoryAdapter(
@@ -48,7 +47,7 @@ class HistoryAdapter(
                     findViewById<TextView>(R.id.header_history_textview_recycler_item).text =
                         data.text
                     findViewById<TextView>(R.id.description_history_textview_recycler_item).text =
-                        data.meanings.toOneString().split(",")[0]
+                        data.meanings
                     setOnClickListener {
                         openInNewWindow(data)
                     }

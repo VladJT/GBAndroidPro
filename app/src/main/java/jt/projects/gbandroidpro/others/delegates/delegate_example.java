@@ -1,9 +1,14 @@
 package jt.projects.gbandroidpro.others.delegates;
 
 
-import static java.sql.DriverManager.println;
-
 public class delegate_example {
+    public void main(String[] args) {
+        Showable view = new View();
+        Showable customView = new CustomView();
+        new Screen(view).show(); // View.show()
+        new Screen(customView).show(); // CustomView.show()
+    }
+
     /**
      * Условно делегирование можно разделить на:
      * ● явное, которое можно имплементировать в любом объектно-ориентированном языке;
@@ -13,6 +18,7 @@ public class delegate_example {
     interface Showable {
         void show();
     }
+
     class View implements Showable {
         @Override
         public void show() {
@@ -29,19 +35,14 @@ public class delegate_example {
 
     class Screen implements Showable {
         private Showable showable;
+
         Screen(Showable showable) {
             this.showable = showable;
         }
+
         @Override
         public void show() {
             showable.show();
         }
-    }
-
-    public void main(String[] args) {
-        Showable view = new View();
-        Showable customView = new CustomView();
-        new Screen(view).show(); // View.show()
-        new Screen(customView).show(); // CustomView.show()
     }
 }

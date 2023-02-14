@@ -2,7 +2,7 @@ package jt.projects.repository.retrofit
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import jt.projects.repository.datasource.DataSource
-import jt.projects.model.data.DataModel
+import jt.projects.model.data.SearchResultDTO
 import jt.projects.utils.BASE_URL_LOCATIONS
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
@@ -13,10 +13,10 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class RetrofitImpl : DataSource<Flow<DataModel>> {
+class RetrofitImpl : DataSource<Flow<SearchResultDTO>> {
 
     // Добавляем suspend и .await()
-    override suspend fun getData(word: String): Flow<DataModel> {
+    override suspend fun getData(word: String): Flow<SearchResultDTO> {
         val response = getService(BaseInterceptor.interceptor).searchAsync(word).await()
         return response
             .asFlow()
