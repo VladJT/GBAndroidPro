@@ -1,12 +1,11 @@
 package jt.projects.repository
 
-import jt.projects.model.data.AppState
+import jt.projects.model.data.DataModel
 
 
 // Репозиторий представляет собой слой получения и хранения данных, которые он передаёт интерактору
 interface RepositoryLocal<T> : Repository<T> {
-
-    suspend fun getAllData(): T
-    suspend fun saveToDb(appState: AppState)
-    suspend fun deleteAll()
+    suspend fun getAllDataInLocalRepo(): T
+    suspend fun saveData(data: DataModel)
+    suspend fun clearLocalRepo()
 }
