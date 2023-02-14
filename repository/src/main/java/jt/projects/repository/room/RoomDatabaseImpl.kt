@@ -24,10 +24,9 @@ class RoomDatabaseImpl(private val historyDao: HistoryDao) : DataSourceLocal<Flo
         // Метод mapHistoryEntityToSearchResult описан во вспомогательном
         // классе SearchResultParser, в котором есть и другие методы для
         // трансформации данных
-        return flowOf(historyDao.getDataByWord(word).toDataModel())
-            .onEmpty {
-                throw Throwable("Перевод в локальном хранилище не найден")
-            }
+        val rez = historyDao.getDataByWord(word)?.toDataModel()
+        if(rez==null) throw Throwable("Перевод в локальном хранилище не найден")
+        else return flowOf(rez)
     }
 
     override suspend fun getAllData(): Flow<DataModel> {
