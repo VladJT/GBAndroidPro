@@ -1,7 +1,10 @@
 package jt.projects.repository
 
 
-import jt.projects.model.data.*
+import jt.projects.model.data.AppState
+import jt.projects.model.data.DataModel
+import jt.projects.model.data.MeaningsDTO
+import jt.projects.model.data.SearchResultDTO
 import jt.projects.repository.room.HistoryEntity
 
 fun List<MeaningsDTO>?.toOneString(): String {
@@ -12,22 +15,11 @@ fun List<MeaningsDTO>?.toOneString(): String {
     return sb.dropLast(2).toString()
 }
 
-// Принимаем на вход список слов в виде таблицы из БД и переводим его в List<SearchResult>
-//fun mapHistoryEntityToDataModel(data: List<HistoryEntity>): List<DataModel> {
-//    val dataModel = ArrayList<DataModel>()
-//    if (data.isNotEmpty()) {
-//        for (entity in data) {
-//            dataModel.add(entity.toDataModel())
-//        }
-//    }
-//    return dataModel
-//}
-
-fun mapHistoryEntityToSearchResultDTO(data: List<HistoryEntity>): List<SearchResultDTO> {
-    val dataModel = ArrayList<SearchResultDTO>()
+fun mapHistoryEntityToDataModel(data: List<HistoryEntity>): List<DataModel> {
+    val dataModel = ArrayList<DataModel>()
     if (data.isNotEmpty()) {
         for (entity in data) {
-            dataModel.add(entity.toSearchResultDTO())
+            dataModel.add(entity.toDataModel())
         }
     }
     return dataModel
@@ -53,40 +45,37 @@ fun SearchResultDTO.toDataModel(): DataModel {
     )
 }
 
-//fun HistoryEntity.toDataModel(): DataModel {
-//    return DataModel(
-//        text = this.word,
-//        meanings = this.description ?: "",
-//        imageUrl = this.imageUrl ?: "",
-//        soundUrl = this.soundUrl ?: "",
-//        transcription = this.transcription ?: ""
-//    )
-//}
-
-fun HistoryEntity.toSearchResultDTO(): SearchResultDTO {
-    return SearchResultDTO(
+fun HistoryEntity.toDataModel(): DataModel {
+    return DataModel(
         text = this.word,
-        meanings = listOf(
-            MeaningsDTO(
-                translation = TranslationDTO(this.description),
-                imageUrl = this.imageUrl,
-                soundUrl = this.soundUrl,
-                transcription = this.transcription
-            )
-        )
+        meanings = this.description ?: "",
+        imageUrl = this.imageUrl ?: "",
+        soundUrl = this.soundUrl ?: "",
+        transcription = this.transcription ?: ""
     )
 }
 
-fun AppState.toHistoryEntity(): HistoryEntity? {
+fun DataModel.toHistoryEntity(): HistoryEntity {
+    return HistoryEntity(
+        word = this.text,
+        description = this.meanings,
+        imageUrl = this.imageUrl,
+        soundUrl = this.soundUrl,
+        transcription = this.transcription,
+        comment = null
+    )
+}
+
+fun AppState.toDataModel(): DataModel? {
     return when (this) {
         is AppState.Success -> {
             val data = this.data?.get(0)
             if (data == null || data.text.isEmpty()) {
                 null
             } else {
-                HistoryEntity(
-                    word = data.text,
-                    description = data.meanings,
+                DataModel(
+                    text = data.text,
+                    meanings = data.meanings,
                     imageUrl = data.imageUrl,
                     soundUrl = data.soundUrl,
                     transcription = data.transcription

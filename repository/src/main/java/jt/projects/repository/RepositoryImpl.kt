@@ -7,5 +7,5 @@ import kotlinx.coroutines.flow.Flow
 class RepositoryImpl(private val dataSource: DataSource<Flow<SearchResultDTO>>) :
     Repository<Flow<SearchResultDTO>> {
 
-    override suspend fun getData(word: String): Flow<SearchResultDTO> = dataSource.getData(word)
+    override suspend fun getTranslationByWord(word: String): Flow<SearchResultDTO> = dataSource.getData(word)
 }
