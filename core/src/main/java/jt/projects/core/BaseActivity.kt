@@ -34,6 +34,13 @@ abstract class BaseActivity<T : AppState> : ScopeActivity() {
             isNetworkAvailable = it
             if (!isNetworkAvailable) {
                 showNoInternetConnectionDialog()
+                supportActionBar?.apply {
+                    title =  applicationInfo.loadLabel(packageManager).toString()
+                }
+            }else{
+                supportActionBar?.apply {
+                    title = title.toString()+" ⚡"
+                }
             }
         }
     }
