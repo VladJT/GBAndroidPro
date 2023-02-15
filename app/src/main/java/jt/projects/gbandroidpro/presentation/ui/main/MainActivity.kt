@@ -49,6 +49,11 @@ class MainActivity : BaseActivity<AppState>() {
     private val mainAdapter: MainAdapter by lazy { MainAdapter(::onItemClick) }
 
 
+    override fun onLoadingProgressChange(value: Int) {
+        super.onLoadingProgressChange(value)
+        binding.progressBarHorizontal.progress = value
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //        val session =
@@ -127,21 +132,24 @@ class MainActivity : BaseActivity<AppState>() {
 
 
     override fun showViewSuccess() {
+        //super.showViewSuccess()
         binding.loadingFrameLayout.visibility = View.GONE
         binding.errorLinearLayout.visibility = View.GONE
     }
 
     override fun showViewLoading() {
+        //super.showViewLoading()
         binding.loadingFrameLayout.visibility = View.VISIBLE
         binding.errorLinearLayout.visibility = View.GONE
     }
 
     override fun showViewError(error: String?) {
+        // super.showViewError(null)
+        binding.loadingFrameLayout.visibility = View.GONE
         binding.errorTextview.text = error ?: getString(R.string.undefined_error)
         binding.reloadButton.setOnClickListener {
             binding.searchEditText.setText("test")
         }
-        binding.loadingFrameLayout.visibility = View.GONE
         binding.errorLinearLayout.visibility = View.VISIBLE
     }
 

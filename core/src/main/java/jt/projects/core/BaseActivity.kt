@@ -5,8 +5,6 @@ import android.graphics.Shader
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import jt.projects.core.databinding.LoadingLayoutBinding
 import jt.projects.model.data.AppState
 import jt.projects.model.data.DataModel
@@ -51,8 +49,6 @@ abstract class BaseActivity<T : AppState> : ScopeActivity() {
         if (!isNetworkAvailable) {
             showNoInternetConnectionDialog()
         }
-        showViewLoading()
-        baseBinding.progressBarHorizontal.progress = 50
     }
 
     protected fun renderData(appState: T) {
@@ -69,14 +65,7 @@ abstract class BaseActivity<T : AppState> : ScopeActivity() {
             }
             is AppState.Loading -> {
                 showViewLoading()
-                if (appState.progress != null) {
-                    baseBinding.progressBarHorizontal.visibility = VISIBLE
-                    baseBinding.progressBarRound.visibility = GONE
-                    baseBinding.progressBarHorizontal.progress = appState.progress!!
-                } else {
-                    baseBinding.progressBarHorizontal.visibility = GONE
-                    baseBinding.progressBarRound.visibility = VISIBLE
-                }
+                appState.progress?.let { onLoadingProgressChange(it) }
             }
             is AppState.Error -> {
                 showViewError(appState.error.message)
@@ -84,16 +73,20 @@ abstract class BaseActivity<T : AppState> : ScopeActivity() {
         }
     }
 
+    open fun onLoadingProgressChange(value: Int) {
+        baseBinding.progressBarHorizontal.progress = value
+    }
+
     open fun showViewSuccess() {
-        baseBinding.loadingFrameLayout.visibility = View.GONE
+        //    baseBinding.loadingFrameLayout.visibility = View.GONE
     }
 
     open fun showViewLoading() {
-        baseBinding.loadingFrameLayout.visibility = View.VISIBLE
+        //    baseBinding.loadingFrameLayout.visibility = View.VISIBLE
     }
 
     open fun showViewError(error: String?) {
-        baseBinding.loadingFrameLayout.visibility = View.GONE
+        //   baseBinding.loadingFrameLayout.visibility = View.GONE
     }
 
     fun setBlur(view: View, isBlur: Boolean) {

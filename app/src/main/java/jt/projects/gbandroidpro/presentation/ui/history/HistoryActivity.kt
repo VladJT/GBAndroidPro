@@ -3,6 +3,7 @@ package jt.projects.gbandroidpro.presentation.ui.history
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import jt.projects.core.BaseActivity
@@ -99,4 +100,16 @@ class HistoryActivity : BaseActivity<AppState>() {
 
     // Вызовется из базовой Activity, когда данные будут готовы
     override fun setDataToAdapter(data: List<DataModel>) = historyAdapter.setData(data)
+
+    override fun showViewSuccess() {
+        binding.loadingFrameLayout.visibility = View.GONE
+    }
+
+    override fun showViewLoading() {
+        binding.loadingFrameLayout.visibility = View.VISIBLE
+    }
+
+    override fun showViewError(error: String?) {
+        binding.loadingFrameLayout.visibility = View.GONE
+    }
 }
