@@ -9,10 +9,7 @@ import jt.projects.repository.Repository
 import jt.projects.repository.RepositoryLocal
 import jt.projects.repository.mapSearchResultToDataModel
 import jt.projects.repository.toDataModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.onCompletion
-import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.flow.*
 
 
 // Снабжаем интерактор репозиторием для получения локальных или внешних данных
@@ -32,15 +29,17 @@ class MainInteractorImpl(
                     appState = AppState.Error(it)
                 }
                 .onCompletion {
-                //    appState = AppState.Error(Throwable("Поток закрылся"))
+                    if(result.size>0) {
+                        appState = AppState.Success(mapSearchResultToDataModel(result))
+                        appState.toDataModel()?.let { repositoryLocal.saveData(it) }
+                    }else{
+                        appState = AppState.Error(Throwable("Перевод не найден"))
+                    }
                 }
                 .collect {
                     result.add(it)
                 }
-            if(result.size>0) {
-                appState = AppState.Success(mapSearchResultToDataModel(result))
-                appState.toDataModel()?.let { repositoryLocal.saveData(it) }
-            }
+
         } else {
             appState =
                 AppState.Success(repositoryLocal.getTranslationByWord(word).toList())

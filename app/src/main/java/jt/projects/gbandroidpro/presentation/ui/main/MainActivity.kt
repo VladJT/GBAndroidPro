@@ -41,9 +41,11 @@ import org.koin.java.KoinJavaComponent.getKoin
 очень много проектов. Их легко поддерживать, расширять и тестировать.
  */
 class MainActivity : BaseActivity<AppState>() {
-    // Теперь ViewModel инициализируется через функцию by viewModel()
-    // Это функция, предоставляемая Koin из коробки через зависимость
-    override val model: MainViewModel by viewModel()
+
+    // override val model: MainViewModel by scope.inject() // привязана к жизненному циклу Activity
+    override val model: MainViewModel by viewModel() // НЕ привязана к жизненному циклу Activity
+
+    private val testScope by lazy { getKoin().createScope("", named("test_scope")) }
 
     private lateinit var binding: ActivityMainBinding
 
@@ -97,9 +99,7 @@ class MainActivity : BaseActivity<AppState>() {
         }
     }
 
-    val testScope by lazy {getKoin().createScope("", named("test_scope"))}
     private fun test() {
-     //   val test_scope = getKoin().createScope("", named("test_scope"))
         val t = testScope.get<Test> { parametersOf("Hello, world") }
         Toast.makeText(this, t.show(), Toast.LENGTH_SHORT).show()
     }
