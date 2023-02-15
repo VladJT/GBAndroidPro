@@ -18,11 +18,7 @@ class RetrofitImpl : DataSource<Flow<SearchResultDTO>> {
     // Добавляем suspend и .await()
     override suspend fun getData(word: String): Flow<SearchResultDTO> {
         val response = getService(BaseInterceptor.interceptor).searchAsync(word).await()
-        return response
-            .asFlow()
-            .onEmpty {
-                throw Throwable("Перевод не найден")
-            }
+        return response.asFlow()
     }
 
     private fun getService(interceptor: Interceptor): DictionaryApi {
