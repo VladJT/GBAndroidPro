@@ -23,6 +23,7 @@ import jt.projects.utils.BOTTOM_SHEET_FRAGMENT_DIALOG_TAG
 import jt.projects.utils.ui.viewById
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
+import org.koin.core.qualifier.named
 import org.koin.java.KoinJavaComponent.getKoin
 
 
@@ -66,8 +67,6 @@ class MainActivity : BaseActivity<AppState>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //        val session =
-//            getKoin().createScope("main_activity_scope_ID", named("main_activity_scope_ID"))
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -111,8 +110,10 @@ class MainActivity : BaseActivity<AppState>() {
         }
     }
 
+    val testScope by lazy {getKoin().createScope("", named("test_scope"))}
     private fun test() {
-        val t = getKoin().get<Test> { parametersOf("Hello, world") }
+     //   val test_scope = getKoin().createScope("", named("test_scope"))
+        val t = testScope.get<Test> { parametersOf("Hello, world") }
         Toast.makeText(this, t.show(), Toast.LENGTH_SHORT).show()
     }
 
@@ -167,4 +168,9 @@ class MainActivity : BaseActivity<AppState>() {
     }
 
     override fun setDataToAdapter(data: List<DataModel>) = mainAdapter.setData(data)
+
+    override fun onDestroy() {
+        testScope.close()// если не закрыть, будет выбрасываться исключение при пересоздании Activity
+        super.onDestroy()
+    }
 }

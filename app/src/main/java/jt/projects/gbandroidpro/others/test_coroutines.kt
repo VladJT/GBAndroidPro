@@ -8,7 +8,7 @@ import java.util.concurrent.atomic.AtomicInteger
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class Test(val s: String) {
+class Test(private val s: String) {
     fun show(): String {
         return "From Test show: $s"
     }
