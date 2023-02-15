@@ -1,6 +1,7 @@
 package jt.projects.gbandroidpro.presentation.ui.main
 
 
+import jt.projects.core.Interactor
 import jt.projects.model.data.AppState
 import jt.projects.model.data.DataModel
 import jt.projects.model.data.SearchResultDTO
@@ -18,10 +19,11 @@ import kotlinx.coroutines.flow.toList
 class MainInteractorImpl(
     private val repositoryRemote: Repository<Flow<SearchResultDTO>>,
     private val repositoryLocal: RepositoryLocal<Flow<DataModel>>
-) : jt.projects.core.Interactor<AppState> {
+) : Interactor<AppState> {
 
     override suspend fun getData(word: String, fromRemoteSource: Boolean): AppState {
-        var appState: AppState
+        var appState: AppState = AppState.Error(Throwable("some error in MainInteractorImpl"))//deafult
+
         if (fromRemoteSource) {
             val result = mutableListOf<SearchResultDTO>()
 
@@ -30,13 +32,15 @@ class MainInteractorImpl(
                     appState = AppState.Error(it)
                 }
                 .onCompletion {
-                    appState = AppState.Error(Throwable("Поток закрылся"))
+                //    appState = AppState.Error(Throwable("Поток закрылся"))
                 }
                 .collect {
                     result.add(it)
                 }
-            appState = AppState.Success(mapSearchResultToDataModel(result))
-            appState.toDataModel()?.let { repositoryLocal.saveData(it) }
+            if(result.size>0) {
+                appState = AppState.Success(mapSearchResultToDataModel(result))
+                appState.toDataModel()?.let { repositoryLocal.saveData(it) }
+            }
         } else {
             appState =
                 AppState.Success(repositoryLocal.getTranslationByWord(word).toList())

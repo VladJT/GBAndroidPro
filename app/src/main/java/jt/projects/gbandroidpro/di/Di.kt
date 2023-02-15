@@ -36,7 +36,11 @@ import org.koin.dsl.module
 
 // зависимости, используемые во всём приложении
 val application = module {
-    factory<Test> { (data: String) -> Test(data) }
+
+    // именованный scope
+    scope(named("test_scope")) {
+        scoped<Test> { (data: String) -> Test(data) }
+    }
 
     single<App> { androidApplication().applicationContext as App }
 
@@ -76,7 +80,7 @@ val roomModule = module {
 
 //зависимости конкретного экрана
 val mainScreen = module {
-    scope(named<MainActivity>()) {
+    scope<MainActivity> {
         scoped {
             MainInteractorImpl(
                 get<RepositoryImpl>(),
