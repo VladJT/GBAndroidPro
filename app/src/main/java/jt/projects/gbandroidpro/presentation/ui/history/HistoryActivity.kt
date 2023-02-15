@@ -43,7 +43,10 @@ class HistoryActivity : BaseActivity<AppState>() {
         iniViewModel()
         initViews()
 
-        model.getData("")
+        // !! НЕ загружаем данные после поворота экрана
+        if(savedInstanceState==null) {
+            model.getData("")
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
