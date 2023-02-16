@@ -44,7 +44,7 @@ class HistoryActivity : BaseActivity<AppState>() {
         initViews()
 
         // !! НЕ загружаем данные после поворота экрана
-        if(savedInstanceState==null) {
+        if (savedInstanceState == null) {
             model.getData("")
         }
     }

@@ -44,7 +44,7 @@ class MyLazy(i: () -> List<Int>) {
         }
     }
 
-    operator fun getValue(thisRef: Nothing?, property: KProperty<*>): Any{
+    operator fun getValue(thisRef: Nothing?, property: KProperty<*>): Any {
         return "[$thisRef] ${property.name}, result SUM = $value"
     }
 
