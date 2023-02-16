@@ -1,24 +1,29 @@
 package jt.projects.repository.retrofit
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import jt.projects.model.data.DataModel
 import jt.projects.repository.datasource.DataSource
-import jt.projects.model.data.SearchResultDTO
+import jt.projects.repository.toDataModel
 import jt.projects.utils.BASE_URL_LOCATIONS
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.onEmpty
+import kotlinx.coroutines.flow.map
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class RetrofitImpl : DataSource<Flow<SearchResultDTO>> {
+class RetrofitImpl : DataSource<Flow<DataModel>> {
 
     // Добавляем suspend и .await()
-    override suspend fun getData(word: String): Flow<SearchResultDTO> {
+    override suspend fun getDataByWord(word: String): Flow<DataModel> {
         val response = getService(BaseInterceptor.interceptor).searchAsync(word).await()
-        return response.asFlow()
+        return response
+            .asFlow()
+            .map {
+                it.toDataModel()
+            }
     }
 
     private fun getService(interceptor: Interceptor): DictionaryApi {
