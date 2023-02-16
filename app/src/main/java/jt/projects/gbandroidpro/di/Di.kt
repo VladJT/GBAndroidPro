@@ -1,5 +1,6 @@
 package jt.projects.gbandroidpro.di
 
+import android.content.Context
 import androidx.room.Room
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
@@ -17,6 +18,9 @@ import jt.projects.repository.retrofit.RetrofitImpl
 import jt.projects.repository.room.HistoryDao
 import jt.projects.repository.room.HistoryDatabase
 import jt.projects.repository.room.RoomDatabaseImpl
+import jt.projects.utils.SP_DB_KEY
+import jt.projects.utils.SP_DB_NAME
+import jt.projects.utils.SharedPref
 import jt.projects.utils.network.INetworkStatus
 import jt.projects.utils.network.NetworkStatus
 import jt.projects.utils.ui.CoilImageLoader
@@ -36,7 +40,6 @@ import org.koin.dsl.module
 
 // зависимости, используемые во всём приложении
 val application = module {
-
     // именованный scope
     scope(named("test_scope")) {
         scoped<Test> { (data: String) -> Test(data) }
@@ -44,13 +47,22 @@ val application = module {
 
     single<App> { androidApplication().applicationContext as App }
 
-    single<RepositoryImpl> { RepositoryImpl(RetrofitImpl()) }
+    single { RepositoryImpl(RetrofitImpl()) }
 
-    single<RepositoryLocalImpl> { RepositoryLocalImpl(RoomDatabaseImpl(get<HistoryDao>())) }
+    single { RepositoryLocalImpl(RoomDatabaseImpl(get<HistoryDao>())) }
 
     single<INetworkStatus>(qualifier = named(NETWORK_SERVICE)) { NetworkStatus(get()) }
 
     single { CoilImageLoader() }
+
+    single {
+        SharedPref(
+            get<App>().getSharedPreferences(
+                SP_DB_NAME,
+                Context.MODE_PRIVATE
+            ), SP_DB_KEY
+        )
+    }
 }
 
 
