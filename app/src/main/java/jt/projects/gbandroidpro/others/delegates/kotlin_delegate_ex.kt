@@ -21,16 +21,34 @@ class LongDistanceRunner : Runnable {
 class Person(name: Nameable, runner: Runnable) : Nameable by name, Runnable by runner
 
 fun main() {
-    val p = Person(JackName(), LongDistanceRunner())
-    println(p.name)
-    p.run()
+//    val p = Person(JackName(), LongDistanceRunner())
+//    println(p.name)
+//    p.run()
+//
+//    val ex = DelegatedPropEx()
+//    ex.name = "John"
+//    ex.surname = "Taler"
+//    println(ex.surname)
 
-    val ex = DelegatedPropEx()
-    ex.name = "John"
-    ex.surname = "Taler"
-    println(ex.surname)
+    val l = listOf<Int>(1, 2, 3, 4)
+    val sum by MyLazy { l }
+    println("!! $sum")
 }
 
+class MyLazy(i: () -> List<Int>) {
+    private var value = 0
+
+    init {
+        i.invoke().forEach {
+            value += it
+        }
+    }
+
+    operator fun getValue(thisRef: Nothing?, property: KProperty<*>): Any{
+        return "[$thisRef] ${property.name}, result SUM = $value"
+    }
+
+}
 
 /**
  * Иногда геттеры и сеттеры содержат одинаковый код.
@@ -49,7 +67,6 @@ class DelegatedPropEx {
 }
 
 class Delegate {
-
     operator fun getValue(delegatedPropEx: DelegatedPropEx, property: KProperty<*>): Any {
         return "$delegatedPropEx, thank you for delegating '${property.name}' to me!"
     }
