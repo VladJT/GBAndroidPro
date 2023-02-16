@@ -47,7 +47,7 @@ class MainViewModel(
             withContext(Dispatchers.IO) {
                 val response = interactor.getData(word, networkStatus.isOnline())
                 (1..10).forEach {
-                    liveData.postValue(AppState.Loading(it*10))
+                    liveData.postValue(AppState.Loading(it * 10))
                     delay(20)
                 }
                 liveData.postValue(response)

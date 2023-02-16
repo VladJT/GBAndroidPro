@@ -87,7 +87,7 @@ class MainActivity : BaseActivity<AppState>() {
             model.getData(text.toString())
         }
 
-        test()
+        //test()
         binding.searchEditText.setText(getWordFromSharedPref())
     }
 

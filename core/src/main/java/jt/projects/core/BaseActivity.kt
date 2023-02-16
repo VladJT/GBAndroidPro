@@ -6,6 +6,8 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import jt.projects.core.databinding.LoadingLayoutBinding
+import jt.projects.core.splash_screen.AnimatedSplashScreen
+import jt.projects.core.splash_screen.showSplashScreen
 import jt.projects.model.data.AppState
 import jt.projects.model.data.DataModel
 import jt.projects.utils.network.OnlineLiveData
@@ -25,6 +27,7 @@ abstract class BaseActivity<T : AppState> : ScopeActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        showSplashScreen { AnimatedSplashScreen() }
         subscribeToNetworkChange()
     }
 

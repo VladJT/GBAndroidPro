@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.GBAndroidPro2" parent="Theme.GBAndroidPro">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
+
+        <!-- НАСТРОЙКИ Splash Screen
+        ● windowSplashScreenBackground указывает на цвет заливки экрана загрузки;
+        ● windowSplashScreenAnimatedIcon позволяет поставить свою иконку (в том числе и
+        анимированный drawable)
+        ● windowSplashScreenIconBackgroundColor устанавливает цвет заливки заднего фона иконки
+        (если иконка полупрозрачная или занимает не все место)
+        ● windowSplashScreenBrandingImage позволяет добавить еще одну иконку (например, логотип
+        компании)
+         -->
+        <item name="android:windowSplashScreenBackground">#78A9CF</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/icon</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">@color/color_gray</item>
+        <!--item name="android:windowSplashScreenBrandingImage">@drawable/brand_logo</item-->
+    </style>
+
+</resources>
