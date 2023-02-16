@@ -22,7 +22,6 @@ import jt.projects.gbandroidpro.presentation.ui.history.HistoryActivity
 import jt.projects.model.data.AppState
 import jt.projects.model.data.DataModel
 import jt.projects.utils.BOTTOM_SHEET_FRAGMENT_DIALOG_TAG
-import jt.projects.utils.SharedPref
 import jt.projects.utils.ui.viewById
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
