@@ -1,11 +1,11 @@
 package jt.projects.repository
 
+import jt.projects.model.data.DataModel
 import jt.projects.repository.datasource.DataSource
-import jt.projects.model.data.SearchResultDTO
 import kotlinx.coroutines.flow.Flow
 
-class RepositoryImpl(private val dataSource: DataSource<Flow<SearchResultDTO>>) :
-    Repository<Flow<SearchResultDTO>> {
+class RepositoryImpl(private val dataSource: DataSource<Flow<DataModel>>) :
+    Repository<Flow<DataModel>> {
 
-    override suspend fun getTranslationByWord(word: String): Flow<SearchResultDTO> = dataSource.getData(word)
+    override suspend fun getDataByWord(word: String): Flow<DataModel> = dataSource.getDataByWord(word)
 }

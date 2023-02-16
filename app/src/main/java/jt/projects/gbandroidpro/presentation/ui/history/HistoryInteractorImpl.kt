@@ -12,10 +12,10 @@ class HistoryInteractorImpl(
 ) : Interactor<AppState> {
 
     override suspend fun getData(word: String, fromRemoteSource: Boolean): AppState =
-        AppState.Success(repositoryLocal.getTranslationByWord(word).toList())
+        AppState.Success(repositoryLocal.getDataByWord(word).toList())
 
     suspend fun getAllData(): AppState =
-        AppState.Success(repositoryLocal.getAllDataInLocalRepo().toList())
+        AppState.Success(repositoryLocal.getAllData().toList())
 
-    suspend fun deleteAll() = repositoryLocal.clearLocalRepo()
+    suspend fun deleteAll() = repositoryLocal.clearAllData()
 }
