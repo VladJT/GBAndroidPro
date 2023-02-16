@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 import jt.projects.core.BaseActivity
 import jt.projects.gbandroidpro.R
 import jt.projects.gbandroidpro.databinding.ActivityMainBinding
+import jt.projects.gbandroidpro.di.getWordFromSharedPref
+import jt.projects.gbandroidpro.di.saveToShPref
 import jt.projects.gbandroidpro.others.Test
 import jt.projects.gbandroidpro.presentation.ui.description.DescriptionActivity
 import jt.projects.gbandroidpro.presentation.ui.dialogs.SearchDialogFragment
@@ -61,8 +63,7 @@ class MainActivity : BaseActivity<AppState>() {
                 data
             )
         )
-        getKoin().get<SharedPref>().settings.currentWord = data.text
-        getKoin().get<SharedPref>().saveSettings()
+        saveToShPref(data.text)
     }
 
     override fun onLoadingProgressChange(value: Int) {
@@ -88,7 +89,7 @@ class MainActivity : BaseActivity<AppState>() {
         }
 
         test()
-        binding.searchEditText.setText(getKoin().get<SharedPref>().settings.currentWord)
+        binding.searchEditText.setText(getWordFromSharedPref())
     }
 
     private fun initRecView() {
