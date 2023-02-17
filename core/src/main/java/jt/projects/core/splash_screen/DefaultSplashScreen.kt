@@ -5,6 +5,9 @@ import android.os.CountDownTimer
 import android.view.View
 import android.view.ViewTreeObserver
 
+const val CD_TIME = 2000L
+const val CD_INTERVAL = 1000L
+
 class DefaultSplashScreen() : ISplashScreen {
     override lateinit var activity: Activity
 
@@ -13,12 +16,8 @@ class DefaultSplashScreen() : ISplashScreen {
     }
 
     override fun show() {
-        setSplashScreenDuration()
-    }
-
-    fun setSplashScreenDuration() {
         var isHideSplashScreen = false
-        object : CountDownTimer(2000, 1000) {
+        object : CountDownTimer(CD_TIME, CD_INTERVAL) {
             override fun onTick(millisUntilFinished: Long) {}
             override fun onFinish() {
                 isHideSplashScreen = true
