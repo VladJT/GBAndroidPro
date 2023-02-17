@@ -5,7 +5,7 @@ import jt.projects.utils.SharedPref
 import org.koin.core.component.KoinComponent
 
 object ShPref : KoinComponent {
-    val sharedPref = getKoin().get<SharedPref>()
+    private val sharedPref = getKoin().get<SharedPref>()
 
     fun saveWord(word: String) {
         sharedPref.settings.currentWord = word
@@ -17,20 +17,6 @@ object ShPref : KoinComponent {
     }
 }
 
-fun Activity.saveToShPref(word: String) = ShPref.saveWord(word)
+fun Activity.saveWordToShPref(word: String) = ShPref.saveWord(word)
 
 fun Activity.getWordFromSharedPref(): String = ShPref.getWord()
-//class MyLazy(i: () -> List<Int>) {
-//    private var value = 0
-//
-//    init {
-//        i.invoke().forEach {
-//            value += it
-//        }
-//    }
-//
-//    operator fun getValue(thisRef: Nothing?, property: KProperty<*>): Any{
-//        return "[$thisRef] ${property.name}, result SUM = $value"
-//    }
-//
-//}
