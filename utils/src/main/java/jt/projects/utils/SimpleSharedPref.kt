@@ -2,7 +2,7 @@ package jt.projects.utils
 
 import android.content.SharedPreferences
 
-object SpConstants {
+object SHARED_PREF_SETTINGS {
     const val WORD = "WORD"
     const val COMMENT = ""
 }

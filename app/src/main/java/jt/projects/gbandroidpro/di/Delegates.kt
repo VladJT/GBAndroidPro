@@ -2,19 +2,19 @@ package jt.projects.gbandroidpro.di
 
 import android.app.Activity
 import androidx.lifecycle.ViewModel
+import jt.projects.utils.SHARED_PREF_SETTINGS
 import jt.projects.utils.SimpleSharedPref
-import jt.projects.utils.SpConstants
 import org.koin.java.KoinJavaComponent.getKoin
 
 
 fun Activity.saveWordToSharedPref(word: String) {
-    getKoin().get<SimpleSharedPref>().save(SpConstants.WORD, word)
+    getKoin().get<SimpleSharedPref>().save(SHARED_PREF_SETTINGS.WORD, word)
 }
 
 fun ViewModel.saveWordToSharedPref(word: String) {
-    getKoin().get<SimpleSharedPref>().save(SpConstants.WORD, word)
+    getKoin().get<SimpleSharedPref>().save(SHARED_PREF_SETTINGS.WORD, word)
 }
 
 fun Activity.getWordFromSharedPref(): String {
-    return getKoin().get<SimpleSharedPref>().get(SpConstants.WORD)
+    return getKoin().get<SimpleSharedPref>().get(SHARED_PREF_SETTINGS.WORD)
 }
