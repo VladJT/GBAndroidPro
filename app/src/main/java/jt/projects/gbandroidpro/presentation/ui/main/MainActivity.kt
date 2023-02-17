@@ -9,16 +9,19 @@ import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import jt.projects.core.BaseActivity
 import jt.projects.gbandroidpro.R
 import jt.projects.gbandroidpro.databinding.ActivityMainBinding
-import jt.projects.gbandroidpro.model.domain.AppState
-import jt.projects.gbandroidpro.model.domain.DataModel
-import jt.projects.gbandroidpro.presentation.ui.base.BaseActivity
+import jt.projects.gbandroidpro.di.getWordFromSharedPref
+import jt.projects.gbandroidpro.others.Test
+import jt.projects.gbandroidpro.presentation.ui.description.DescriptionActivity
 import jt.projects.gbandroidpro.presentation.ui.dialogs.SearchDialogFragment
 import jt.projects.gbandroidpro.presentation.ui.history.HistoryActivity
-import jt.projects.gbandroidpro.presentation.viewmodel.MainViewModel
-import jt.projects.gbandroidpro.utils.BOTTOM_SHEET_FRAGMENT_DIALOG_TAG
-import jt.projects.gbandroidpro.utils.Test
+import jt.projects.model.data.AppState
+import jt.projects.model.data.DataModel
+import jt.projects.utils.BOTTOM_SHEET_FRAGMENT_DIALOG_TAG
+import jt.projects.utils.ui.viewById
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import org.koin.core.qualifier.named
@@ -51,6 +54,14 @@ class MainActivity : BaseActivity<AppState>() {
 
     private val mainAdapter: MainAdapter by lazy { MainAdapter(::onItemClick) }
 
+    private fun onItemClick(data: DataModel) {
+        startActivity(
+            DescriptionActivity.getIntent(
+                this,
+                data
+            )
+        )
+    }
 
     override fun onLoadingProgressChange(value: Int) {
         super.onLoadingProgressChange(value)
@@ -74,14 +85,18 @@ class MainActivity : BaseActivity<AppState>() {
             model.getData(text.toString())
         }
 
-        test()
+        //test()
+        binding.searchEditText.setText(getWordFromSharedPref())
     }
 
     private fun initRecView() {
-        binding.mainActivityRecyclerview.apply {
-            layoutManager = LinearLayoutManager(applicationContext)
-            adapter = mainAdapter
-        }
+        val mainActivityRecyclerview by viewById<RecyclerView>(viewId = R.id.main_activity_recyclerview)
+        mainActivityRecyclerview?.layoutManager = LinearLayoutManager(applicationContext)
+        mainActivityRecyclerview?.adapter = mainAdapter
+//        binding.mainActivityRecyclerview.apply {
+//            layoutManager = LinearLayoutManager(applicationContext)
+//            adapter = mainAdapter
+//        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
