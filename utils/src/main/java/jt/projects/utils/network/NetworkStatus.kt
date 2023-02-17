@@ -32,5 +32,5 @@ class NetworkStatus(context: Context) : INetworkStatus, KoinComponent {
     }
 
     override fun isOnlineObservable(): Observable<Boolean> = statusSubject
-    override fun isOnline(): Boolean = statusSubject?.value ?: false
+    override fun isOnline(): Boolean = statusSubject.value ?: false
 }

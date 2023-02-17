@@ -15,26 +15,6 @@ fun List<MeaningsDTO>?.toOneString(): String {
     return sb.dropLast(2).toString()
 }
 
-fun mapHistoryEntityToDataModel(data: List<HistoryEntity>): List<DataModel> {
-    val dataModel = ArrayList<DataModel>()
-    if (data.isNotEmpty()) {
-        for (entity in data) {
-            dataModel.add(entity.toDataModel())
-        }
-    }
-    return dataModel
-}
-
-fun mapSearchResultToDataModel(data: List<SearchResultDTO>): List<DataModel> {
-    val dataModel = ArrayList<DataModel>()
-    if (data.isNotEmpty()) {
-        for (entity in data) {
-            dataModel.add(entity.toDataModel())
-        }
-    }
-    return dataModel
-}
-
 fun SearchResultDTO.toDataModel(): DataModel {
     return DataModel(
         text = this.text ?: "",

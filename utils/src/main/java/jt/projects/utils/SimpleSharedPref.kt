@@ -2,7 +2,10 @@ package jt.projects.utils
 
 import android.content.SharedPreferences
 
-enum class SETTINGS { WORD, THEME }
+object SpConstants {
+    const val WORD = "WORD"
+    const val COMMENT = ""
+}
 
 class SimpleSharedPref(
     private val sharedPreferences: SharedPreferences
