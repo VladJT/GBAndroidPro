@@ -16,10 +16,11 @@
         ● windowSplashScreenBrandingImage позволяет добавить еще одну иконку (например, логотип
         компании)
          -->
-        <item name="android:windowSplashScreenBackground">#78A9CF</item>
-        <item name="android:windowSplashScreenAnimatedIcon">@drawable/icon</item>
+        <item name="android:windowSplashScreenBackground">#E1E8ED</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/animated_icon</item>
+        <item name="android:windowSplashScreenAnimationDuration">3000</item>
         <item name="android:windowSplashScreenIconBackgroundColor">@color/color_gray</item>
-        <!--item name="android:windowSplashScreenBrandingImage">@drawable/brand_logo</item-->
-    </style>
+        <item name="android:windowSplashScreenBrandingImage">@drawable/branding_image</item>
 
+    </style>
 </resources>
