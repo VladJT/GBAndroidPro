@@ -2,6 +2,7 @@ package jt.projects.gbandroidpro.presentation.ui.main
 
 import android.util.Log
 import jt.projects.core.BaseViewModel
+import jt.projects.gbandroidpro.di.saveWordToSharedPref
 import jt.projects.model.data.AppState
 import jt.projects.utils.network.INetworkStatus
 import kotlinx.coroutines.*
@@ -35,6 +36,7 @@ class MainViewModel(
                     liveData.postValue(AppState.Error(Throwable("initQueryStateFlow закрылся")))
                 }
                 .collect { word ->
+                    saveWordToSharedPref(word)
                     loadData(word)
                 }
         }

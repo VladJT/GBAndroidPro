@@ -4,9 +4,6 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import jt.projects.model.data.SearchResultDTO
-import jt.projects.model.data.MeaningsDTO
-import jt.projects.model.data.TranslationDTO
 
 // Так как мы пишем на Kotlin, то достаточно написать поля в конструкторе
 // класса. В качестве основной ячейки мы используем ячейку "слово", то есть

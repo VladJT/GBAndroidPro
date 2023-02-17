@@ -11,7 +11,8 @@ class RepositoryLocalImpl(private val dataSource: DataSourceLocal<Flow<DataModel
 
     override suspend fun clearAllData() = dataSource.clearDb()
 
-    override suspend fun getDataByWord(word: String): Flow<DataModel> = dataSource.getDataByWord(word)
+    override suspend fun getDataByWord(word: String): Flow<DataModel> =
+        dataSource.getDataByWord(word)
 
     override suspend fun getAllData(): Flow<DataModel> = dataSource.getAllDataFromDb()
 }

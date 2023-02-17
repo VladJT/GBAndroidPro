@@ -14,7 +14,6 @@ import jt.projects.core.BaseActivity
 import jt.projects.gbandroidpro.R
 import jt.projects.gbandroidpro.databinding.ActivityMainBinding
 import jt.projects.gbandroidpro.di.getWordFromSharedPref
-import jt.projects.gbandroidpro.di.saveWordToSharedPref
 import jt.projects.gbandroidpro.others.Test
 import jt.projects.gbandroidpro.presentation.ui.description.DescriptionActivity
 import jt.projects.gbandroidpro.presentation.ui.dialogs.SearchDialogFragment
@@ -62,7 +61,6 @@ class MainActivity : BaseActivity<AppState>() {
                 data
             )
         )
-        saveWordToSharedPref(data.text)
     }
 
     override fun onLoadingProgressChange(value: Int) {
