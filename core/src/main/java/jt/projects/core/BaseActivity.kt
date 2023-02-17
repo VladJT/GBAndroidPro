@@ -27,7 +27,7 @@ abstract class BaseActivity<T : AppState> : ScopeActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        showSplashScreen { AnimatedSplashScreen() }
+   //     showSplashScreen { AnimatedSplashScreen() }
         subscribeToNetworkChange()
     }
 
