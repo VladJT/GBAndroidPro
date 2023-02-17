@@ -18,9 +18,8 @@ import jt.projects.repository.retrofit.RetrofitImpl
 import jt.projects.repository.room.HistoryDao
 import jt.projects.repository.room.HistoryDatabase
 import jt.projects.repository.room.RoomDatabaseImpl
-import jt.projects.utils.SP_DB_KEY
 import jt.projects.utils.SP_DB_NAME
-import jt.projects.utils.SharedPref
+import jt.projects.utils.SimpleSharedPref
 import jt.projects.utils.network.INetworkStatus
 import jt.projects.utils.network.NetworkStatus
 import jt.projects.utils.ui.CoilImageLoader
@@ -56,11 +55,11 @@ val application = module {
     single { CoilImageLoader() }
 
     single {
-        SharedPref(
+        SimpleSharedPref(
             get<App>().getSharedPreferences(
                 SP_DB_NAME,
                 Context.MODE_PRIVATE
-            ), SP_DB_KEY
+            )
         )
     }
 }

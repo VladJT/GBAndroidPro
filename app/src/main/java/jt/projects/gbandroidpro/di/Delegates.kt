@@ -1,22 +1,15 @@
 package jt.projects.gbandroidpro.di
 
 import android.app.Activity
-import jt.projects.utils.SharedPref
-import org.koin.core.component.KoinComponent
+import jt.projects.utils.SETTINGS
+import jt.projects.utils.SimpleSharedPref
+import org.koin.java.KoinJavaComponent.getKoin
 
-object ShPref : KoinComponent {
-    private val sharedPref = getKoin().get<SharedPref>()
 
-    fun saveWord(word: String) {
-        sharedPref.settings.currentWord = word
-        sharedPref.saveSettings()
-    }
-
-    fun getWord(): String {
-        return sharedPref.settings.currentWord
-    }
+fun Activity.saveWordToSharedPref(word: String) {
+    getKoin().get<SimpleSharedPref>().save("WORD", word)
 }
 
-fun Activity.saveWordToShPref(word: String) = ShPref.saveWord(word)
-
-fun Activity.getWordFromSharedPref(): String = ShPref.getWord()
+fun Activity.getWordFromSharedPref(): String {
+    return getKoin().get<SimpleSharedPref>().get("WORD")
+}
