@@ -19,7 +19,7 @@ import jt.projects.repository.room.HistoryDao
 import jt.projects.repository.room.HistoryDatabase
 import jt.projects.repository.room.RoomDatabaseImpl
 import jt.projects.utils.SP_DB_NAME
-import jt.projects.utils.SimpleSharedPref
+import jt.projects.utils.shared_preferences.SimpleSharedPref
 import jt.projects.utils.network.INetworkStatus
 import jt.projects.utils.network.NetworkStatus
 import jt.projects.utils.ui.CoilImageLoader

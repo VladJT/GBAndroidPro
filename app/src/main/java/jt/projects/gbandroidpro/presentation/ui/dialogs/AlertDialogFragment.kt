@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.os.Parcelable
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
-import jt.projects.gbandroidpro.R
 import kotlinx.parcelize.Parcelize
 
 
@@ -41,7 +40,7 @@ class AlertDialogFragment() : AppCompatDialogFragment() {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle(title)
             .setMessage(message)
-            .setIcon(R.drawable.icon)
+            .setIcon(jt.projects.core.R.drawable.icon)
             .setPositiveButton("Да") { dialog, _ ->
                 okPressed?.let { it() }
                 dialog.dismiss()

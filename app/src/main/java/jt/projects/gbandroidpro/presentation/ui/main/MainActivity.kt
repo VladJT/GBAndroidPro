@@ -1,5 +1,7 @@
 package jt.projects.gbandroidpro.presentation.ui.main
 
+import android.appwidget.AppWidgetManager
+import android.content.ComponentName
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -12,8 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import jt.projects.core.BaseActivity
-import jt.projects.core.splash_screen.AnimatedSplashScreen
-import jt.projects.core.splash_screen.showSplashScreen
+import jt.projects.core.widget.JTTranslatorWidget
 import jt.projects.gbandroidpro.R
 import jt.projects.gbandroidpro.databinding.ActivityMainBinding
 import jt.projects.gbandroidpro.di.getWordFromSharedPref
@@ -24,6 +25,7 @@ import jt.projects.gbandroidpro.presentation.ui.history.HistoryActivity
 import jt.projects.model.data.AppState
 import jt.projects.model.data.DataModel
 import jt.projects.utils.BOTTOM_SHEET_FRAGMENT_DIALOG_TAG
+import jt.projects.utils.WIDGET_DATA
 import jt.projects.utils.ui.viewById
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -64,7 +66,16 @@ class MainActivity : BaseActivity<AppState>() {
                 data
             )
         )
+
+        val appWidgetManager = AppWidgetManager.getInstance(this)
+        val appWidgetId = ComponentName(this, JTTranslatorWidget::class.java)
+        val intent = Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE).apply {
+            putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetId)
+            putExtra(WIDGET_DATA, data)
+        }
+        sendBroadcast(intent)
     }
+
 
     override fun onLoadingProgressChange(value: Int) {
         super.onLoadingProgressChange(value)
@@ -72,8 +83,8 @@ class MainActivity : BaseActivity<AppState>() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.S && savedInstanceState==null) {
-            showSplashScreen { AnimatedSplashScreen() }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && savedInstanceState == null) {
+            //       showSplashScreen { AnimatedSplashScreen() }
         }
 
         super.onCreate(savedInstanceState)

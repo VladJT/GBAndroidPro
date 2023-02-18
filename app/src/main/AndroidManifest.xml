@@ -16,10 +16,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GBSplashScreenTheme"
         tools:targetApi="31">
-        <service
-            android:name="jt.projects.utils.network.NetworkStatusService"
-            android:enabled="true"
-            android:exported="true"></service>
 
         <activity
             android:name=".presentation.ui.main.MainActivity"
@@ -37,6 +33,26 @@
 
         <activity android:name=".presentation.ui.description.DescriptionActivity" />
         <activity android:name=".presentation.ui.history.HistoryActivity" />
+
+        <service
+            android:name="jt.projects.utils.network.NetworkStatusService"
+            android:enabled="true"
+            android:exported="true"></service>
+
+        <receiver
+            android:name="jt.projects.core.widget.JTTranslatorWidget"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="INTENT_ACTION_WIDGET_CLICKED" />
+                <action android:name="INTENT_ACTION_WIDGET_UPDATE_DATA" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info" />
+        </receiver>
+
     </application>
 
 </manifest>

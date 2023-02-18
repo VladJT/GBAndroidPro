@@ -1,4 +1,4 @@
-package jt.projects.utils
+package jt.projects.utils.shared_preferences
 
 import android.content.SharedPreferences
 import com.google.gson.GsonBuilder

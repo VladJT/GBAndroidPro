@@ -2,8 +2,8 @@ package jt.projects.gbandroidpro.di
 
 import android.app.Activity
 import androidx.lifecycle.ViewModel
-import jt.projects.utils.SHARED_PREF_SETTINGS
-import jt.projects.utils.SimpleSharedPref
+import jt.projects.utils.shared_preferences.SHARED_PREF_SETTINGS
+import jt.projects.utils.shared_preferences.SimpleSharedPref
 import org.koin.java.KoinJavaComponent.getKoin
 
 

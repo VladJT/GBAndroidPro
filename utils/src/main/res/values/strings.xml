@@ -1,4 +1,3 @@
 <resources>
-    <string name="dialog_title_device_is_offline">Внимание</string>
     <string name="dialog_message_device_is_offline">Отсутствует подключение к интернету</string>
 </resources>
