@@ -1,6 +1,7 @@
 package jt.projects.gbandroidpro.presentation.ui.main
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -11,6 +12,8 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import jt.projects.core.BaseActivity
+import jt.projects.core.splash_screen.AnimatedSplashScreen
+import jt.projects.core.splash_screen.showSplashScreen
 import jt.projects.gbandroidpro.R
 import jt.projects.gbandroidpro.databinding.ActivityMainBinding
 import jt.projects.gbandroidpro.di.getWordFromSharedPref
@@ -69,6 +72,10 @@ class MainActivity : BaseActivity<AppState>() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.S && savedInstanceState==null) {
+            showSplashScreen { AnimatedSplashScreen() }
+        }
+
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -115,7 +122,8 @@ class MainActivity : BaseActivity<AppState>() {
     }
 
     private fun test() {
-        val t = testScope.get<Test> { parametersOf("Hello, world") }
+        val t = testScope.get<Test> { parametersOf("Hello, world: ") }
+        println(theme)
         Toast.makeText(this, t.show(), Toast.LENGTH_SHORT).show()
     }
 

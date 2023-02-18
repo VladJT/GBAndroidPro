@@ -43,6 +43,9 @@ dependencies {
     implementation(project(Modules.utils))
     implementation(project(Modules.model))
 
+    // splash screen
+    implementation("androidx.core:core-splashscreen:1.0.0")
+
     // AndroidX
     implementation(Design.appcompat)
 

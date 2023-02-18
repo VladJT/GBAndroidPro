@@ -3,6 +3,7 @@ package jt.projects.core
 import android.graphics.RenderEffect
 import android.graphics.Shader
 import android.os.Build
+import android.os.Build.VERSION_CODES
 import android.os.Bundle
 import android.view.View
 import jt.projects.core.databinding.LoadingLayoutBinding
@@ -27,7 +28,6 @@ abstract class BaseActivity<T : AppState> : ScopeActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        showSplashScreen { AnimatedSplashScreen() }
         subscribeToNetworkChange()
     }
 
