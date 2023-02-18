@@ -20,77 +20,17 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.net.HttpURLConnection
 import java.net.URL
-import kotlin.random.Random
 
 
 class JTTranslatorWidget : AppWidgetProvider() {
 
     // вызывается при добавлении виджета
-    override fun onEnabled(context: Context?) {
+    override fun onEnabled(context: Context) {
         super.onEnabled(context)
     }
 
     override fun onDisabled(context: Context?) {
         super.onDisabled(context)
-    }
-
-    override fun onUpdate(
-        context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray
-    ) {
-        super.onUpdate(context, appWidgetManager, appWidgetIds)
-        val intent = Intent(context, JTTranslatorWidget::class.java).apply {
-            action = INTENT_ACTION_WIDGET_CLICKED
-        }
-        val pendingIntent =
-            PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
-
-
-        appWidgetIds.forEach { appWidgetId ->
-            RemoteViews(context.packageName, R.layout.widget_layout).apply {
-                setOnClickPendingIntent(R.id.appwidget_layout, pendingIntent)
-                CoroutineScope(Dispatchers.IO).launch {
-                    setTextViewText(R.id.appwidget_word, "123")
-                    setTextViewText(R.id.appwidget_meanings, "1, 2, 3")
-                    appWidgetManager.updateAppWidget(appWidgetId, this@apply)
-                }
-            }
-        }
-    }
-
-    override fun onReceive(context: Context, intent: Intent) {
-        super.onReceive(context, intent)
-        if (intent.action == INTENT_ACTION_WIDGET_CLICKED) {
-            RemoteViews(context.packageName, R.layout.widget_layout).apply {
-                CoroutineScope(Dispatchers.IO).launch {
-                    setTextViewText(R.id.appwidget_word, Random.nextInt().toString())
-                }
-                return
-            }
-        }
-
-        val data: DataModel? = intent.getParcelableExtra(WIDGET_DATA)
-
-        val appWidgetManager = AppWidgetManager.getInstance(context)
-        val appWidgetId = ComponentName(context, JTTranslatorWidget::class.java)
-
-        RemoteViews(context.packageName, R.layout.widget_layout).apply {
-            CoroutineScope(Dispatchers.IO).launch {
-
-                data?.let { setTextViewText(R.id.appwidget_word, it.text) }
-                data?.meanings?.let { setTextViewText(R.id.appwidget_meanings, it) }
-                data?.imageUrl?.let {
-                    try {
-                        val bitmap = bitmapFromUri(it)
-                        setImageViewBitmap(R.id.appwidget_image, bitmap)
-                    } catch (e: Exception) {
-                        Log.e("TAG", e.message.toString())
-                    }
-                }
-                appWidgetManager.updateAppWidget(appWidgetId, this@apply)
-            }
-
-        }
-
     }
 
     //вызывается при изменении размеров  виджета
@@ -100,6 +40,70 @@ class JTTranslatorWidget : AppWidgetProvider() {
         appWidgetId: Int,
         newOptions: Bundle?
     ) {
+    }
+
+    override fun onUpdate(
+        context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray
+    ) {
+        super.onUpdate(context, appWidgetManager, appWidgetIds)
+//        appWidgetIds.forEach { appWidgetId ->
+//            RemoteViews(context.packageName, R.layout.widget_layout).apply {
+//
+//                CoroutineScope(Dispatchers.IO).launch {
+//                    setTextViewText(R.id.appwidget_word, Random.nextInt().toString())
+//                    setTextViewText(R.id.appwidget_meanings, "1, 2, 3")
+//                    appWidgetManager.updateAppWidget(appWidgetId, this@apply)
+//                }
+//            }
+//        }
+    }
+
+    override fun onReceive(context: Context, intent: Intent) {
+        super.onReceive(context, intent)
+        val appWidgetManager = AppWidgetManager.getInstance(context)
+        val appWidgetId = ComponentName(context, JTTranslatorWidget::class.java)
+
+        if (intent.action == INTENT_ACTION_WIDGET_CLICKED) {
+            RemoteViews(context.packageName, R.layout.widget_layout).apply {
+                CoroutineScope(Dispatchers.IO).launch {
+                    setTextViewText(R.id.appwidget_word, "Random.nextInt().toString()")
+                    appWidgetManager.updateAppWidget(appWidgetId, this@apply)
+                }
+                return
+            }
+        }
+
+        val _intent = Intent(context, JTTranslatorWidget::class.java).apply {
+            action = INTENT_ACTION_WIDGET_CLICKED
+        }
+        val pendingIntent =
+            PendingIntent.getBroadcast(context, 0, _intent, PendingIntent.FLAG_IMMUTABLE)
+
+        val data: DataModel? = intent.getParcelableExtra(WIDGET_DATA)
+
+        RemoteViews(context.packageName, R.layout.widget_layout).apply {
+            //setOnClickPendingIntent(R.id.appwidget_layout, pendingIntent)
+
+            CoroutineScope(Dispatchers.IO).launch {
+                data?.let {
+                    renderData(it)
+                    appWidgetManager.updateAppWidget(appWidgetId, this@apply)
+                }
+            }
+        }
+    }
+
+    private fun RemoteViews.renderData(data: DataModel) {
+        setTextViewText(R.id.appwidget_word, data.text)
+        setTextViewText(R.id.appwidget_meanings, data.meanings)
+        data.imageUrl.let {
+            try {
+                val bitmap = bitmapFromUri(it)
+                setImageViewBitmap(R.id.appwidget_image, bitmap)
+            } catch (e: Exception) {
+                Log.e("TAG", e.message.toString())
+            }
+        }
     }
 
     private fun bitmapFromUri(it: String): Bitmap? {

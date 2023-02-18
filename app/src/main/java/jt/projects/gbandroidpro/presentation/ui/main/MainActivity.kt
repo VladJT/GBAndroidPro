@@ -14,6 +14,8 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import jt.projects.core.BaseActivity
+import jt.projects.core.splash_screen.AnimatedSplashScreen
+import jt.projects.core.splash_screen.showSplashScreen
 import jt.projects.core.widget.JTTranslatorWidget
 import jt.projects.gbandroidpro.R
 import jt.projects.gbandroidpro.databinding.ActivityMainBinding
@@ -84,7 +86,7 @@ class MainActivity : BaseActivity<AppState>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && savedInstanceState == null) {
-            //       showSplashScreen { AnimatedSplashScreen() }
+            showSplashScreen { AnimatedSplashScreen() }
         }
 
         super.onCreate(savedInstanceState)
