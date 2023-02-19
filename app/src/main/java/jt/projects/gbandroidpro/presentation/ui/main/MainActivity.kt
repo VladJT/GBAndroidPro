@@ -5,6 +5,7 @@ import android.content.ComponentName
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.speech.RecognizerIntent
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -22,17 +23,16 @@ import jt.projects.gbandroidpro.databinding.ActivityMainBinding
 import jt.projects.gbandroidpro.di.getWordFromSharedPref
 import jt.projects.gbandroidpro.others.Test
 import jt.projects.gbandroidpro.presentation.ui.description.DescriptionActivity
-import jt.projects.gbandroidpro.presentation.ui.dialogs.SearchDialogFragment
 import jt.projects.gbandroidpro.presentation.ui.history.HistoryActivity
 import jt.projects.model.data.AppState
 import jt.projects.model.data.DataModel
-import jt.projects.utils.BOTTOM_SHEET_FRAGMENT_DIALOG_TAG
 import jt.projects.utils.WIDGET_DATA
 import jt.projects.utils.ui.viewById
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import org.koin.core.qualifier.named
 import org.koin.java.KoinJavaComponent.getKoin
+import java.util.*
 
 
 /**
@@ -153,17 +153,41 @@ class MainActivity : BaseActivity<AppState>() {
 
 
     private fun initFabButton() {
+//        binding.searchFab.setOnClickListener {
+//            setBlur(binding.root, true)
+//
+//            val onSearchDialogClose: (String?) -> Unit = { word: String? ->
+//                if (word != null) binding.searchEditText.setText(word)
+//                setBlur(binding.root, false)
+//            }
+//
+//            val searchDialogFragment = SearchDialogFragment.newInstance(onSearchDialogClose)
+//
+//            searchDialogFragment.show(supportFragmentManager, BOTTOM_SHEET_FRAGMENT_DIALOG_TAG)
+//        }
+
         binding.searchFab.setOnClickListener {
             setBlur(binding.root, true)
+            val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+            intent.putExtra(
+                RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
+            )
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
+            startActivityForResult(intent, 10)
+        }
+    }
 
-            val onSearchDialogClose: (String?) -> Unit = { word: String? ->
-                if (word != null) binding.searchEditText.setText(word)
-                setBlur(binding.root, false)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        setBlur(binding.root, false)
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode === RESULT_OK && data != null) {
+            when (requestCode) {
+                10 -> {
+                    val text = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+                    binding.searchEditText.setText(text!![0])
+                }
             }
-
-            val searchDialogFragment = SearchDialogFragment.newInstance(onSearchDialogClose)
-
-            searchDialogFragment.show(supportFragmentManager, BOTTOM_SHEET_FRAGMENT_DIALOG_TAG)
         }
     }
 

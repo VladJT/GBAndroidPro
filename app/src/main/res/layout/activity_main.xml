@@ -50,7 +50,7 @@
             android:layout_marginEnd="@dimen/margin_medium"
             android:layout_marginBottom="@dimen/margin_medium"
             android:scrollbars="vertical"
-            android:src="@drawable/ic_search"
+            android:src="@drawable/baseline_mic_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
