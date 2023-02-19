@@ -9,17 +9,19 @@
 
     <TextView
         android:id="@+id/appwidget_word"
-        style="@style/HeaderTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="look" />
+        android:textColor="@color/color_text_header"
+        android:textSize="@dimen/text_size_standard_header"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/appwidget_meanings"
-        style="@style/BaseTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="смотреть,видеть" />
+        android:text="смотреть,видеть"
+        android:textColor="@color/color_text_main"
+        android:textSize="@dimen/text_size_standard" />
 
     <ImageView
         android:id="@+id/appwidget_image"

@@ -19,6 +19,7 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
 
+        <item name="colorSecondaryContainer">@color/color_white</item>
 
     </style>
 
@@ -28,6 +29,10 @@
         <item name="android:windowBackground">@drawable/bg</item>
     </style>
 
+
+    <style name="SoundButton" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:drawableTint">@color/color_text_header</item>
+    </style>
 
     <style name="BaseTextStyle" parent="TextAppearance.MaterialComponents.Body1">
         <item name="android:textColor">@color/color_text_main</item>

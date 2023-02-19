@@ -28,7 +28,7 @@ abstract class BaseActivity<T : AppState> : ScopeActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // убираем splash screen
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+        if(Build.VERSION.SDK_INT < VERSION_CODES.S) {
             setTheme(R.style.Theme_GBAndroidPro)
         }
         super.onCreate(savedInstanceState)

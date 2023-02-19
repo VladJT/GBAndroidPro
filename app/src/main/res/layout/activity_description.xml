@@ -52,7 +52,7 @@ aliqua." />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_sound"
-            style="@style/Widget.AppCompat.Button.Borderless"
+            style="@style/SoundButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/baseline_surround_sound_24"
