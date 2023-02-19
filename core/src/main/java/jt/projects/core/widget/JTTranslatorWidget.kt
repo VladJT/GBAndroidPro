@@ -115,6 +115,9 @@ class JTTranslatorWidget : AppWidgetProvider() {
         connection.doInput = true
         connection.connect()
         val input = connection.inputStream
-        return BitmapFactory.decodeStream(input)
+        //Bitmap b = BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length)
+        //profileImage.setImageBitmap(Bitmap.createScaledBitmap(b, 120, 120, false));
+        val bitmap =  BitmapFactory.decodeStream(input)
+        return Bitmap.createScaledBitmap(bitmap, 300,300,false)
     }
 }

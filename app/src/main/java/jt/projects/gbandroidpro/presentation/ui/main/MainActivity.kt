@@ -1,11 +1,13 @@
 package jt.projects.gbandroidpro.presentation.ui.main
 
 import android.appwidget.AppWidgetManager
+import android.content.ActivityNotFoundException
 import android.content.ComponentName
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.speech.RecognizerIntent
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -14,6 +16,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import jt.projects.core.BaseActivity
 import jt.projects.core.splash_screen.AnimatedSplashScreen
 import jt.projects.core.splash_screen.showSplashScreen
@@ -27,6 +30,7 @@ import jt.projects.gbandroidpro.presentation.ui.history.HistoryActivity
 import jt.projects.model.data.AppState
 import jt.projects.model.data.DataModel
 import jt.projects.utils.WIDGET_DATA
+import jt.projects.utils.ui.showSnackbar
 import jt.projects.utils.ui.viewById
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -50,6 +54,9 @@ import java.util.*
 другие классы. Такой код легко читать и переиспользовать. В такой архитектуре сейчас создаётся
 очень много проектов. Их легко поддерживать, расширять и тестировать.
  */
+
+const val REQUEST_CODE_VOICE = 10
+
 class MainActivity : BaseActivity<AppState>() {
 
     // override val model: MainViewModel by scope.inject() // привязана к жизненному циклу Activity
@@ -85,8 +92,11 @@ class MainActivity : BaseActivity<AppState>() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && savedInstanceState == null) {
+        if(savedInstanceState == null)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             showSplashScreen { AnimatedSplashScreen() }
+        }else{
+            Thread.sleep(1500)
         }
 
         super.onCreate(savedInstanceState)
@@ -167,23 +177,28 @@ class MainActivity : BaseActivity<AppState>() {
 //        }
 
         binding.searchFab.setOnClickListener {
-            setBlur(binding.root, true)
-            val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
-            intent.putExtra(
-                RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
-            )
-            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
-            startActivityForResult(intent, 10)
+            try {
+                setBlur(binding.root, true)
+                val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+                intent.putExtra(
+                    RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                    RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
+                )
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
+                startActivityForResult(intent, REQUEST_CODE_VOICE)
+            } catch (e: ActivityNotFoundException) {
+                Log.e("TAG", e.message.toString())
+                showSnackbar("Не найдено приложение для голосового ввода")
+            }
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         setBlur(binding.root, false)
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode === RESULT_OK && data != null) {
+        if (resultCode == RESULT_OK && data != null) {
             when (requestCode) {
-                10 -> {
+                REQUEST_CODE_VOICE -> {
                     val text = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
                     binding.searchEditText.setText(text!![0])
                 }

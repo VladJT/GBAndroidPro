@@ -8,7 +8,7 @@
     android:previewImage="@drawable/icon"
     android:previewLayout="@layout/widget_layout"
     android:resizeMode="vertical|horizontal"
-    android:updatePeriodMillis="10000"
+    android:updatePeriodMillis="86400000"
     android:widgetCategory="home_screen" />
 
     <!--
