@@ -27,6 +27,10 @@ abstract class BaseActivity<T : AppState> : ScopeActivity() {
     abstract val model: BaseViewModel<T>
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // убираем splash screen
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+            setTheme(R.style.Theme_GBAndroidPro)
+        }
         super.onCreate(savedInstanceState)
         subscribeToNetworkChange()
     }

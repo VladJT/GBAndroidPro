@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.media.MediaPlayer
+import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ImageView
@@ -47,6 +48,10 @@ class DescriptionActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // убираем splash screen
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+            setTheme(jt.projects.core.R.style.Theme_GBAndroidPro)
+        }
         super.onCreate(savedInstanceState)
 
         binding = ActivityDescriptionBinding.inflate(layoutInflater)

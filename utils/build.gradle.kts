@@ -71,4 +71,6 @@ dependencies {
 
     //Coil
     implementation(Coil.coil)
+    implementation("io.coil-kt:coil-gif:2.1.0")
+    implementation("io.coil-kt:coil-svg:2.1.0")
 }
