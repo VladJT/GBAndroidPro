@@ -1,5 +1,7 @@
 <resources>
-    <style name="AppTheme" parent="Theme.Material3.DayNight">
+
+    <!-- NIGHT application theme. -->
+    <style name="Theme.GBAndroidPro" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <item name="colorPrimary">@color/md_theme_dark_primary</item>
         <item name="colorOnPrimary">@color/md_theme_dark_onPrimary</item>
         <item name="colorPrimaryContainer">@color/md_theme_dark_primaryContainer</item>
@@ -34,17 +36,17 @@
     </style>
 
     <style name="SoundButton" parent="Widget.AppCompat.Button.Borderless">
-        <item name="android:drawableTint">@color/md_theme_dark_secondary</item>
+        <item name="android:drawableTint">?attr/colorSecondary</item>
     </style>
 
     <style name="HeaderTextStyle" parent="BaseTextStyle">
-        <item name="android:textColor">@color/md_theme_dark_primary</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
         <item name="android:textSize">@dimen/text_size_standard_header</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="BaseTextStyle" parent="TextAppearance.MaterialComponents.Body1">
-        <item name="android:textColor">@color/md_theme_dark_secondary</item>
+        <item name="android:textColor">?attr/colorSecondary</item>
         <item name="android:textSize">@dimen/text_size_standard</item>
         <item name="android:textStyle">normal</item>
     </style>

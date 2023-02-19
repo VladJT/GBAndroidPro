@@ -86,7 +86,7 @@ class MainActivity : BaseActivity<AppState>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && savedInstanceState == null) {
-        //    showSplashScreen { AnimatedSplashScreen() }
+            showSplashScreen { AnimatedSplashScreen() }
         }
 
         super.onCreate(savedInstanceState)
