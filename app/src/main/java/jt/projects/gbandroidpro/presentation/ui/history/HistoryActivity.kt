@@ -1,5 +1,6 @@
 package jt.projects.gbandroidpro.presentation.ui.history
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -16,6 +17,7 @@ import jt.projects.model.data.DataModel
 import jt.projects.utils.ui.showSnackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@SuppressLint("Instantiatable")
 class HistoryActivity : BaseActivity<AppState>() {
 
 

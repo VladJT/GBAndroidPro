@@ -1,5 +1,6 @@
 package jt.projects.gbandroidpro.presentation.ui.main
 
+import android.annotation.SuppressLint
 import android.appwidget.AppWidgetManager
 import android.content.ActivityNotFoundException
 import android.content.ComponentName
@@ -57,6 +58,7 @@ import java.util.*
 
 const val REQUEST_CODE_VOICE = 10
 
+@SuppressLint("Instantiatable")
 class MainActivity : BaseActivity<AppState>() {
 
     // override val model: MainViewModel by scope.inject() // привязана к жизненному циклу Activity

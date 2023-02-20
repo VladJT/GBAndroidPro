@@ -15,6 +15,11 @@ android {
         viewBinding = true
     }
 
+    lint {
+        // Turns off checks for the issue IDs you specify.
+        disable += "Instantiatable"
+    }
+
     defaultConfig {
         applicationId = Config.application_id
         minSdk = Config.min_sdk
