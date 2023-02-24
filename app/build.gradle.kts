@@ -60,7 +60,6 @@ dependencies {
     implementation(project(Modules.utils))
     implementation(project(Modules.repository))
 
-
     // AndroidX
     implementation(Design.appcompat)
 
