@@ -2,7 +2,6 @@ package jt.projects.gbandroidpro.di
 
 import android.app.Activity
 import androidx.lifecycle.ViewModel
-import jt.projects.utils.SETTINGS
 import jt.projects.utils.SimpleSharedPref
 import org.koin.java.KoinJavaComponent.getKoin
 
