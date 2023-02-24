@@ -10,7 +10,7 @@ import kotlin.coroutines.suspendCoroutine
 
 class Test(private val s: String) {
     fun show(): String {
-        return "From Test show: $s"
+        return "Показ: $s"
     }
 }
 
@@ -18,6 +18,7 @@ suspend fun main() {
 
     val scope = CoroutineScope(Dispatchers.IO)
 
+    println("Показ")
     scope.launch {
         repeat(100) {
             delay(500)

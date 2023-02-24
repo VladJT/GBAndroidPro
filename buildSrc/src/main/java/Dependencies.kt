@@ -99,6 +99,8 @@ object Koin {
 
     // При написании юнит-тестов можно создавать модули в рантайме и вызывать функцию startKoin  внутри тестов
     const val test = "io.insert-koin:koin-test:${Versions.koin}"
+    // Needed JUnit version
+    const val junitTest =  "io.insert-koin:koin-test-junit4:${Versions.koin}"
 }
 
 object Coil {

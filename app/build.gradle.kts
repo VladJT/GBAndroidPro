@@ -80,6 +80,7 @@ dependencies {
     implementation(Koin.viewmodel)
     implementation(Koin.compat)
     testImplementation(Koin.test)
+    testImplementation(Koin.junitTest)
 
     // Room
     implementation(Room.runtime)
@@ -91,6 +92,7 @@ dependencies {
     androidTestImplementation(TestImpl.runner)
     androidTestImplementation(TestImpl.espresso)
     androidTestImplementation(TestImpl.extjunit)
+
     // implementation(fileTree(dir: 'libs', include: ['*.jar'])
 
     // OTHERS

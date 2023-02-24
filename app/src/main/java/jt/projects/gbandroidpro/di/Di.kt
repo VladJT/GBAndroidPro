@@ -12,6 +12,8 @@ import jt.projects.gbandroidpro.presentation.ui.history.HistoryViewModel
 import jt.projects.gbandroidpro.presentation.ui.main.MainActivity
 import jt.projects.gbandroidpro.presentation.ui.main.MainInteractorImpl
 import jt.projects.gbandroidpro.presentation.ui.main.MainViewModel
+import jt.projects.model.data.DataModel
+import jt.projects.repository.Repository
 import jt.projects.repository.RepositoryImpl
 import jt.projects.repository.RepositoryLocalImpl
 import jt.projects.repository.retrofit.RetrofitImpl
@@ -19,10 +21,11 @@ import jt.projects.repository.room.HistoryDao
 import jt.projects.repository.room.HistoryDatabase
 import jt.projects.repository.room.RoomDatabaseImpl
 import jt.projects.utils.SP_DB_NAME
-import jt.projects.utils.shared_preferences.SimpleSharedPref
 import jt.projects.utils.network.INetworkStatus
 import jt.projects.utils.network.NetworkStatus
+import jt.projects.utils.shared_preferences.SimpleSharedPref
 import jt.projects.utils.ui.CoilImageLoader
+import kotlinx.coroutines.flow.Flow
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
@@ -37,6 +40,7 @@ import org.koin.dsl.module
  */
 
 
+
 // зависимости, используемые во всём приложении
 val application = module {
     // именованный scope
@@ -45,10 +49,6 @@ val application = module {
     }
 
     single<App> { androidApplication().applicationContext as App }
-
-    single { RepositoryImpl(RetrofitImpl()) }
-
-    single { RepositoryLocalImpl(RoomDatabaseImpl(get<HistoryDao>())) }
 
     single<INetworkStatus>(qualifier = named(NETWORK_SERVICE)) { NetworkStatus(get()) }
 
@@ -62,6 +62,13 @@ val application = module {
             )
         )
     }
+}
+
+val repoModule = module {
+    single { RepositoryImpl(RetrofitImpl()) }
+    single{ RepositoryLocalImpl(RoomDatabaseImpl(get<HistoryDao>())) }
+
+    single<Repository<Flow<DataModel>>> { RepositoryImpl(RetrofitImpl()) } // for JUnit
 }
 
 
