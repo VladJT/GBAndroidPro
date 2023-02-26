@@ -40,7 +40,6 @@ import org.koin.dsl.module
  */
 
 
-
 // зависимости, используемые во всём приложении
 val application = module {
     // именованный scope
@@ -66,7 +65,7 @@ val application = module {
 
 val repoModule = module {
     single { RepositoryImpl(RetrofitImpl()) }
-    single{ RepositoryLocalImpl(RoomDatabaseImpl(get<HistoryDao>())) }
+    single { RepositoryLocalImpl(RoomDatabaseImpl(get<HistoryDao>())) }
 
     single<Repository<Flow<DataModel>>> { RepositoryImpl(RetrofitImpl()) } // for JUnit
 }

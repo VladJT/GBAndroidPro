@@ -86,11 +86,22 @@ dependencies {
     kapt(Room.compiler)
     implementation(Room.room_ktx)
 
+
     // Test
     testImplementation(TestImpl.junit)
     androidTestImplementation(TestImpl.runner)
     androidTestImplementation(TestImpl.espresso)
     androidTestImplementation(TestImpl.extjunit)
+    testImplementation("pl.pragmatists:JUnitParams:1.1.1")
+
+    // mockito
+    testImplementation("org.mockito:mockito-core:2.19.0")
+    testImplementation("org.mockito:mockito-inline:2.8.9")
+    testImplementation("com.nhaarman:mockito-kotlin:1.5.0") {
+        exclude("org.jetbrains.kotlin")
+        exclude("org.mockito")
+    }
+
 
     // implementation(fileTree(dir: 'libs', include: ['*.jar'])
 

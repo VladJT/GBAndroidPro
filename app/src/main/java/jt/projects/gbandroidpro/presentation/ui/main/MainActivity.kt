@@ -17,7 +17,6 @@ import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
 import jt.projects.core.BaseActivity
 import jt.projects.core.splash_screen.AnimatedSplashScreen
 import jt.projects.core.splash_screen.showSplashScreen
@@ -94,12 +93,12 @@ class MainActivity : BaseActivity<AppState>() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        if(savedInstanceState == null)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            showSplashScreen { AnimatedSplashScreen() }
-        }else{
-            Thread.sleep(1500)
-        }
+        if (savedInstanceState == null)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                showSplashScreen { AnimatedSplashScreen() }
+            } else {
+                Thread.sleep(1500)
+            }
 
         super.onCreate(savedInstanceState)
 

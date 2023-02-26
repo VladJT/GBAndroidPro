@@ -49,7 +49,7 @@ class DescriptionActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // убираем splash screen
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
             setTheme(jt.projects.core.R.style.Theme_GBAndroidPro)
         }
         super.onCreate(savedInstanceState)
