@@ -1,4 +1,7 @@
 import org.gradle.api.JavaVersion
+import org.gradle.api.tasks.testing.Test
+import org.gradle.kotlin.dsl.getValue
+import org.gradle.kotlin.dsl.provideDelegate
 
 object Config {
     const val application_id = "jt.projects.gbandroidpro"
@@ -100,7 +103,8 @@ object Koin {
     // При написании юнит-тестов можно создавать модули в рантайме и вызывать функцию startKoin  внутри тестов
     const val test = "io.insert-koin:koin-test:${Versions.koin}"
     // Needed JUnit version
-    const val junitTest =  "io.insert-koin:koin-test-junit4:${Versions.koin}"
+    const val junit4Test =  "io.insert-koin:koin-test-junit4:${Versions.koin}"
+    const val junit5Test =  "io.insert-koin:koin-test-junit5:${Versions.koin}"
 }
 
 object Coil {

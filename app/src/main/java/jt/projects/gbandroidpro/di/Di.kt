@@ -64,10 +64,11 @@ val application = module {
 }
 
 val repoModule = module {
+    //single<Repository<Flow<DataModel>>>(qualifier = named("repo")) { RepositoryImpl(RetrofitImpl()) } // for JUnit
+
     single { RepositoryImpl(RetrofitImpl()) }
     single { RepositoryLocalImpl(RoomDatabaseImpl(get<HistoryDao>())) }
 
-    single<Repository<Flow<DataModel>>> { RepositoryImpl(RetrofitImpl()) } // for JUnit
 }
 
 

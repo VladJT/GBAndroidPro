@@ -1,7 +1,7 @@
 package jt.projects.gbandroidpro
 
 import junit.framework.TestCase.assertEquals
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`

@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-parcelize")
     id("kotlin-kapt")
+    id("de.mannodermaus.android-junit5") version "1.8.2.1"
 }
 
 
@@ -51,6 +52,7 @@ android {
     kotlinOptions {
         jvmTarget = Config.jvmTarget_version
     }
+
 }
 
 dependencies {
@@ -79,7 +81,7 @@ dependencies {
     implementation(Koin.viewmodel)
     implementation(Koin.compat)
     testImplementation(Koin.test)
-    testImplementation(Koin.junitTest)
+    testImplementation(Koin.junit5Test)
 
     // Room
     implementation(Room.runtime)
@@ -88,11 +90,19 @@ dependencies {
 
 
     // Test
-    testImplementation(TestImpl.junit)
-    androidTestImplementation(TestImpl.runner)
+    //   testImplementation(TestImpl.junit)
+    //androidTestImplementation(TestImpl.runner)
     androidTestImplementation(TestImpl.espresso)
-    androidTestImplementation(TestImpl.extjunit)
-    testImplementation("pl.pragmatists:JUnitParams:1.1.1")
+    //   androidTestImplementation(TestImpl.extjunit)
+    //testImplementation("pl.pragmatists:JUnitParams:1.1.1")
+
+    // JUNIT 5
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:5.8.2")
+
+    // Mocking
+    // testImplementation("io.mockk:mockk:1.10.2")
 
     // mockito
     testImplementation("org.mockito:mockito-core:2.19.0")
