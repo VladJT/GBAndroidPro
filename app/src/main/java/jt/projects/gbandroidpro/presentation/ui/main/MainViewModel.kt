@@ -1,6 +1,5 @@
 package jt.projects.gbandroidpro.presentation.ui.main
 
-import android.util.Log
 import jt.projects.core.BaseViewModel
 import jt.projects.gbandroidpro.di.saveWordToSharedPref
 import jt.projects.model.data.AppState
@@ -8,7 +7,7 @@ import jt.projects.utils.network.INetworkStatus
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 
-class MainViewModel(
+open class MainViewModel(
     private val interactor: MainInteractorImpl,
     private val networkStatus: INetworkStatus
 ) :
@@ -17,7 +16,7 @@ class MainViewModel(
     private val queryStateFlow = MutableStateFlow("")
 
     init {
-        Log.d("TAG", "init viewModel")
+     //   Log.d("TAG", "init viewModel")
         initQueryStateFlow()
     }
 
@@ -47,7 +46,7 @@ class MainViewModel(
         cancelJob()
         viewModelCoroutineScope.launch {
             withContext(Dispatchers.IO) {
-                val response = interactor.getData(word, networkStatus.isOnline())
+                val response = getDataFromInteractor(word, networkStatus.isOnline())
                 (1..10).forEach {
                     liveData.postValue(AppState.Loading(it * 10))
                     delay(20)
@@ -55,6 +54,10 @@ class MainViewModel(
                 liveData.postValue(response)
             }
         }
+    }
+
+    suspend fun getDataFromInteractor(word: String, isOnline:Boolean): AppState {
+        return interactor.getData(word, isOnline)
     }
 
     override fun getData(word: String) {

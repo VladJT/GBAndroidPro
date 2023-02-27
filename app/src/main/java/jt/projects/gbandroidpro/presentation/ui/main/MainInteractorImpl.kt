@@ -2,6 +2,7 @@ package jt.projects.gbandroidpro.presentation.ui.main
 
 
 import jt.projects.core.Interactor
+import jt.projects.model.data.APPSTATE_ERROR_EMPTY_DATA
 import jt.projects.model.data.AppState
 import jt.projects.model.data.DataModel
 import jt.projects.repository.Repository
@@ -11,7 +12,7 @@ import kotlinx.coroutines.flow.toList
 
 
 // Снабжаем интерактор репозиторием для получения локальных или внешних данных
-class MainInteractorImpl(
+open class MainInteractorImpl(
     private val repositoryRemote: Repository<Flow<DataModel>>,
     private val repositoryLocal: RepositoryLocal<Flow<DataModel>>
 ) : Interactor<AppState> {
@@ -21,7 +22,7 @@ class MainInteractorImpl(
         if (fromRemoteSource) {
             val data = repositoryRemote.getDataByWord(word).toList()
             if (data.isEmpty()) {
-                appState = AppState.Error(Throwable("Перевод не найден"))
+                appState = APPSTATE_ERROR_EMPTY_DATA
             } else {
                 appState = AppState.Success(data)
                 repositoryLocal.saveData(data[0])

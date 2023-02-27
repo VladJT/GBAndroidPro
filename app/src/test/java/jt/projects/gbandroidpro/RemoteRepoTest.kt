@@ -4,6 +4,7 @@ package jt.projects.gbandroidpro
 import jt.projects.gbandroidpro.presentation.ui.main.MainInteractorImpl
 import jt.projects.model.data.AppState
 import jt.projects.model.data.DataModel
+import jt.projects.model.data.TEST_RESPONSE_SUCCESS
 import jt.projects.repository.RepositoryImpl
 import jt.projects.repository.RepositoryLocal
 import jt.projects.repository.retrofit.RetrofitImpl
@@ -12,11 +13,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.junit.AfterClass
+import org.junit.Before
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.api.extension.RegisterExtension
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
@@ -26,19 +28,22 @@ import org.koin.test.KoinTest
 import org.koin.test.inject
 import org.koin.test.junit5.KoinTestExtension
 import org.mockito.Mock
+import org.mockito.Mockito
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
+import org.mockito.junit.jupiter.MockitoExtension
 import kotlin.system.measureTimeMillis
 
-const val SUCCESS_FROM_LOCAL_REPO = "Success"
 
+@ExtendWith(
+    MockitoExtension::class
+)
 class RemoteRepoTest : KoinTest {
     companion object {
         @AfterClass
         fun after() {
             stopKoin()
         }
-
     }
 
     private val remoteRepo: RepositoryImpl by inject()
@@ -69,9 +74,9 @@ class RemoteRepoTest : KoinTest {
         }
 
 
-    @BeforeEach
+    @Before
     fun before() {
-        MockitoAnnotations.initMocks(this)
+        MockitoAnnotations.openMocks(this)
     }
 
 
@@ -153,8 +158,11 @@ class RemoteRepoTest : KoinTest {
         @Test
         fun mainInteractor_fromLocalSourceReturnCorrectData() {
             runBlocking {
-                `when`(localRepo.getDataByWord(word = "go")).thenAnswer { SUCCESS_FROM_LOCAL_REPO }
-                assertEquals(localRepo.getDataByWord("go"), SUCCESS_FROM_LOCAL_REPO)
+                `when`(localRepo.getDataByWord("go")).thenAnswer { TEST_RESPONSE_SUCCESS }
+                mainInteractorImpl.getData("go", false)
+
+                assertEquals(localRepo.getDataByWord("go"), TEST_RESPONSE_SUCCESS)
+                Mockito.verify(localRepo, Mockito.times(2)).getDataByWord("go")
             }
         }
     }

@@ -97,24 +97,19 @@ dependencies {
     //testImplementation("pl.pragmatists:JUnitParams:1.1.1")
 
     // JUNIT 5
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
-    testImplementation("org.junit.jupiter:junit-jupiter-params:5.8.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:5.9.2")
 
     // (Optional) If you also have JUnit 4-based tests
     testImplementation("junit:junit:4.13.2")
-    testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.8.2")
+    testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.9.2")
 
-    // Mocking
-    // testImplementation("io.mockk:mockk:1.10.2")
-
-    // mockito
-    testImplementation("org.mockito:mockito-core:2.19.0")
-    testImplementation("org.mockito:mockito-inline:2.8.9")
-    testImplementation("com.nhaarman:mockito-kotlin:1.5.0") {
-        exclude("org.jetbrains.kotlin")
-        exclude("org.mockito")
-    }
+    // MOCKITO
+    testImplementation("org.mockito:mockito-core:4.6.1")
+    testImplementation("org.mockito:mockito-junit-jupiter:4.6.1")
+    testImplementation("org.junit.platform:junit-platform-surefire-provider:1.3.2")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
 
 
     // implementation(fileTree(dir: 'libs', include: ['*.jar'])
