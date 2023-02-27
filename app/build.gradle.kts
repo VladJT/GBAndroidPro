@@ -101,6 +101,10 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
     testImplementation("org.junit.jupiter:junit-jupiter-params:5.8.2")
 
+    // (Optional) If you also have JUnit 4-based tests
+    testImplementation("junit:junit:4.13.2")
+    testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.8.2")
+
     // Mocking
     // testImplementation("io.mockk:mockk:1.10.2")
 

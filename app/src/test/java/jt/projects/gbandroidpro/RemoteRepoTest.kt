@@ -32,7 +32,6 @@ import kotlin.system.measureTimeMillis
 
 const val SUCCESS_FROM_LOCAL_REPO = "Success"
 
-
 class RemoteRepoTest : KoinTest {
     companion object {
         @AfterClass
