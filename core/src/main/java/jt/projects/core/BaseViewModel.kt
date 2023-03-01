@@ -1,5 +1,6 @@
 package jt.projects.core
 
+import android.media.tv.AdResponse
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -39,6 +40,10 @@ abstract class BaseViewModel<T : AppState> : ViewModel() {
 
     // обрабатываем ошибки в конкретной имплементации ViewModel
     abstract fun handleError(error: Throwable)
+
+    abstract fun handleResponse(response: AppState)
+
+    abstract suspend fun showProgress()
 
     abstract fun getData(word: String)
 

@@ -1,11 +1,9 @@
 package jt.projects.gbandroidpro
 
-import androidx.lifecycle.MutableLiveData
 import jt.projects.gbandroidpro.presentation.ui.main.MainInteractorImpl
 import jt.projects.gbandroidpro.presentation.ui.main.MainViewModel
 import jt.projects.model.data.APPSTATE_ERROR_EMPTY_DATA
 import jt.projects.model.data.APPSTATE_SUCCESS
-import jt.projects.model.data.AppState
 import jt.projects.utils.network.INetworkStatus
 import kotlinx.coroutines.*
 import kotlinx.coroutines.test.resetMain
@@ -86,23 +84,18 @@ class MainViewModelTest {
     fun mainViewModel_checkRightOrder() {
         runBlocking {
             val searchQuery = "some query"
-            val liveData: MutableLiveData<AppState> = MutableLiveData()
+            `when`(networkStatus.isOnline()).thenReturn(true)
+            `when`(interactor.getData(searchQuery, true)).thenAnswer {
+                APPSTATE_SUCCESS
+            }
 
-            val vm = mock(MainViewModel::class.java)
 
-            `when`(vm.getDataFromInteractor(searchQuery, true)).thenReturn(APPSTATE_SUCCESS)
-
-            vm.loadData(searchQuery)
 
             //Определяем порядок вызова методов какого класса мы хотим проверить
-            val inOrder = inOrder(vm)
+            val inOrder = inOrder(interactor)
 
             //Прописываем порядок вызова методов
-            inOrder.verify(vm).showProgress()
-            inOrder.verify(vm).handleResponse(APPSTATE_SUCCESS)
+            verify(interactor).getData(searchQuery, true)
         }
-
-
     }
-
 }

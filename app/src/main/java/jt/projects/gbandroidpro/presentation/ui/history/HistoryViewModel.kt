@@ -20,7 +20,7 @@ class HistoryViewModel(
                 // val response = interactor.getData(word, networkStatus.isOnline)
                 val response = interactor.getAllData()
                 delay(400)
-                liveData.postValue(response)
+                handleResponse(response)
             }
         }
     }
@@ -36,6 +36,14 @@ class HistoryViewModel(
     override fun handleError(error: Throwable) {
         liveData.postValue(AppState.Error(error))
         cancelJob()
+    }
+
+    override fun handleResponse(response: AppState) {
+        liveData.postValue(response)
+    }
+
+    override suspend fun showProgress() {
+        TODO("Not yet implemented")
     }
 
     override fun onCleared() {

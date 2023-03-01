@@ -89,4 +89,11 @@ class Example {
         inOrder.verify(mockCooker).addCoffee()
         inOrder.verify(mockCooker).cook()
     }
+
+    @Test
+    fun testChainResult(){
+        `when`(coffee.getCoffeeName()).thenReturn("Капучино").thenReturn("Moccka")
+        assertEquals("Капучино", coffee.getCoffeeName())
+        assertEquals("Moccka", coffee.getCoffeeName())
+    }
 }

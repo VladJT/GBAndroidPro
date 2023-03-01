@@ -53,7 +53,7 @@ open class MainViewModel(
         }
     }
 
-    suspend fun showProgress() {
+    override suspend fun showProgress() {
         (1..10).forEach {
             liveData.postValue(AppState.Loading(it * 10))
             delay(20)
@@ -68,7 +68,7 @@ open class MainViewModel(
         queryStateFlow.value = word
     }
 
-    fun handleResponse(response: AppState) {
+    override fun handleResponse(response: AppState) {
         liveData.postValue(response)
     }
 
