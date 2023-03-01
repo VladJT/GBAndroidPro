@@ -1,37 +1,38 @@
 package jt.projects.gbandroidpro
 
 
+import jt.projects.gbandroidpro.others.Coffee
+import jt.projects.gbandroidpro.others.ICoffee
+import jt.projects.gbandroidpro.others.ICooker
+import org.junit.Before
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.Mockito.*
+import org.mockito.MockitoAnnotations
 import org.mockito.junit.jupiter.MockitoExtension
 
-
-class CoffeeImpl : Coffee {
-    private var name: String = ""
-
-    override fun getCoffeeName(): String = name
-}
-
-interface Coffee {
-    fun getCoffeeName(): String
-}
 
 @ExtendWith(
     MockitoExtension::class
 )
 class Example {
+    @Mock
+    lateinit var coffee: ICoffee
+
+    @Before
+    fun setUp() {
+        MockitoAnnotations.openMocks(this)
+        //   coffee.cooker = mock(Cooker::class.java)
+    }
 
     @Test
     fun testGetMockedCoffeeName_Success() {
-        //Создаем мок
-        val coffee = Mockito.mock(Coffee::class.java)
+        `when`(coffee.getCoffeeName()).thenReturn("Капучино")
+        assertEquals("Капучино", coffee.getCoffeeName())
 
-        //"когда" вызовется getCoffeeName() "вернуть" Капучино
-        Mockito.`when`(coffee.getCoffeeName()).thenAnswer { "Капучино" }
-        assertEquals(coffee.getCoffeeName(), "Капучино")
     }
 
     @Test
@@ -46,8 +47,46 @@ class Example {
 
     //Передаем соответствующий аргумент в метод compareTo и получаем нужное значение
     @Test
-    fun testReturnValueDependentOnMethodParameter() {
+    fun testVerify() {
+        //Создаем мок
+        //val coffee = mock(Coffee::class.java)
+        `when`(coffee.getCode()).thenReturn(43)
+        coffee.setCode(11)
+        coffee.setCode(12)
+        coffee.getCode()
+        coffee.getCode()
+        coffee.getCode()
+        coffee.getCode()
+        coffee.getCode()
 
+        //Убеждаемся, что метод setId вызван, и туда передано значение именно 12
+        verify(coffee).setCode(12)
+        //Убеждаемся, что метод getId вызван два раза.
+        verify(coffee, times(5)).getCode()
+        //Использование других параметров
+        verify(coffee, never()).getCoffeeName()
+        verify(coffee, atLeastOnce()).getCode()
+        verify(coffee, atLeast(2)).getCode()
+        verify(coffee, times(2)).setCode(anyInt())
+        verify(coffee, atMost(6)).getCode()
     }
 
+
+    @Test
+    fun testOrder() {
+        //Создаем мок
+        val mockCooker = mock(ICooker::class.java)
+        val c = Coffee(mockCooker)
+
+        c.makeCoffee()
+
+        val inOrder = inOrder(mockCooker)
+        verify(mockCooker, atLeastOnce()).boilWater()
+        verify(mockCooker, times(1)).addCoffee()
+        verify(mockCooker, times(1)).cook()
+
+        inOrder.verify(mockCooker).boilWater()
+        inOrder.verify(mockCooker).addCoffee()
+        inOrder.verify(mockCooker).cook()
+    }
 }

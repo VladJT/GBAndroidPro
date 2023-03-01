@@ -16,7 +16,7 @@ open class MainViewModel(
     private val queryStateFlow = MutableStateFlow("")
 
     init {
-     //   Log.d("TAG", "init viewModel")
+        //   Log.d("TAG", "init viewModel")
         initQueryStateFlow()
     }
 
@@ -41,27 +41,35 @@ open class MainViewModel(
         }
     }
 
-    private fun loadData(word: String) {
+    fun loadData(word: String) {
         liveData.value = AppState.Loading(0)
         cancelJob()
         viewModelCoroutineScope.launch {
             withContext(Dispatchers.IO) {
                 val response = getDataFromInteractor(word, networkStatus.isOnline())
-                (1..10).forEach {
-                    liveData.postValue(AppState.Loading(it * 10))
-                    delay(20)
-                }
-                liveData.postValue(response)
+                showProgress()
+                handleResponse(response)
             }
         }
     }
 
-    suspend fun getDataFromInteractor(word: String, isOnline:Boolean): AppState {
+    suspend fun showProgress() {
+        (1..10).forEach {
+            liveData.postValue(AppState.Loading(it * 10))
+            delay(20)
+        }
+    }
+
+    suspend fun getDataFromInteractor(word: String, isOnline: Boolean): AppState {
         return interactor.getData(word, isOnline)
     }
 
     override fun getData(word: String) {
         queryStateFlow.value = word
+    }
+
+    fun handleResponse(response: AppState) {
+        liveData.postValue(response)
     }
 
     // Обрабатываем ошибки
