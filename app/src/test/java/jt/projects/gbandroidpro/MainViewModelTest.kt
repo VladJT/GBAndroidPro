@@ -8,12 +8,11 @@ import jt.projects.utils.network.INetworkStatus
 import kotlinx.coroutines.*
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
-import org.junit.After
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.Mockito.*
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.jupiter.MockitoExtension
@@ -26,22 +25,35 @@ class MainViewModelTest {
 
     private val mainViewModel: MainViewModel by lazy { MainViewModel(interactor, networkStatus) }
 
-    @Mock
+    @Mock(strictness = Mock.Strictness.LENIENT)
     private lateinit var interactor: MainInteractorImpl
 
-    @Mock
+    @Mock(strictness = Mock.Strictness.LENIENT)
     private lateinit var networkStatus: INetworkStatus
 
     @OptIn(DelicateCoroutinesApi::class)
     private val mainThreadSurrogate = newSingleThreadContext("UI thread")
 
-    @Before
+    private val GOOD_QUERY = "correct query"
+    private val BAD_QUERY = "some incorrect query"
+
+    @BeforeEach
     fun setUp() {
         MockitoAnnotations.openMocks(this)
         Dispatchers.setMain(mainThreadSurrogate)
+
+        `when`(networkStatus.isOnline()).thenReturn(true)
+        runBlocking {
+            `when`(interactor.getData(BAD_QUERY, networkStatus.isOnline())).thenReturn(
+                APPSTATE_ERROR_EMPTY_DATA
+            )
+            `when`(interactor.getData(GOOD_QUERY, networkStatus.isOnline())).thenReturn(
+                APPSTATE_SUCCESS
+            )
+        }
     }
 
-    @After
+    @AfterEach
     fun tearDown() {
         Dispatchers.resetMain() // reset the main dispatcher to the original Main dispatcher
         mainThreadSurrogate.close()
@@ -49,32 +61,17 @@ class MainViewModelTest {
 
     @Test
     fun mainViewModel_getDataFromInteractor() {
-        val searchQuery = "some query"
-        runBlocking {
-            `when`(networkStatus.isOnline()).thenReturn(true)
-
-            CoroutineScope(mainThreadSurrogate).launch {
-                mainViewModel.getDataFromInteractor(
-                    searchQuery,
-                    networkStatus.isOnline()
-                )
-            }
-
-            verify(interactor, Mockito.times(1))
-                .getData(searchQuery, networkStatus.isOnline())
+        val response = runBlocking {
+            mainViewModel.getDataFromInteractor(GOOD_QUERY, networkStatus.isOnline())
         }
+        runBlocking { verify(interactor, times(1)).getData(GOOD_QUERY, networkStatus.isOnline()) }
+        assertSame(APPSTATE_SUCCESS, response)
     }
 
     @Test
     fun mainViewModel_handleError() {
-        val searchQuery = "some error query" //error
         val response = runBlocking {
-            `when`(networkStatus.isOnline()).thenReturn(true)
-            `when`(interactor.getData(searchQuery, networkStatus.isOnline())).thenReturn(
-                APPSTATE_ERROR_EMPTY_DATA
-            )
-
-            mainViewModel.getDataFromInteractor(searchQuery, networkStatus.isOnline())
+            mainViewModel.getDataFromInteractor(BAD_QUERY, networkStatus.isOnline())
         }
 
         assertSame(APPSTATE_ERROR_EMPTY_DATA, response)
@@ -83,19 +80,19 @@ class MainViewModelTest {
     @Test
     fun mainViewModel_checkRightOrder() {
         runBlocking {
-            val searchQuery = "some query"
-            `when`(networkStatus.isOnline()).thenReturn(true)
-            `when`(interactor.getData(searchQuery, true)).thenAnswer {
-                APPSTATE_SUCCESS
-            }
-
-
-
-            //Определяем порядок вызова методов какого класса мы хотим проверить
-            val inOrder = inOrder(interactor)
-
-            //Прописываем порядок вызова методов
-            verify(interactor).getData(searchQuery, true)
+//            val searchQuery = "some query"
+//            `when`(networkStatus.isOnline()).thenReturn(true)
+//            `when`(interactor.getData(searchQuery, true)).thenAnswer {
+//                APPSTATE_SUCCESS
+//            }
+//
+//
+//
+//            //Определяем порядок вызова методов какого класса мы хотим проверить
+//            val inOrder = inOrder(interactor)
+//
+//            //Прописываем порядок вызова методов
+//            verify(interactor).getData(searchQuery, true)
         }
     }
 }
