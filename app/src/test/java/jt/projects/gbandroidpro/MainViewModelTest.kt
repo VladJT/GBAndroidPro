@@ -44,12 +44,10 @@ class MainViewModelTest {
 
         `when`(networkStatus.isOnline()).thenReturn(true)
         runBlocking {
-            `when`(interactor.getData(BAD_QUERY, networkStatus.isOnline())).thenReturn(
-                APPSTATE_ERROR_EMPTY_DATA
-            )
-            `when`(interactor.getData(GOOD_QUERY, networkStatus.isOnline())).thenReturn(
-                APPSTATE_SUCCESS
-            )
+            `when`(interactor.getData(BAD_QUERY, networkStatus.isOnline()))
+                .thenReturn(APPSTATE_ERROR_EMPTY_DATA)
+            `when`(interactor.getData(GOOD_QUERY, networkStatus.isOnline()))
+                .thenReturn(APPSTATE_SUCCESS)
         }
     }
 
