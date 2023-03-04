@@ -13,11 +13,9 @@
         компании)
          -->
         <item name="postSplashScreenTheme">@style/Theme.GBAndroidPro</item>
-        <item name="android:windowSplashScreenBackground">@color/gray</item>
-        <item name="android:windowSplashScreenAnimatedIcon">@drawable/animated_icon</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/main_icon_foreground</item>
         <item name="android:windowSplashScreenAnimationDuration">2000</item>
-        <item name="android:windowSplashScreenIconBackgroundColor">?attr/colorSecondaryContainer</item>
-        <item name="android:windowSplashScreenBrandingImage">@drawable/branding_image</item>
+        <!--item name="android:windowSplashScreenBrandingImage">@drawable/branding_image</item-->
 
     </style>
 </resources>

@@ -45,7 +45,7 @@ abstract class BaseActivity<T : AppState> : ScopeActivity() {
                 }
             } else {
                 supportActionBar?.apply {
-                    title = title.toString() + " ⚡"
+                    title = title.toString() + " ⚡🦉"
                 }
             }
         }

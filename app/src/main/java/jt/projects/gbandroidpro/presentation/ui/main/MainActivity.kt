@@ -97,7 +97,7 @@ class MainActivity : BaseActivity<AppState>() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 showSplashScreen { AnimatedSplashScreen() }
             } else {
-                Thread.sleep(1500)
+                Thread.sleep(1000)
             }
 
         super.onCreate(savedInstanceState)

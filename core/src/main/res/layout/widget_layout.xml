@@ -2,7 +2,7 @@
     android:id="@+id/appwidget_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="#DFE0E1"
     android:orientation="vertical"
     android:padding="@dimen/widget_padding">
 
@@ -11,6 +11,7 @@
         android:id="@+id/appwidget_word"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="owl"
         android:textColor="@color/color_text_header"
         android:textSize="@dimen/text_size_standard_header"
         android:textStyle="bold" />
@@ -19,7 +20,7 @@
         android:id="@+id/appwidget_meanings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="смотреть,видеть"
+        android:text="сова"
         android:textColor="@color/color_text_main"
         android:textSize="@dimen/text_size_standard" />
 
@@ -28,5 +29,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@drawable/icon" />
+        android:src="@drawable/main_icon_foreground" />
 </LinearLayout>

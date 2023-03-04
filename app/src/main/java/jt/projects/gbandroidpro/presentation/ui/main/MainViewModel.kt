@@ -56,7 +56,7 @@ open class MainViewModel(
     override suspend fun showProgress() {
         (1..10).forEach {
             liveData.postValue(AppState.Loading(it * 10))
-            delay(20)
+            delay(10)
         }
     }
 

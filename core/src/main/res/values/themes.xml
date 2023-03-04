@@ -32,7 +32,7 @@
 
     <!-- FOR ANDROID < 12 -->
     <style name="Theme.GBSplashScreenTheme" parent="Theme.GBAndroidPro">
-        <item name="android:windowBackground">@drawable/bg</item>
+        <item name="android:windowBackground">@drawable/bg_2</item>
     </style>
 
     <style name="SoundButton" parent="Widget.AppCompat.Button.Borderless">
