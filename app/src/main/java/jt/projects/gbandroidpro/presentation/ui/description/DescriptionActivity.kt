@@ -35,9 +35,11 @@ class DescriptionActivity : AppCompatActivity() {
 
     private val coilImageLoader: CoilImageLoader by inject()
 
+    var mediaPlayer: MediaPlayer? = null
+    var isPressed = false
 
     companion object {
-        private const val WORD_EXTRA = "f76a288a-5dcc-43f1-ba89-7fe1d53f63b0"
+        const val WORD_EXTRA = "f76a288a-5dcc-43f1-ba89-7fe1d53f63b0"
 
         fun getIntent(
             context: Context,
@@ -64,24 +66,27 @@ class DescriptionActivity : AppCompatActivity() {
             startLoadingOrShowError()
         }
 
-        initButtonSound()
+        val soundUrl = extractData()?.soundUrl
+        initButtonSound(soundUrl)
         setData()
     }
 
-    fun initButtonSound() {
+    private fun initButtonSound(soundUrl: String?) {
         binding.buttonSound.setOnClickListener {
-            val soundUrl = extractData()?.soundUrl
+            isPressed = true
             if (soundUrl.isNullOrEmpty()) {
                 showSnackbar("Нет ссылки для прослушивания")
             } else
                 if (!getKoin().get<INetworkStatus>(named(NETWORK_SERVICE)).isOnline()) {
                     showNoInternetConnectionDialog()
                 } else {
-                    val mp = MediaPlayer()
                     try {
-                        mp.setDataSource(soundUrl)
-                        mp.prepare()
-                        mp.start()
+                        if (mediaPlayer == null) {
+                            mediaPlayer = MediaPlayer()
+                            mediaPlayer?.setDataSource(soundUrl)
+                            mediaPlayer?.prepare()
+                        }
+                        mediaPlayer?.start()
                     } catch (e: Exception) {
                         showSnackbar("Error: Couldn't Play the Audio")
                     }
@@ -188,5 +193,9 @@ class DescriptionActivity : AppCompatActivity() {
             ).into(imageView)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        mediaPlayer?.release()
+    }
 
 }
