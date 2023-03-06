@@ -59,7 +59,7 @@ class DescriptionActivity : AppCompatActivity() {
         binding = ActivityDescriptionBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar?.subtitle = "Карточка детализации"
+        supportActionBar?.subtitle = getString(R.string.subtitle_description_activity)
         setActionbarHomeButtonAsUp()
 
         binding.descriptionScreenSwipeRefreshLayout.setOnRefreshListener {
@@ -75,7 +75,7 @@ class DescriptionActivity : AppCompatActivity() {
         binding.buttonSound.setOnClickListener {
             isPressed = true
             if (soundUrl.isNullOrEmpty()) {
-                showSnackbar("Нет ссылки для прослушивания")
+                showSnackbar(getString(R.string.empty_audio_link))
             } else
                 if (!getKoin().get<INetworkStatus>(named(NETWORK_SERVICE)).isOnline()) {
                     showNoInternetConnectionDialog()
@@ -88,10 +88,9 @@ class DescriptionActivity : AppCompatActivity() {
                         }
                         mediaPlayer?.start()
                     } catch (e: Exception) {
-                        showSnackbar("Error: Couldn't Play the Audio")
+                        showSnackbar(getString(R.string.error_play_audio))
                     }
                 }
-
         }
     }
 
@@ -170,7 +169,7 @@ class DescriptionActivity : AppCompatActivity() {
                 override fun onLoadFailed(
                     e: GlideException?,
                     model: Any?,
-                    target: com.bumptech.glide.request.target.Target<Drawable>?,
+                    target: Target<Drawable>?,
                     isFirstResource: Boolean
                 ): Boolean {
                     stopRefreshAnimationIfNeeded()

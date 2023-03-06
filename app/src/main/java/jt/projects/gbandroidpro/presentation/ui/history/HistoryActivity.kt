@@ -14,12 +14,12 @@ import jt.projects.gbandroidpro.presentation.ui.description.DescriptionActivity
 import jt.projects.gbandroidpro.presentation.ui.dialogs.AlertDialogFragment
 import jt.projects.model.data.AppState
 import jt.projects.model.data.DataModel
+import jt.projects.utils.ViewModelNotInitException
 import jt.projects.utils.ui.showSnackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @SuppressLint("Instantiatable")
 class HistoryActivity : BaseActivity<AppState>() {
-
 
     override val model: HistoryViewModel by viewModel()
 
@@ -39,7 +39,7 @@ class HistoryActivity : BaseActivity<AppState>() {
         super.onCreate(savedInstanceState)
         binding = ActivityHistoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        supportActionBar?.subtitle = "История запросов"
+        supportActionBar?.subtitle = getString(R.string.subtitle_history_activity)
         setActionbarHomeButtonAsUp()
 
         iniViewModel()
@@ -57,7 +57,7 @@ class HistoryActivity : BaseActivity<AppState>() {
                 onBackPressed()
                 true
             }
-            R.id.menu_history -> {
+            R.id.menu_clean_history -> {
                 showDeleteDialog()
                 true
             }
@@ -65,12 +65,12 @@ class HistoryActivity : BaseActivity<AppState>() {
         }
     }
 
-    private fun showDeleteDialog() {
-        AlertDialogFragment.newInstance("Подтверждение",
-            "Вы точно желаете удалить историю запросов",
+    fun showDeleteDialog() {
+        AlertDialogFragment.newInstance(getString(R.string.dialog_clean_history_title),
+            getString(R.string.dialog_clean_history_message),
             okPressed = {
                 model.cleanHistory()
-                showSnackbar("Данные успешно очищены")
+                showSnackbar(getString(R.string.dialog_clean_history_ok_pressed))
             },
             cancelPressed = {})
             .show(supportFragmentManager, AlertDialogFragment.TAG)
@@ -89,7 +89,7 @@ class HistoryActivity : BaseActivity<AppState>() {
 
     private fun iniViewModel() {
         if (binding.historyActivityRecyclerview.adapter != null) {
-            throw IllegalStateException("The ViewModel should be initialised first")
+            throw ViewModelNotInitException
         }
         model.liveDataForViewToObserve.observe(this@HistoryActivity, Observer<AppState> {
             renderData(it)

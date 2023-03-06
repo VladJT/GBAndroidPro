@@ -1,11 +1,12 @@
 package jt.projects.gbandroidpro.others
-interface ICooker{
+
+interface ICooker {
     fun cook()
     fun addCoffee()
     fun boilWater()
 }
 
-class Cooker():ICooker {
+class Cooker() : ICooker {
     override fun cook() {
         println("cook")
     }
@@ -19,17 +20,16 @@ class Cooker():ICooker {
     }
 }
 
-interface ICoffee{
-    fun getCoffeeName() :String
+interface ICoffee {
+    fun getCoffeeName(): String
     fun getCode(): Int
     fun setCode(code: Int)
     fun makeCoffee()
 }
 
-class Coffee(val cooker: ICooker) :ICoffee {
+class Coffee(val cooker: ICooker) : ICoffee {
     private var name: String = ""
     var cc: Int = 0
-
 
 
     override fun getCoffeeName(): String {

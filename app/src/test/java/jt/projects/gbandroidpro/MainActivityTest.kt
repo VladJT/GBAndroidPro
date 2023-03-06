@@ -2,22 +2,25 @@ package jt.projects.gbandroidpro
 
 import android.view.inputmethod.EditorInfo
 import androidx.test.core.app.ActivityScenario
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
+import jt.projects.gbandroidpro.di.*
 import jt.projects.gbandroidpro.presentation.ui.main.MainActivity
+import junit.framework.TestCase
 import org.junit.After
-import org.junit.Assert.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.core.context.GlobalContext
 import org.koin.core.context.stopKoin
+import org.koin.test.junit5.AutoCloseKoinTest
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.shadows.ShadowToast
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
 
 @RunWith(RobolectricTestRunner::class)
-class MainActivityTest {
+class MainActivityTest : AutoCloseKoinTest() {
 
     lateinit var scenario: ActivityScenario<MainActivity>
 
@@ -28,30 +31,51 @@ class MainActivityTest {
 
     @After
     fun tearDown() {
-     //   stopKoin()
         scenario.close()
+        if (GlobalContext.getOrNull() != null) {
+            stopKoin()
+        }
+    }
+
+    //убедимся, что Активити корректно создается
+    @Test
+    fun activity_AssertNotNull() {
+        scenario.onActivity {
+            TestCase.assertNotNull(it)
+        }
     }
 
     @Test
-    fun testSearchEditText_Input() {
+    fun testSearchEditText_InputIsWorked() {
         scenario.onActivity {
+            val someText = "some text"
             val searchEditText = it.findViewById<TextInputEditText>(R.id.search_edit_text)
-            searchEditText.setText("some word")
+            searchEditText.setText(someText)
 
             assertNotNull(searchEditText.text)
-            assertEquals("some word", searchEditText.text.toString())
+            assertEquals(someText, searchEditText.text.toString())
         }
     }
 
+    @Test
     fun testSearchEditText_GetData() {
         scenario.onActivity {
+            val someText = "cool"
             val searchEditText = it.findViewById<TextInputEditText>(R.id.search_edit_text)
-            searchEditText.setText("cool")
+            searchEditText.setText(someText)
             searchEditText.onEditorAction(EditorInfo.IME_ACTION_NEXT)
-            ShadowHandler.idleMainLooper()
-            assertThat(ShadowToast.getTextOfLatestToast()).isEqualTo(("Ваш текст"))
+
+            assertEquals(someText, searchEditText.text.toString())
         }
     }
 
+    @Test
+    fun buttonFab_IsWorking() {
+        scenario.onActivity {
+            val button = it.findViewById<FloatingActionButton>(R.id.search_fab)
+            button.performClick()
 
+            assertNotNull(button)
+        }
+    }
 }

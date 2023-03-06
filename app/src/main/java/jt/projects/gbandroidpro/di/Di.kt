@@ -12,8 +12,6 @@ import jt.projects.gbandroidpro.presentation.ui.history.HistoryViewModel
 import jt.projects.gbandroidpro.presentation.ui.main.MainActivity
 import jt.projects.gbandroidpro.presentation.ui.main.MainInteractorImpl
 import jt.projects.gbandroidpro.presentation.ui.main.MainViewModel
-import jt.projects.model.data.DataModel
-import jt.projects.repository.Repository
 import jt.projects.repository.RepositoryImpl
 import jt.projects.repository.RepositoryLocalImpl
 import jt.projects.repository.retrofit.RetrofitImpl
@@ -25,7 +23,6 @@ import jt.projects.utils.network.INetworkStatus
 import jt.projects.utils.network.NetworkStatus
 import jt.projects.utils.shared_preferences.SimpleSharedPref
 import jt.projects.utils.ui.CoilImageLoader
-import kotlinx.coroutines.flow.Flow
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named

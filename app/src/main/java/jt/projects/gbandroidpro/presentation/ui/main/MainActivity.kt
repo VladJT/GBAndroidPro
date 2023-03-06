@@ -29,6 +29,8 @@ import jt.projects.gbandroidpro.presentation.ui.description.DescriptionActivity
 import jt.projects.gbandroidpro.presentation.ui.history.HistoryActivity
 import jt.projects.model.data.AppState
 import jt.projects.model.data.DataModel
+import jt.projects.utils.LOG_TAG
+import jt.projects.utils.ViewModelNotInitException
 import jt.projects.utils.WIDGET_DATA
 import jt.projects.utils.ui.showSnackbar
 import jt.projects.utils.ui.viewById
@@ -105,7 +107,7 @@ class MainActivity : BaseActivity<AppState>() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.apply {
-            subtitle = "Главное окно"
+            subtitle = getString(R.string.subtitle_main_activity)
         }
 
         initViewModel()
@@ -154,7 +156,7 @@ class MainActivity : BaseActivity<AppState>() {
     private fun initViewModel() {
         // Убедимся, что модель инициализируется раньше View
         if (binding.mainActivityRecyclerview.adapter != null) {
-            throw IllegalStateException("The ViewModel should be initialised first")
+            throw ViewModelNotInitException
         }
 
         model.liveDataForViewToObserve.observe(this, Observer<AppState> {
@@ -164,19 +166,6 @@ class MainActivity : BaseActivity<AppState>() {
 
 
     private fun initFabButton() {
-//        binding.searchFab.setOnClickListener {
-//            setBlur(binding.root, true)
-//
-//            val onSearchDialogClose: (String?) -> Unit = { word: String? ->
-//                if (word != null) binding.searchEditText.setText(word)
-//                setBlur(binding.root, false)
-//            }
-//
-//            val searchDialogFragment = SearchDialogFragment.newInstance(onSearchDialogClose)
-//
-//            searchDialogFragment.show(supportFragmentManager, BOTTOM_SHEET_FRAGMENT_DIALOG_TAG)
-//        }
-
         binding.searchFab.setOnClickListener {
             try {
                 setBlur(binding.root, true)
@@ -188,8 +177,8 @@ class MainActivity : BaseActivity<AppState>() {
                 intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
                 startActivityForResult(intent, REQUEST_CODE_VOICE)
             } catch (e: ActivityNotFoundException) {
-                Log.e("TAG", e.message.toString())
-                showSnackbar("Не найдено приложение для голосового ввода")
+                Log.e(LOG_TAG, e.message.toString())
+                showSnackbar(getString(R.string.no_app_for_voice_input))
             }
         }
     }

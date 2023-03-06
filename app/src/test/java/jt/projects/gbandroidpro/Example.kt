@@ -91,7 +91,7 @@ class Example {
     }
 
     @Test
-    fun testChainResult(){
+    fun testChainResult() {
         `when`(coffee.getCoffeeName()).thenReturn("Капучино").thenReturn("Moccka")
         assertEquals("Капучино", coffee.getCoffeeName())
         assertEquals("Moccka", coffee.getCoffeeName())

@@ -8,7 +8,6 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.Lifecycle
-import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import jt.projects.gbandroidpro.presentation.ui.description.DescriptionActivity
 import jt.projects.model.data.DataModel
@@ -18,15 +17,17 @@ import org.junit.runner.RunWith
 import org.koin.core.context.stopKoin
 import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.Shadows
+import org.robolectric.shadows.ShadowDialog
 
 
 @RunWith(RobolectricTestRunner::class)
 class DescriptionActivityTest {
 
-    lateinit var scenario: ActivityScenario<DescriptionActivity>
     lateinit var activity: DescriptionActivity
+    private lateinit var context: Context
 
-    val testData = DataModel(
+    private val testData = DataModel(
         "go",
         "бежать",
         "imageUrl",
@@ -35,7 +36,7 @@ class DescriptionActivityTest {
 
     @Before
     fun setUp() {
-        scenario = ActivityScenario.launch(DescriptionActivity::class.java)
+        context = ApplicationProvider.getApplicationContext()
 
         activity = Robolectric.buildActivity(DescriptionActivity::class.java, Intent().apply {
             putExtra(
@@ -53,13 +54,11 @@ class DescriptionActivityTest {
     @After
     fun tearDown() {
         stopKoin()
-        scenario.close()
     }
 
     //проверим статический метод getIntent()
     @Test
     fun activityCreateIntent_NotNull() {
-        val context: Context = ApplicationProvider.getApplicationContext()
         val intent = DescriptionActivity.getIntent(context, testData)
         assertNotNull(intent)
 
@@ -69,27 +68,22 @@ class DescriptionActivityTest {
     }
 
 
-
-    //убедимся, что Активити корректно создается
+    // проверка, что Activity корректно создается
     @Test
     fun activity_AssertNotNull() {
-        scenario.onActivity {
-            assertNotNull(it)
-        }
+        assertNotNull(activity)
     }
 
-
-
-    //убедимся, что Активити в нужном нам состоянии RESUMED
+    // проверка, что Activity в нужном нам состоянии RESUMED
     @Test
     fun activity_IsResumed() {
-        assertEquals(Lifecycle.State.RESUMED, scenario.state)
+        assertEquals(Lifecycle.State.RESUMED, activity.lifecycle.currentState)
     }
 
     // Проверим, что  элементы Активити  существуют, т.е. загружается нужный нам layout
     @Test
-    fun activityTextView_NotNull() {
-        scenario.onActivity {
+    fun textViews_NotNull() {
+        activity.also {
             val descriptionHeader =
                 it.findViewById<TextView>(R.id.description_header)
             assertNotNull(descriptionHeader)
@@ -102,6 +96,14 @@ class DescriptionActivityTest {
                 it.findViewById<TextView>(R.id.description_textview)
             assertNotNull(description)
 
+            val imageView = it.findViewById<ImageView>(R.id.description_imageview)
+            assertNotNull(imageView)
+        }
+    }
+
+    @Test
+    fun imageView_NotNull() {
+        activity.also {
             val imageView = it.findViewById<ImageView>(R.id.description_imageview)
             assertNotNull(imageView)
         }
@@ -130,7 +132,7 @@ class DescriptionActivityTest {
 
     @Test
     fun buttonSound_IsWorking() {
-        scenario.onActivity {
+        activity.also {
             val button = it.findViewById<Button>(R.id.button_sound)
             assertFalse(it.isPressed)
 

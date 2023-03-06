@@ -18,3 +18,14 @@ const val SP_DB_KEY = "ALL_SETTINGS_IN_JSON_FORMAT"
 const val INTENT_ACTION_WIDGET_CLICKED = "INTENT_ACTION_WIDGET_CLICKED"
 const val INTENT_ACTION_WIDGET_UPDATE_DATA = "INTENT_ACTION_WIDGET_UPDATE_DATA"
 const val WIDGET_DATA = "WIDGET_DATA"
+
+
+/**
+ * EXCEPTIONS
+ */
+val ViewModelNotInitException = IllegalStateException("The ViewModel should be initialised first")
+
+/**
+ * LOGS
+ */
+const val LOG_TAG = "TAG"
