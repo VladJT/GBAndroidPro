@@ -1,6 +1,5 @@
 package jt.projects.core
 
-import android.media.tv.AdResponse
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

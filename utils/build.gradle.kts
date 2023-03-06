@@ -50,24 +50,14 @@ dependencies {
     implementation(Kotlin.core)
     implementation(Kotlin.stdlib)
 
-    // Test
-    testImplementation(TestImpl.junit)
-    androidTestImplementation(TestImpl.runner)
-    androidTestImplementation(TestImpl.espresso)
-    androidTestImplementation(TestImpl.extjunit)
-
     // Koin for Android
     implementation(Koin.core)
     implementation(Koin.viewmodel)
     implementation(Koin.compat)
-    testImplementation(Koin.test)
 
     // RXJAVA
     implementation(RxJava.rxjava)
     implementation(RxJava.rxandroid)
-    implementation(RxJava.adapter_rxjava3)
-
-    implementation(Retrofit.converter_gson)
 
     //Coil
     implementation(Coil.coil)

@@ -19,8 +19,8 @@ import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import jt.projects.gbandroidpro.R
 import jt.projects.gbandroidpro.databinding.ActivityDescriptionBinding
-import jt.projects.gbandroidpro.di.NETWORK_SERVICE
 import jt.projects.model.data.DataModel
+import jt.projects.utils.NETWORK_SERVICE
 import jt.projects.utils.network.INetworkStatus
 import jt.projects.utils.ui.CoilImageLoader
 import jt.projects.utils.ui.showNoInternetConnectionDialog
@@ -39,13 +39,13 @@ class DescriptionActivity : AppCompatActivity() {
     var isPressed = false
 
     companion object {
-        const val WORD_EXTRA = "f76a288a-5dcc-43f1-ba89-7fe1d53f63b0"
+        const val DATA_KEY = "f76a288a-5dcc-43f1-ba89-7fe1d53f63b0"
 
         fun getIntent(
             context: Context,
             data: DataModel
         ): Intent = Intent(context, DescriptionActivity::class.java).apply {
-            putExtra(WORD_EXTRA, data)
+            putExtra(DATA_KEY, data)
         }
     }
 
@@ -110,7 +110,7 @@ class DescriptionActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
-    private fun extractData(): DataModel? = intent.getParcelableExtra(WORD_EXTRA)
+    private fun extractData(): DataModel? = intent.getParcelableExtra(DATA_KEY)
 
     private fun setData() {
         val data = extractData()

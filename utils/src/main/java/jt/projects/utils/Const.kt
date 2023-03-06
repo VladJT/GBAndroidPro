@@ -29,3 +29,10 @@ val ViewModelNotInitException = IllegalStateException("The ViewModel should be i
  * LOGS
  */
 const val LOG_TAG = "TAG"
+
+/**
+ * DI
+ */
+const val NAME_REMOTE = "Remote"
+const val NAME_LOCAL = "Local"
+const val NETWORK_SERVICE = "NETWORK_SERVICE"

@@ -45,18 +45,5 @@ dependencies {
     // AndroidX
     implementation(Design.appcompat)
 
-    // Design
-    implementation(Design.material)
-
-    // Kotlin
-    implementation(Kotlin.core)
-    implementation(Kotlin.stdlib)
-
-    // Test
-    testImplementation(TestImpl.junit)
-    androidTestImplementation(TestImpl.runner)
-    androidTestImplementation(TestImpl.espresso)
-    androidTestImplementation(TestImpl.extjunit)
-
     implementation(Retrofit.converter_gson)
 }

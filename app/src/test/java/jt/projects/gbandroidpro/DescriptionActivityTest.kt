@@ -17,8 +17,6 @@ import org.junit.runner.RunWith
 import org.koin.core.context.stopKoin
 import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.Shadows
-import org.robolectric.shadows.ShadowDialog
 
 
 @RunWith(RobolectricTestRunner::class)
@@ -40,7 +38,7 @@ class DescriptionActivityTest {
 
         activity = Robolectric.buildActivity(DescriptionActivity::class.java, Intent().apply {
             putExtra(
-                DescriptionActivity.WORD_EXTRA,
+                DescriptionActivity.DATA_KEY,
                 testData
             )
         })
@@ -64,7 +62,7 @@ class DescriptionActivityTest {
 
         val bundle = intent.extras
         assertNotNull(bundle)
-        assertEquals(testData, bundle?.getParcelable(DescriptionActivity.WORD_EXTRA))
+        assertEquals(testData, bundle?.getParcelable(DescriptionActivity.DATA_KEY))
     }
 
 

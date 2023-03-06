@@ -44,22 +44,6 @@ dependencies {
     implementation(project(Modules.utils))
     implementation(project(Modules.model))
 
-    // AndroidX
-    implementation(Design.appcompat)
-
-    // Design
-    implementation(Design.material)
-
-    // Kotlin
-    implementation(Kotlin.core)
-    implementation(Kotlin.stdlib)
-
-    // Test
-    testImplementation(TestImpl.junit)
-    androidTestImplementation(TestImpl.runner)
-    androidTestImplementation(TestImpl.espresso)
-    androidTestImplementation(TestImpl.extjunit)
-
     // Room
     implementation(Room.runtime)
     kapt(Room.compiler)

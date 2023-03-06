@@ -1,9 +1,6 @@
 package jt.projects.core.splash_screen
 
 import android.app.Activity
-import android.os.CountDownTimer
-import android.view.View
-import android.view.ViewTreeObserver
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import java.util.concurrent.Executors
 

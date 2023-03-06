@@ -18,6 +18,7 @@ import jt.projects.repository.retrofit.RetrofitImpl
 import jt.projects.repository.room.HistoryDao
 import jt.projects.repository.room.HistoryDatabase
 import jt.projects.repository.room.RoomDatabaseImpl
+import jt.projects.utils.NETWORK_SERVICE
 import jt.projects.utils.SP_DB_NAME
 import jt.projects.utils.network.INetworkStatus
 import jt.projects.utils.network.NetworkStatus

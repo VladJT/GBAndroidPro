@@ -3,7 +3,6 @@ package jt.projects.core.splash_screen
 import android.animation.ObjectAnimator
 import android.os.Build
 import android.view.View
-import android.view.animation.AccelerateInterpolator
 import android.view.animation.AnticipateInterpolator
 import androidx.annotation.RequiresApi
 import androidx.core.animation.doOnEnd

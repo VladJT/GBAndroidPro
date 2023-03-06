@@ -7,8 +7,6 @@ import android.os.Build.VERSION_CODES
 import android.os.Bundle
 import android.view.View
 import jt.projects.core.databinding.LoadingLayoutBinding
-import jt.projects.core.splash_screen.AnimatedSplashScreen
-import jt.projects.core.splash_screen.showSplashScreen
 import jt.projects.model.data.AppState
 import jt.projects.model.data.DataModel
 import jt.projects.utils.network.OnlineLiveData
@@ -28,7 +26,7 @@ abstract class BaseActivity<T : AppState> : ScopeActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // убираем splash screen
-        if(Build.VERSION.SDK_INT < VERSION_CODES.S) {
+        if (Build.VERSION.SDK_INT < VERSION_CODES.S) {
             setTheme(R.style.Theme_GBAndroidPro)
         }
         super.onCreate(savedInstanceState)

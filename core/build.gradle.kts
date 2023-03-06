@@ -56,13 +56,6 @@ dependencies {
     implementation(Kotlin.core)
     implementation(Kotlin.stdlib)
 
-    // Test
-    testImplementation(TestImpl.junit)
-    androidTestImplementation(TestImpl.runner)
-    androidTestImplementation(TestImpl.espresso)
-    androidTestImplementation(TestImpl.extjunit)
-
-    implementation(Retrofit.converter_gson)
 
     // Koin for Android
     implementation(Koin.core)
