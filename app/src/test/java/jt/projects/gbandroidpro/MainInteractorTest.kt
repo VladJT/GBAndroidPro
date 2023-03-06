@@ -38,7 +38,7 @@ import kotlin.system.measureTimeMillis
 @ExtendWith(
     MockitoExtension::class
 )
-class RemoteRepoTest : KoinTest {
+class MainInteractorTest : KoinTest {
     companion object {
         @AfterClass
         fun after() {
