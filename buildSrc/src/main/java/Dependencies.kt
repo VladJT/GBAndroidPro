@@ -62,7 +62,7 @@ object Versions {
     //Test
     const val jUnit = "4.13.2"
     const val runner = "1.2.0"
-    const val espressoCore = "3.5.0"
+    const val espressoCore = "3.5.1"
     const val extjUnit = "1.1.5"
 }
 

@@ -115,6 +115,9 @@ dependencies {
 
     testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.9.2")
 
+    // ESPRESSO
+    androidTestImplementation(TestImpl.espresso)
+    implementation("androidx.test.espresso:espresso-intents:3.5.1")
 
     // MOCKITO
     testImplementation("org.mockito:mockito-core:4.6.1")
@@ -131,8 +134,6 @@ dependencies {
 
     implementation("androidx.test:runner:1.5.2")
     implementation("androidx.test.ext:truth:1.5.0")
-    implementation("androidx.test.espresso:espresso-core:3.5.1")
-    implementation("androidx.test.espresso:espresso-intents:3.5.1")
 
 
     // implementation(fileTree(dir: 'libs', include: ['*.jar'])
