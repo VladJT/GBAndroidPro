@@ -13,6 +13,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.rules.activityScenarioRule
 import jt.projects.gbandroidpro.presentation.ui.description.DescriptionActivity
 import jt.projects.model.data.DataModel
+import jt.projects.model.data.testData
 import junit.framework.TestCase.*
 import org.junit.*
 import org.junit.runner.RunWith
@@ -24,13 +25,6 @@ import org.robolectric.RobolectricTestRunner
 class DescriptionActivityTest {
 
     private lateinit var context: Context
-
-    private val testData = DataModel(
-        "go",
-        "бежать",
-        "imageUrl",
-        "https://vimbox-tts.skyeng.ru/api/v1/tts?text=beer+garden&lang=en&voice=male_2"
-    )
 
     private lateinit var scenario: ActivityScenario<DescriptionActivity>
 

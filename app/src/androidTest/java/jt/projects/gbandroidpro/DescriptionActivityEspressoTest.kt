@@ -14,6 +14,7 @@ import androidx.test.ext.junit.rules.activityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import jt.projects.gbandroidpro.presentation.ui.description.DescriptionActivity
 import jt.projects.model.data.DataModel
+import jt.projects.model.data.testData
 import junit.framework.TestCase
 import junit.framework.TestCase.assertEquals
 import org.junit.After
@@ -34,13 +35,7 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class DescriptionActivityEspressoTest {
-    private val testData = DataModel(
-        "go",
-        "бежать",
-        "imageUrl",
-        "https://vimbox-tts.skyeng.ru/api/v1/tts?text=beer+garden&lang=en&voice=male_2",
-        "gogogo"
-    )
+
     private val intent =
         Intent(ApplicationProvider.getApplicationContext(), DescriptionActivity::class.java)
             .putExtra(DescriptionActivity.DATA_KEY, testData)
