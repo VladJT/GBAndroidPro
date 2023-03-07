@@ -21,7 +21,6 @@ import org.robolectric.shadows.ShadowDialog
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
-
 @RunWith(RobolectricTestRunner::class)
 class HistoryActivityTest : AutoCloseKoinTest() {
 

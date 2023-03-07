@@ -18,7 +18,6 @@ import org.koin.core.context.stopKoin
 import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 
-
 @RunWith(RobolectricTestRunner::class)
 class DescriptionActivityTest {
 
