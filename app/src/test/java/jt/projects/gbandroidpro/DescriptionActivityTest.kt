@@ -8,21 +8,21 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.Lifecycle
+import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.rules.activityScenarioRule
 import jt.projects.gbandroidpro.presentation.ui.description.DescriptionActivity
 import jt.projects.model.data.DataModel
 import junit.framework.TestCase.*
 import org.junit.*
 import org.junit.runner.RunWith
 import org.koin.core.context.stopKoin
-import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 
 
 @RunWith(RobolectricTestRunner::class)
 class DescriptionActivityTest {
 
-    lateinit var activity: DescriptionActivity
     private lateinit var context: Context
 
     private val testData = DataModel(
@@ -32,26 +32,27 @@ class DescriptionActivityTest {
         "https://vimbox-tts.skyeng.ru/api/v1/tts?text=beer+garden&lang=en&voice=male_2"
     )
 
+    private lateinit var scenario: ActivityScenario<DescriptionActivity>
+
+    private val intent =
+        Intent(ApplicationProvider.getApplicationContext(), DescriptionActivity::class.java)
+            .putExtra(DescriptionActivity.DATA_KEY, testData)
+
+    @get:Rule
+    val activityRule = activityScenarioRule<DescriptionActivity>(intent)
+
+
     @Before
     fun setUp() {
         context = ApplicationProvider.getApplicationContext()
+        scenario = activityRule.scenario
 
-        activity = Robolectric.buildActivity(DescriptionActivity::class.java, Intent().apply {
-            putExtra(
-                DescriptionActivity.DATA_KEY,
-                testData
-            )
-        })
-            .create()
-            .visible()
-            .start()
-            .resume()
-            .get()
     }
 
     @After
     fun tearDown() {
         stopKoin()
+        scenario.close()
     }
 
     //проверим статический метод getIntent()
@@ -69,19 +70,23 @@ class DescriptionActivityTest {
     // проверка, что Activity корректно создается
     @Test
     fun activity_AssertNotNull() {
-        assertNotNull(activity)
+        scenario.onActivity {
+            assertNotNull(it)
+        }
     }
 
     // проверка, что Activity в нужном нам состоянии RESUMED
     @Test
     fun activity_IsResumed() {
-        assertEquals(Lifecycle.State.RESUMED, activity.lifecycle.currentState)
+        scenario.onActivity {
+            assertEquals(Lifecycle.State.RESUMED, it.lifecycle.currentState)
+        }
     }
 
     // Проверим, что  элементы Активити  существуют, т.е. загружается нужный нам layout
     @Test
     fun textViews_NotNull() {
-        activity.also {
+        scenario.onActivity {
             val descriptionHeader =
                 it.findViewById<TextView>(R.id.description_header)
             assertNotNull(descriptionHeader)
@@ -101,7 +106,7 @@ class DescriptionActivityTest {
 
     @Test
     fun imageView_NotNull() {
-        activity.also {
+        scenario.onActivity {
             val imageView = it.findViewById<ImageView>(R.id.description_imageview)
             assertNotNull(imageView)
         }
@@ -110,7 +115,7 @@ class DescriptionActivityTest {
     // проверяем, что текстовые поля отображают ожидаемую информацию и видны на экране
     @Test
     fun descriptionHeader_HasText() {
-        activity.also {
+        scenario.onActivity {
             val descriptionHeader =
                 it.findViewById<TextView>(R.id.description_header)
             assertEquals(testData.text, descriptionHeader.text)
@@ -120,7 +125,7 @@ class DescriptionActivityTest {
 
     @Test
     fun description_HasText() {
-        activity.also {
+        scenario.onActivity {
             val description =
                 it.findViewById<TextView>(R.id.description_textview)
             assertEquals(testData.meanings, description.text)
@@ -130,7 +135,7 @@ class DescriptionActivityTest {
 
     @Test
     fun buttonSound_IsWorking() {
-        activity.also {
+        scenario.onActivity {
             val button = it.findViewById<Button>(R.id.button_sound)
             assertFalse(it.isPressed)
 

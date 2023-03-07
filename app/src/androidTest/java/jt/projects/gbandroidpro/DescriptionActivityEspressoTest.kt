@@ -1,15 +1,27 @@
 package jt.projects.gbandroidpro
 
+import android.content.Intent
 import android.widget.TextView
 import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.ViewAssertion
+import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.ext.junit.rules.activityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import jt.projects.gbandroidpro.presentation.ui.description.DescriptionActivity
+import jt.projects.model.data.DataModel
 import junit.framework.TestCase
+import junit.framework.TestCase.assertEquals
 import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+
 
 /**
  * десь стоит уделить немного внимания классу ActivityScenario. Это класс тестового
@@ -22,11 +34,25 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class DescriptionActivityEspressoTest {
+    private val testData = DataModel(
+        "go",
+        "бежать",
+        "imageUrl",
+        "https://vimbox-tts.skyeng.ru/api/v1/tts?text=beer+garden&lang=en&voice=male_2",
+        "gogogo"
+    )
+    private val intent =
+        Intent(ApplicationProvider.getApplicationContext(), DescriptionActivity::class.java)
+            .putExtra(DescriptionActivity.DATA_KEY, testData)
+
     private lateinit var scenario: ActivityScenario<DescriptionActivity>
+
+    @get:Rule
+    val activityRule = activityScenarioRule<DescriptionActivity>(intent)
 
     @Before
     fun setUp() {
-        scenario = ActivityScenario.launch(DescriptionActivity::class.java)
+        scenario = activityRule.scenario
     }
 
     @After
@@ -63,4 +89,47 @@ class DescriptionActivityEspressoTest {
         }
     }
 
+    @Test
+    fun activityHeader_HasText() {
+        val assertion: ViewAssertion = matches(withText(testData.text))
+        onView(withId(R.id.description_header)).check(assertion)
+    }
+
+    @Test
+    fun activityDescriptionHasText() {
+        val assertion: ViewAssertion = matches(withText(testData.meanings))
+        onView(withId(R.id.description_textview)).check(assertion)
+    }
+
+    // isDisplayed() вернет true если хотя бы часть View отображается на экране
+    @Test
+    fun transcriptionTextView_IsDisplayed() {
+        onView(withId(R.id.transcription)).check(matches(isDisplayed()))
+    }
+
+    // isCompletelyDisplayed() вернет true только если виджет полностью виден
+    @Test
+    fun descriptionImageView_IsCompletelyDisplayed() {
+        onView(withId(R.id.description_imageview)).check(matches(isCompletelyDisplayed()))
+    }
+
+    @Test
+    fun buttonSound_IsWorking() {
+        scenario.onActivity { assertEquals(false, it.isPressed) }
+        onView(withId(R.id.button_sound)).perform(ViewActions.click())
+        scenario.onActivity { assertEquals(true, it.isPressed) }
+    }
+
+    @Test
+    fun activityButtons_AreEffectiveVisible() {
+        onView(withId(R.id.button_sound)).check(
+            matches(
+                withEffectiveVisibility(
+                    Visibility
+                        .VISIBLE
+                )
+            )
+        )
+
+    }
 }
