@@ -13,10 +13,10 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.activityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import jt.projects.gbandroidpro.presentation.ui.description.DescriptionActivity
-import jt.projects.model.data.DataModel
 import jt.projects.model.data.testData
 import junit.framework.TestCase
 import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase.assertNotNull
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -58,13 +58,13 @@ class DescriptionActivityEspressoTest {
     @Test
     fun activity_AssertNotNull() {
         scenario.onActivity {
-            TestCase.assertNotNull(it)
+            assertNotNull(it)
         }
     }
 
     @Test
     fun activity_IsResumed() {
-        TestCase.assertEquals(Lifecycle.State.RESUMED, scenario.state)
+        assertEquals(Lifecycle.State.RESUMED, scenario.state)
     }
 
     @Test
@@ -72,15 +72,15 @@ class DescriptionActivityEspressoTest {
         scenario.onActivity {
             val descriptionHeader =
                 it.findViewById<TextView>(R.id.description_header)
-            TestCase.assertNotNull(descriptionHeader)
+            assertNotNull(descriptionHeader)
 
             val transcription =
                 it.findViewById<TextView>(R.id.transcription)
-            TestCase.assertNotNull(transcription)
+            assertNotNull(transcription)
 
             val description =
                 it.findViewById<TextView>(R.id.description_textview)
-            TestCase.assertNotNull(description)
+            assertNotNull(description)
         }
     }
 
