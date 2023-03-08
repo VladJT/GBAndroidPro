@@ -58,6 +58,7 @@ open class MainViewModel(
             liveData.postValue(AppState.Loading(it * 10))
             delay(10)
         }
+        delay(100)
     }
 
     suspend fun getDataFromInteractor(word: String, isOnline: Boolean): AppState {

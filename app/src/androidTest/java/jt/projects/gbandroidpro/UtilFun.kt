@@ -17,7 +17,7 @@ fun delay(value: Long): ViewAction? {
         // getDescription() возвращает описание нашего Action
         override fun getDescription(): String = "wait for $value milliseconds"
 
-        // “замораживаем” UI на 2 секунды
+        // “замораживаем” UI на value миллисекунд
         override fun perform(uiController: UiController, v: View?) {
             uiController.loopMainThreadForAtLeast(value)
         }
