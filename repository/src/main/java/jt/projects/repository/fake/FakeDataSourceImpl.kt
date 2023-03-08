@@ -1,4 +1,4 @@
-package jt.projects.repository
+package jt.projects.repository.fake
 
 import jt.projects.model.data.DataModel
 import jt.projects.model.data.testData

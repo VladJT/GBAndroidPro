@@ -4,9 +4,10 @@ package jt.projects.gbandroidpro.presentation.ui.main
 import jt.projects.core.Interactor
 import jt.projects.model.data.AppState
 import jt.projects.model.data.DataModel
-import jt.projects.repository.FakeDataSourceImpl
 import jt.projects.repository.Repository
+import jt.projects.repository.RepositoryImpl
 import jt.projects.repository.RepositoryLocal
+import jt.projects.repository.fake.FakeDataSourceImpl
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.toList
 
@@ -18,8 +19,8 @@ open class MainInteractorImpl(
 ) : Interactor<AppState> {
 
     override suspend fun getData(word: String, fromRemoteSource: Boolean): AppState {
-        val data = FakeDataSourceImpl().getDataByWord(word).toList()
-        return AppState.Success(data)
+        val fakeRepo = RepositoryImpl(FakeDataSourceImpl())
+        return AppState.Success(fakeRepo.getDataByWord(word).toList())
     }
 
 }
