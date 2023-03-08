@@ -18,7 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension
 @ExtendWith(
     MockitoExtension::class
 )
-class Example {
+class MockitoExample {
     @Mock
     lateinit var coffee: ICoffee
 

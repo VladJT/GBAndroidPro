@@ -109,14 +109,7 @@ class DescriptionActivityEspressoTest {
     }
 
     @Test
-    fun buttonSound_IsWorking() {
-        scenario.onActivity { assertEquals(false, it.isPressed) }
-        onView(withId(R.id.button_sound)).perform(ViewActions.click())
-        scenario.onActivity { assertEquals(true, it.isPressed) }
-    }
-
-    @Test
-    fun activityButtons_AreEffectiveVisible() {
+    fun buttonSound_IsVisible() {
         onView(withId(R.id.button_sound)).check(
             matches(
                 withEffectiveVisibility(
@@ -125,6 +118,13 @@ class DescriptionActivityEspressoTest {
                 )
             )
         )
-
     }
+
+    @Test
+    fun buttonSound_IsWorking() {
+        scenario.onActivity { assertEquals(false, it.isPressed) }
+        onView(withId(R.id.button_sound)).perform(ViewActions.click())
+        scenario.onActivity { assertEquals(true, it.isPressed) }
+    }
+
 }

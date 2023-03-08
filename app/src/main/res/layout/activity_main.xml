@@ -63,7 +63,7 @@
             app:trackCornerRadius="2dp" />
 
         <FrameLayout
-            android:id="@+id/loading_frame_layout"
+            android:id="@+id/main_loading_frame_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:visibility="gone"

@@ -209,19 +209,19 @@ class MainActivity : BaseActivity<AppState>() {
 
     override fun showViewSuccess() {
         //super.showViewSuccess()
-        binding.loadingFrameLayout.visibility = View.GONE
+        binding.mainLoadingFrameLayout.visibility = View.GONE
         binding.errorLinearLayout.visibility = View.GONE
     }
 
     override fun showViewLoading() {
         //super.showViewLoading()
-        binding.loadingFrameLayout.visibility = View.VISIBLE
+        binding.mainLoadingFrameLayout.visibility = View.VISIBLE
         binding.errorLinearLayout.visibility = View.GONE
     }
 
     override fun showViewError(error: String?) {
         // super.showViewError(null)
-        binding.loadingFrameLayout.visibility = View.GONE
+        binding.mainLoadingFrameLayout.visibility = View.GONE
         binding.errorTextview.text = error ?: getString(R.string.undefined_error)
         binding.reloadButton.setOnClickListener {
             binding.searchEditText.setText("test")
