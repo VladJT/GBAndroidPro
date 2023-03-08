@@ -107,14 +107,14 @@ class HistoryActivity : BaseActivity<AppState>() {
     override fun setDataToAdapter(data: List<DataModel>) = historyAdapter.setData(data)
 
     override fun showViewSuccess() {
-        binding.loadingFrameLayout.visibility = View.GONE
+        binding.historyLoadingFrameLayout.visibility = View.GONE
     }
 
     override fun showViewLoading() {
-        binding.loadingFrameLayout.visibility = View.VISIBLE
+        binding.historyLoadingFrameLayout.visibility = View.VISIBLE
     }
 
     override fun showViewError(error: String?) {
-        binding.loadingFrameLayout.visibility = View.GONE
+        binding.historyLoadingFrameLayout.visibility = View.GONE
     }
 }

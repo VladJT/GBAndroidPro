@@ -1,21 +1,21 @@
 package jt.projects.gbandroidpro
 
 import android.content.Context
-import android.view.View
 import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.UiController
-import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.intent.Intents
+import androidx.test.espresso.intent.Intents.intended
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import jt.projects.gbandroidpro.presentation.ui.history.HistoryActivity
 import jt.projects.gbandroidpro.presentation.ui.main.MainActivity
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNotNull
-import org.hamcrest.Matcher
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -64,22 +64,11 @@ class MainActivityEspressoTest {
         }
     }
 
-    /**
-    вспомогательный метод - ставить на ожидание View, который мы планируем тестировать
-     */
-    private fun delay(value: Long): ViewAction? {
-        return object : ViewAction {
-            // будем возвращать root-view нашей кнопки
-            override fun getConstraints(): Matcher<View> = isRoot()
-
-            // getDescription() возвращает описание нашего Action
-            override fun getDescription(): String = "wait for $2 seconds"
-
-            // “замораживаем” UI на 2 секунды
-            override fun perform(uiController: UiController, v: View?) {
-                uiController.loopMainThreadForAtLeast(value)
-            }
-        }
+    // по нажатию меню "Показать историю" - вызывается Activity истории запросов
+    @Test
+    fun buttonShowHistoryActivity_IsWorking() {
+        Intents.init()
+        onView(withId(R.id.menu_history)).perform(ViewActions.click())
+        intended(hasComponent(HistoryActivity::class.java.name))
     }
-
 }
