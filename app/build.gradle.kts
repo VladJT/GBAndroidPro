@@ -134,6 +134,7 @@ dependencies {
     // ESPRESSO
     androidTestImplementation(TestImpl.espresso)
     implementation("androidx.test.espresso:espresso-intents:3.5.1")
+    implementation("androidx.test.espresso:espresso-contrib:3.5.1")//for rec view
 
     // MOCKITO
     testImplementation("org.mockito:mockito-core:4.6.1")
@@ -150,6 +151,9 @@ dependencies {
 
     implementation("androidx.test:runner:1.5.2")
     implementation("androidx.test.ext:truth:1.5.0")
+
+    //UI Automator
+    androidTestImplementation("androidx.test.uiautomator:uiautomator:2.2.0")
 
 
     // implementation(fileTree(dir: 'libs', include: ['*.jar'])
