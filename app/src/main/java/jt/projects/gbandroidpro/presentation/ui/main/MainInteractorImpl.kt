@@ -33,5 +33,6 @@ open class MainInteractorImpl(
         }
         return appState
     }
+
 }
 

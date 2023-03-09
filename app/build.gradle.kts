@@ -62,6 +62,22 @@ android {
         jvmTarget = Config.jvmTarget_version
     }
 
+    flavorDimensions += listOf("default")
+    productFlavors {
+        create("fake") {
+            dimension = "default"
+            applicationIdSuffix = ".fake"
+            versionNameSuffix = "-fake"
+            buildConfigField("String", "TYPE", "\"FAKE\"")
+        }
+        create("real") {
+            dimension = "default"
+            applicationIdSuffix = ".real"
+            versionNameSuffix = "-real"
+            buildConfigField("String", "TYPE", "\"REAL\"")
+        }
+    }
+
 }
 
 dependencies {

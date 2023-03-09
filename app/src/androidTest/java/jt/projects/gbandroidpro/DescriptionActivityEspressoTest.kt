@@ -13,9 +13,10 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.activityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import jt.projects.gbandroidpro.presentation.ui.description.DescriptionActivity
-import jt.projects.model.data.DataModel
+import jt.projects.model.data.testData
 import junit.framework.TestCase
 import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase.assertNotNull
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -34,13 +35,7 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class DescriptionActivityEspressoTest {
-    private val testData = DataModel(
-        "go",
-        "бежать",
-        "imageUrl",
-        "https://vimbox-tts.skyeng.ru/api/v1/tts?text=beer+garden&lang=en&voice=male_2",
-        "gogogo"
-    )
+
     private val intent =
         Intent(ApplicationProvider.getApplicationContext(), DescriptionActivity::class.java)
             .putExtra(DescriptionActivity.DATA_KEY, testData)
@@ -63,13 +58,13 @@ class DescriptionActivityEspressoTest {
     @Test
     fun activity_AssertNotNull() {
         scenario.onActivity {
-            TestCase.assertNotNull(it)
+            assertNotNull(it)
         }
     }
 
     @Test
     fun activity_IsResumed() {
-        TestCase.assertEquals(Lifecycle.State.RESUMED, scenario.state)
+        assertEquals(Lifecycle.State.RESUMED, scenario.state)
     }
 
     @Test
@@ -77,15 +72,15 @@ class DescriptionActivityEspressoTest {
         scenario.onActivity {
             val descriptionHeader =
                 it.findViewById<TextView>(R.id.description_header)
-            TestCase.assertNotNull(descriptionHeader)
+            assertNotNull(descriptionHeader)
 
             val transcription =
                 it.findViewById<TextView>(R.id.transcription)
-            TestCase.assertNotNull(transcription)
+            assertNotNull(transcription)
 
             val description =
                 it.findViewById<TextView>(R.id.description_textview)
-            TestCase.assertNotNull(description)
+            assertNotNull(description)
         }
     }
 
@@ -114,14 +109,7 @@ class DescriptionActivityEspressoTest {
     }
 
     @Test
-    fun buttonSound_IsWorking() {
-        scenario.onActivity { assertEquals(false, it.isPressed) }
-        onView(withId(R.id.button_sound)).perform(ViewActions.click())
-        scenario.onActivity { assertEquals(true, it.isPressed) }
-    }
-
-    @Test
-    fun activityButtons_AreEffectiveVisible() {
+    fun buttonSound_IsVisible() {
         onView(withId(R.id.button_sound)).check(
             matches(
                 withEffectiveVisibility(
@@ -130,6 +118,13 @@ class DescriptionActivityEspressoTest {
                 )
             )
         )
-
     }
+
+    @Test
+    fun buttonSound_IsWorking() {
+        scenario.onActivity { assertEquals(false, it.isPressed) }
+        onView(withId(R.id.button_sound)).perform(ViewActions.click())
+        scenario.onActivity { assertEquals(true, it.isPressed) }
+    }
+
 }

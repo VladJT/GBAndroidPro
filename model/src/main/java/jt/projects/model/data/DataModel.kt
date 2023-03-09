@@ -11,3 +11,12 @@ data class DataModel(
     val soundUrl: String = "",
     val transcription: String = ""
 ) : Parcelable
+
+
+val testData = DataModel(
+    "go",
+    "бежать",
+    "imageUrl",
+    "https://vimbox-tts.skyeng.ru/api/v1/tts?text=beer+garden&lang=en&voice=male_2",
+    "some transcription"
+)

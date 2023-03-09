@@ -21,6 +21,7 @@ import jt.projects.core.BaseActivity
 import jt.projects.core.splash_screen.AnimatedSplashScreen
 import jt.projects.core.splash_screen.showSplashScreen
 import jt.projects.core.widget.JTTranslatorWidget
+import jt.projects.gbandroidpro.BuildConfig
 import jt.projects.gbandroidpro.R
 import jt.projects.gbandroidpro.databinding.ActivityMainBinding
 import jt.projects.gbandroidpro.di.getWordFromSharedPref
@@ -29,10 +30,12 @@ import jt.projects.gbandroidpro.presentation.ui.description.DescriptionActivity
 import jt.projects.gbandroidpro.presentation.ui.history.HistoryActivity
 import jt.projects.model.data.AppState
 import jt.projects.model.data.DataModel
+import jt.projects.utils.FAKE
 import jt.projects.utils.LOG_TAG
 import jt.projects.utils.ViewModelNotInitException
 import jt.projects.utils.WIDGET_DATA
 import jt.projects.utils.ui.showSnackbar
+import jt.projects.utils.ui.showToast
 import jt.projects.utils.ui.viewById
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -57,10 +60,14 @@ import java.util.*
 очень много проектов. Их легко поддерживать, расширять и тестировать.
  */
 
-const val REQUEST_CODE_VOICE = 10
 
 @SuppressLint("Instantiatable")
 class MainActivity : BaseActivity<AppState>() {
+    companion object {
+        const val REQUEST_CODE_VOICE = 10
+    }
+
+    var lastResultCount = 0
 
     // override val model: MainViewModel by scope.inject() // привязана к жизненному циклу Activity
     override val model: MainViewModel by viewModel() // НЕ привязана к жизненному циклу Activity
@@ -119,6 +126,9 @@ class MainActivity : BaseActivity<AppState>() {
         }
 
         //test()
+        if (BuildConfig.TYPE == FAKE) {
+            showToast(BuildConfig.VERSION_NAME)
+        }
         binding.searchEditText.setText(getWordFromSharedPref())
     }
 
@@ -199,19 +209,19 @@ class MainActivity : BaseActivity<AppState>() {
 
     override fun showViewSuccess() {
         //super.showViewSuccess()
-        binding.loadingFrameLayout.visibility = View.GONE
+        binding.mainLoadingFrameLayout.visibility = View.GONE
         binding.errorLinearLayout.visibility = View.GONE
     }
 
     override fun showViewLoading() {
         //super.showViewLoading()
-        binding.loadingFrameLayout.visibility = View.VISIBLE
+        binding.mainLoadingFrameLayout.visibility = View.VISIBLE
         binding.errorLinearLayout.visibility = View.GONE
     }
 
     override fun showViewError(error: String?) {
         // super.showViewError(null)
-        binding.loadingFrameLayout.visibility = View.GONE
+        binding.mainLoadingFrameLayout.visibility = View.GONE
         binding.errorTextview.text = error ?: getString(R.string.undefined_error)
         binding.reloadButton.setOnClickListener {
             binding.searchEditText.setText("test")
@@ -219,7 +229,10 @@ class MainActivity : BaseActivity<AppState>() {
         binding.errorLinearLayout.visibility = View.VISIBLE
     }
 
-    override fun setDataToAdapter(data: List<DataModel>) = mainAdapter.setData(data)
+    override fun setDataToAdapter(data: List<DataModel>) {
+        mainAdapter.setData(data)
+        lastResultCount = data.size
+    }
 
     override fun onDestroy() {
         testScope.close()// если не закрыть, будет выбрасываться исключение при пересоздании Activity
