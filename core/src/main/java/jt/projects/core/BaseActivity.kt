@@ -82,18 +82,6 @@ abstract class BaseActivity<T : AppState> : ScopeActivity() {
         baseBinding.progressBarHorizontal.progress = value
     }
 
-    open fun showViewSuccess() {
-        //    baseBinding.loadingFrameLayout.visibility = View.GONE
-    }
-
-    open fun showViewLoading() {
-        //    baseBinding.loadingFrameLayout.visibility = View.VISIBLE
-    }
-
-    open fun showViewError(error: String?) {
-        //   baseBinding.loadingFrameLayout.visibility = View.GONE
-    }
-
     fun setBlur(view: View, isBlur: Boolean) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             val blurEffect = RenderEffect.createBlurEffect(
@@ -112,7 +100,9 @@ abstract class BaseActivity<T : AppState> : ScopeActivity() {
         return supportFragmentManager.findFragmentByTag(DIALOG_FRAGMENT_TAG) == null
     }
 
-    // Объявим абстрактный метод и будем вызывать его в renderData, когда данные
-    // будут готовы для отображения
+    abstract fun showViewSuccess()
+    abstract fun showViewLoading()
+    abstract fun showViewError(error: String?)
+
     abstract fun setDataToAdapter(data: List<DataModel>)
 }

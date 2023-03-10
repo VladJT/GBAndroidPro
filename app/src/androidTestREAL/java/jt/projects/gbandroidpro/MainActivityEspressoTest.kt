@@ -62,11 +62,12 @@ class MainActivityEspressoTest {
     @Test
     fun searchWord_IsWorking() {
         val someWord = "go"
-        onView(withId(R.id.search_edit_text)).perform(ViewActions.click())
-        onView(withId(R.id.search_edit_text)).perform(ViewActions.replaceText(someWord))
-        onView(withId(R.id.search_edit_text)).perform(ViewActions.closeSoftKeyboard())
+        onView(withId(R.id.search_edit_text))
+            .perform(ViewActions.click())
+            .perform(ViewActions.replaceText(someWord))
+            .perform(ViewActions.closeSoftKeyboard())
 
-        onView(isRoot()).perform(delay(1000))
+        onView(isRoot()).perform(delay(2000))
         scenario.onActivity {
             assertEquals(15, it.lastResultCount)
         }

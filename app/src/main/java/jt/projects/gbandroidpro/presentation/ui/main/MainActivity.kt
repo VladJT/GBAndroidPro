@@ -37,6 +37,7 @@ import jt.projects.utils.WIDGET_DATA
 import jt.projects.utils.ui.showSnackbar
 import jt.projects.utils.ui.showToast
 import jt.projects.utils.ui.viewById
+import kotlinx.coroutines.delay
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import org.koin.core.qualifier.named
@@ -208,23 +209,20 @@ class MainActivity : BaseActivity<AppState>() {
 
 
     override fun showViewSuccess() {
-        //super.showViewSuccess()
         binding.mainLoadingFrameLayout.visibility = View.GONE
         binding.errorLinearLayout.visibility = View.GONE
     }
 
     override fun showViewLoading() {
-        //super.showViewLoading()
         binding.mainLoadingFrameLayout.visibility = View.VISIBLE
         binding.errorLinearLayout.visibility = View.GONE
     }
 
     override fun showViewError(error: String?) {
-        // super.showViewError(null)
         binding.mainLoadingFrameLayout.visibility = View.GONE
         binding.errorTextview.text = error ?: getString(R.string.undefined_error)
         binding.reloadButton.setOnClickListener {
-            binding.searchEditText.setText("test")
+            binding.searchEditText.setText("word")
         }
         binding.errorLinearLayout.visibility = View.VISIBLE
     }
