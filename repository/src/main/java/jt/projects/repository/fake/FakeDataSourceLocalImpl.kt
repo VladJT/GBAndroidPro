@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.flowOf
 
 class FakeDataSourceLocalImpl : DataSourceLocal<Flow<DataModel>> {
     override suspend fun saveDataToDb(data: DataModel) {
-        Log.d(LOG_TAG, "Fake DB saved ")
+        Log.d(LOG_TAG, "Fake DB saved")
     }
 
     override suspend fun getAllDataFromDb(): Flow<DataModel> {
