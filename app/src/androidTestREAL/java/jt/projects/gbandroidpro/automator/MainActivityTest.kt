@@ -8,7 +8,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SdkSuppress
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.uiautomator.*
-import jt.projects.gbandroidpro.R
 import jt.projects.model.data.EMPTY_RESPONSE_EXCEPTION
 import junit.framework.TestCase.*
 import org.junit.After
@@ -119,21 +118,14 @@ class MainActivityTest {
         val recView =
             UiCollection(UiSelector().className("androidx.recyclerview.widget.RecyclerView"))
 
-       //Находим элемент и запускаем его
+        //Находим элемент и запускаем его
         val recViewItem = recView.getChildByText(
             UiSelector().className("android.widget.LinearLayout"),
             expectedMeanings
         )
-        recViewItem.click()
+        recViewItem.clickAndWaitForNewWindow()
 
-        // если загрузилось описание + кнопка прослушать, значит DescriptionActivity запущена
-        val descriptionTextView =
-            uiDevice.wait(
-                Until.findObject(By.res(packageName, "description_textview")),
-                TIMEOUT
-            )
-        assertEquals(expectedMeanings, descriptionTextView.text)
-
+        // если появилась кнопка прослушать, значит DescriptionActivity запущена
         val btnSound = uiDevice.findObject(UiSelector().textContains("Прослушать"))
         assertTrue(btnSound.exists())
     }

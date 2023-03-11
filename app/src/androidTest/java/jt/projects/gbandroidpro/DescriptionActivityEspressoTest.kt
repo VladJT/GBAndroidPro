@@ -14,7 +14,6 @@ import androidx.test.ext.junit.rules.activityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import jt.projects.gbandroidpro.presentation.ui.description.DescriptionActivity
 import jt.projects.model.data.testData
-import junit.framework.TestCase
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNotNull
 import org.junit.After

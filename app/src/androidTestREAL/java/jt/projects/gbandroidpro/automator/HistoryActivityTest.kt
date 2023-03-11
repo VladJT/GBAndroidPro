@@ -94,13 +94,10 @@ class HistoryActivityTest {
         if (count > 0) {
             //Находим 1-ый элемент и запускаем его
             val recViewItem = recView.getChild(UiSelector().clickable(true))
-            recViewItem.click()
+            recViewItem.clickAndWaitForNewWindow()
 
             val descriptionTextView =
-                uiDevice.wait(
-                    Until.findObject(By.res(packageName, "description_textview")),
-                    TIMEOUT
-                )
+                uiDevice.findObject(By.res(packageName, "description_textview"))
             assertNotNull(descriptionTextView)
 
             val btnSound = uiDevice.findObject(By.res(packageName, "button_sound"))

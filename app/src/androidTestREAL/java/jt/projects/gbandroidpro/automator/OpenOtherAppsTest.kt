@@ -7,6 +7,7 @@ import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.UiScrollable
 import androidx.test.uiautomator.UiSelector
+import junit.framework.TestCase.assertTrue
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -27,7 +28,7 @@ class OpenOtherAppsTest {
         //В нашем случае это примерно снизу экрана строго вверх. Steps указывает, в
         //какое количество шагов мы хотим осуществить смахивание: чем выше число,
         //тем медленнее будет осуществляться свайп
-   //     uiDevice.swipe(500, 1500, 500, 0, 5)
+        //     uiDevice.swipe(500, 1500, 500, 0, 5)
         uiDevice.swipe(
             uiDevice.displayWidth / 2,
             uiDevice.displayHeight - 50, uiDevice.displayWidth / 2, 0, 10
@@ -46,6 +47,8 @@ class OpenOtherAppsTest {
         //val appsTab: UiObject = uiDevice.findObject(UiSelector().text("Apps"))
         //appsTab.click()
 
+        val settings = uiDevice.findObject(UiSelector().packageName("com.android.settings"))
+        assertTrue(settings.exists())
 
         //Приложений, обычно, установлено столько, что кнопка может быть за границей экрана
         //Тогда корневым контейнером будет Scrollable.
@@ -61,7 +64,7 @@ class OpenOtherAppsTest {
             .getChildByText(
                 UiSelector()
                     .className(TextView::class.java.name),
-                "Settings"
+                "System"
             )
 
         //Открываем
@@ -69,7 +72,7 @@ class OpenOtherAppsTest {
 
         //Убеждаемся, что Настройки открыты
         val settingsValidation =
-            uiDevice.findObject(UiSelector().packageName("com.android.settings"))
+            uiDevice.findObject(UiSelector().textContains("Rules"))
         Assert.assertTrue(settingsValidation.exists())
 
     }

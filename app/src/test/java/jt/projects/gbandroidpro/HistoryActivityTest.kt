@@ -9,7 +9,6 @@ import junit.framework.TestCase
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import org.junit.jupiter.api.DisplayName
 import org.junit.runner.RunWith
 import org.koin.core.context.GlobalContext
 import org.koin.core.context.stopKoin
@@ -18,7 +17,6 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.Shadows
 import org.robolectric.fakes.RoboMenuItem
 import org.robolectric.shadows.ShadowDialog
-import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
 
