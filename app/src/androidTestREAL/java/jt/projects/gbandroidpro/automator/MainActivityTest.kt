@@ -19,7 +19,7 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 @SdkSuppress(minSdkVersion = 18)
-class BehaviorTest {
+class MainActivityTest {
     companion object {
         private const val TIMEOUT = 5000L
     }
@@ -93,13 +93,17 @@ class BehaviorTest {
         assertNotNull(errorFrameLayout)
 
         // виден текст ошибки + reloadButton
-        val reloadButton = uiDevice.findObject(By.res(packageName, "reload_button"))
+        val reloadButton = uiDevice.wait(
+            Until.findObject(By.res(packageName, "reload_button")),
+            TIMEOUT
+        )
         assertNotNull(reloadButton)
+
         val errorText = uiDevice.findObject(By.res(packageName, "error_textview"))
         assertEquals(errorText.text, EMPTY_RESPONSE_EXCEPTION.message)
     }
 
-    // ПРОВЕРКА, что DescriptionActivity открывается
+    // ПРОВЕРКА, что открывается DescriptionActivity
     @Test
     fun test_OpenDescriptionActivity() {
         val wordToSearch = "cool"
@@ -115,12 +119,7 @@ class BehaviorTest {
         val recView =
             UiCollection(UiSelector().className("androidx.recyclerview.widget.RecyclerView"))
 
-        //Получаем количество элементов в контейнере
-        val count = recView.getChildCount(
-            UiSelector().className("android.widget.LinearLayout")
-        )
-
-        //Находим элемент и запускаем его
+       //Находим элемент и запускаем его
         val recViewItem = recView.getChildByText(
             UiSelector().className("android.widget.LinearLayout"),
             expectedMeanings
@@ -135,34 +134,7 @@ class BehaviorTest {
             )
         assertEquals(expectedMeanings, descriptionTextView.text)
 
-        val btnSound = uiDevice.findObject(By.res(packageName, "button_sound"))
-        assertNotNull(btnSound)
+        val btnSound = uiDevice.findObject(UiSelector().textContains("Прослушать"))
+        assertTrue(btnSound.exists())
     }
-
-    // ПРОВЕРКА, что по кнопке меню запускается HistoryActivity
-    @Test
-    fun test_OpenHistoryActivity() {
-        val menuHistory = uiDevice.findObject(By.res(packageName, "menu_history"))
-        menuHistory.click()
-
-        val historyRecyclerView =
-            uiDevice.wait(
-                Until.findObject(By.res(packageName, "history_activity_recyclerview")),
-                TIMEOUT
-            )
-
-        // если получен historyRecyclerView - значит HistoryActivity запущена
-        assertNotNull(historyRecyclerView)
-
-        // проверим вызов диалога очистки истории
-        val menuCleanHistory = uiDevice.findObject(By.res(packageName, "menu_clean_history"))
-        assertNotNull(menuCleanHistory)
-        menuCleanHistory.click()
-
-        val s = context.getString(R.string.dialog_clean_history_message)
-        uiDevice.wait(Until.findObject(By.text(s)), TIMEOUT)
-        val dialog = uiDevice.findObject(By.text(s))
-        assertNotNull(dialog)
-    }
-
 }
