@@ -61,15 +61,6 @@ val application = module {
     }
 }
 
-val repoModule = module {
-    //single<Repository<Flow<DataModel>>>(qualifier = named("repo")) { RepositoryImpl(RetrofitImpl()) } // for JUnit
-
-    single { RepositoryImpl(RetrofitImpl()) }
-    single { RepositoryLocalImpl(RoomDatabaseImpl(get<HistoryDao>())) }
-
-}
-
-
 val roomModule = module {
     val MIGRATION_2_4 = object : Migration(2, 4) {
         override fun migrate(database: SupportSQLiteDatabase) {

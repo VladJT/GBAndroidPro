@@ -52,6 +52,7 @@
                 <map>
                   <entry key="Duration" value="90" />
                   <entry key="Pixel_3a_API_33_x86_64" value="120" />
+                  <entry key="Pixel_5_API_33_1" value="120" />
                   <entry key="Pixel_5_API_33_TEST_" value="120" />
                   <entry key="Tests" value="360" />
                 </map>
@@ -133,6 +134,7 @@
                 <map>
                   <entry key="Duration" value="90" />
                   <entry key="Pixel_3a_API_33_x86_64" value="120" />
+                  <entry key="Pixel_5_API_33_1" value="120" />
                   <entry key="Pixel_5_API_33_TEST_" value="120" />
                   <entry key="Tests" value="360" />
                 </map>
@@ -148,6 +150,7 @@
                   <entry key="Duration" value="90" />
                   <entry key="Pixel_3a_API_33_x86_64" value="120" />
                   <entry key="Pixel_5_API_33" value="120" />
+                  <entry key="Pixel_5_API_33_1" value="120" />
                   <entry key="Tests" value="360" />
                 </map>
               </option>
