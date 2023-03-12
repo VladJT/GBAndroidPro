@@ -12,8 +12,6 @@ import jt.projects.model.data.testData
 import org.hamcrest.Matcher
 
 
-internal const val TEST_NUMBER = 42
-
 const val GOOD_QUERY = "correct query"
 const val BAD_QUERY = "some incorrect query"
 
