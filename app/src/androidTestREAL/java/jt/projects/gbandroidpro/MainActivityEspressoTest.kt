@@ -61,15 +61,16 @@ class MainActivityEspressoTest {
 
     @Test
     fun searchWord_IsWorking() {
-        val someWord = "go"
+        val wordKey = "go"
+
         onView(withId(R.id.search_edit_text))
             .perform(ViewActions.click())
-            .perform(ViewActions.replaceText(someWord))
+            .perform(ViewActions.replaceText(wordKey))
             .perform(ViewActions.closeSoftKeyboard())
 
         onView(isRoot()).perform(delay(2000))
         scenario.onActivity {
-            assertEquals(15, it.lastResultCount)
+            assertEquals(expectedData[wordKey]!!.getMeaningsCount(), it.lastResultCount)
         }
     }
 

@@ -9,6 +9,7 @@ import androidx.test.filters.SdkSuppress
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.uiautomator.*
 import jt.projects.gbandroidpro.R
+import jt.projects.gbandroidpro.TIMEOUT
 import junit.framework.TestCase.*
 import org.junit.After
 import org.junit.Before
@@ -19,9 +20,6 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 @SdkSuppress(minSdkVersion = 18)
 class HistoryActivityTest {
-    companion object {
-        private const val TIMEOUT = 5000L
-    }
 
     private val uiDevice: UiDevice = UiDevice.getInstance(getInstrumentation())
     private val context = ApplicationProvider.getApplicationContext<Context>()

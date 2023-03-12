@@ -27,9 +27,7 @@ class DescriptionActivityTest {
 
     private lateinit var scenario: ActivityScenario<DescriptionActivity>
 
-    private val intent =
-        Intent(ApplicationProvider.getApplicationContext(), DescriptionActivity::class.java)
-            .putExtra(DescriptionActivity.DATA_KEY, testData)
+    private val intent = intentWithTestData
 
     @get:Rule
     val activityRule = activityScenarioRule<DescriptionActivity>(intent)

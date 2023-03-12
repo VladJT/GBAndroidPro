@@ -34,9 +34,6 @@ class MainViewModelTest {
     @OptIn(DelicateCoroutinesApi::class)
     private val mainThreadSurrogate = newSingleThreadContext("UI thread")
 
-    private val GOOD_QUERY = "correct query"
-    private val BAD_QUERY = "some incorrect query"
-
     @BeforeEach
     fun setUp() {
         MockitoAnnotations.openMocks(this)

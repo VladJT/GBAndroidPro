@@ -1,10 +1,8 @@
 package jt.projects.gbandroidpro
 
-import android.content.Intent
 import android.widget.TextView
 import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.ActivityScenario
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewAssertion
 import androidx.test.espresso.action.ViewActions
@@ -35,9 +33,7 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class DescriptionActivityEspressoTest {
 
-    private val intent =
-        Intent(ApplicationProvider.getApplicationContext(), DescriptionActivity::class.java)
-            .putExtra(DescriptionActivity.DATA_KEY, testData)
+    private val intent = intentWithTestData
 
     private lateinit var scenario: ActivityScenario<DescriptionActivity>
 

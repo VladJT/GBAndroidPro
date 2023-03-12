@@ -20,6 +20,18 @@ android {
         }
     }
 
+    sourceSets {
+        this.getByName("androidTest") {
+            //Adds the given source directory to this set.
+            this.java.srcDir("src/sharedTestData/java")
+        }
+
+        this.getByName("test") {
+            this.java.srcDir("src/sharedAndroidTestData/java")
+        }
+    }
+
+
 
     buildFeatures {
         viewBinding = true
@@ -37,12 +49,6 @@ android {
         versionCode = Releases.version_code
         versionName = Releases.version_name
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
-//        javaCompileOptions {
-//            annotationProcessorOptions {
-//                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
-//            }
-//        }
     }
 
     buildTypes {

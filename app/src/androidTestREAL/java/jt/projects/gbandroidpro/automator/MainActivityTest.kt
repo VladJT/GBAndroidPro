@@ -8,6 +8,9 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SdkSuppress
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.uiautomator.*
+import jt.projects.gbandroidpro.TIMEOUT
+import jt.projects.gbandroidpro.expectedData
+import jt.projects.gbandroidpro.getMeaningsCount
 import jt.projects.model.data.EMPTY_RESPONSE_EXCEPTION
 import junit.framework.TestCase.*
 import org.junit.After
@@ -19,9 +22,6 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 @SdkSuppress(minSdkVersion = 18)
 class MainActivityTest {
-    companion object {
-        private const val TIMEOUT = 5000L
-    }
 
     private val uiDevice: UiDevice = UiDevice.getInstance(getInstrumentation())
     private val context = ApplicationProvider.getApplicationContext<Context>()
@@ -56,15 +56,13 @@ class MainActivityTest {
     //ПРОВЕРКА, что поиск работает на корректном запросе
     @Test
     fun positiveSearch_IsWorked() {
-        val wordToSearch = "gg"
-        val expectedMeanings = "Хорошая игра"
-        val expectedWordsCount = 1
+       val wordToSearch = "gg"
 
         val searchEditText = uiDevice.findObject(By.res(packageName, "search_edit_text"))
         searchEditText.text = wordToSearch
 
         // PAUSE для получения результатов
-        uiDevice.wait(Until.findObject(By.text(expectedMeanings)), TIMEOUT)
+        uiDevice.wait(Until.findObject(By.text(expectedData[wordToSearch]!!.meanings)), TIMEOUT)
 
         val recView =
             UiCollection(UiSelector().className("androidx.recyclerview.widget.RecyclerView"))
@@ -74,7 +72,7 @@ class MainActivityTest {
             UiSelector().className("android.widget.LinearLayout")
         )
 
-        assertEquals(expectedWordsCount, realCount)
+        assertEquals(expectedData[wordToSearch]!!.getMeaningsCount(), realCount)
     }
 
     @Test
