@@ -1,4 +1,4 @@
-package jt.projects.gbandroidpro.automator
+package jt.projects.gbandroidpro.UiAutomator
 
 import android.widget.TextView
 import androidx.test.ext.junit.runners.AndroidJUnit4

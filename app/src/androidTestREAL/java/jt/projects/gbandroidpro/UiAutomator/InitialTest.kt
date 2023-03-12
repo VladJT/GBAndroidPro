@@ -1,4 +1,4 @@
-package jt.projects.gbandroidpro.automator
+package jt.projects.gbandroidpro.UiAutomator
 
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
