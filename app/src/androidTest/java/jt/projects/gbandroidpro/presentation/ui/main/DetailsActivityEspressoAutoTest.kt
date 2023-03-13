@@ -31,6 +31,11 @@ class DetailsActivityEspressoAutoTest {
 
     @Test
     fun detailsActivityEspressoAutoTest() {
+        onView(withId(R.id.search_edit_text))
+            .perform(replaceText("go"), closeSoftKeyboard())
+
+        delay(2000)
+
         val textInputEditText = onView(
             allOf(
                 withId(R.id.search_edit_text),
