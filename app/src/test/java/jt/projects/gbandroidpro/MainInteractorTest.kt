@@ -4,6 +4,7 @@ package jt.projects.gbandroidpro
 import jt.projects.gbandroidpro.presentation.ui.main.MainInteractorImpl
 import jt.projects.model.data.AppState
 import jt.projects.model.data.DataModel
+import jt.projects.model.data.EMPTY_RESPONSE_EXCEPTION
 import jt.projects.model.data.TEST_RESPONSE_SUCCESS
 import jt.projects.repository.RepositoryImpl
 import jt.projects.repository.RepositoryLocal
@@ -40,6 +41,22 @@ import kotlin.system.measureTimeMillis
 )
 class MainInteractorTest : KoinTest {
     companion object {
+
+        val expectedData: Map<String, DataModel> = mapOf(
+            "go" to DataModel(
+                "go",
+                "идти, ходить, вести, проходить, становиться, проходить, умирать, исчезать, заканчиваться, (исправно) работать, сочетаться, говорить, издавать звук, помещаться, попытка"
+            ),
+            "gg" to DataModel("gg", "Хорошая игра"),
+            "loaf" to DataModel("loaf", "буханка, буханка, бездельничать, бездельничать")
+        )
+
+        val expectedSize: Map<String, Int> = mapOf(
+            "go" to 15,
+            "gg" to 1,
+            "loaf" to 8
+        )
+
         @AfterClass
         fun after() {
             stopKoin()
@@ -99,14 +116,15 @@ class MainInteractorTest : KoinTest {
         @Test
         @DisplayName("Check Response-Data from Remote Source")
         fun remoteSource_CorrectWordReturnsCorrectData() {
-            val result = getData("loaf")
-            assertTrue(result.size == 8)
+            val wordKey = "loaf"
+            val result = getData(wordKey)
+            assertTrue(result.size == expectedSize[wordKey])
 
             val expected =
-                "буханка, буханка, бездельничать, бездельничать".split(", ").toTypedArray()
+                expectedData[wordKey]!!.meanings.split(", ").toTypedArray()
             val meanings = result[0].meanings.split(", ").toTypedArray()
 
-            assertArrayEquals(meanings, expected)
+            assertArrayEquals(expected, meanings)
         }
 
         @ParameterizedTest
@@ -127,42 +145,44 @@ class MainInteractorTest : KoinTest {
 
         @Test
         fun mainInteractor_fromRemoteSourceReturnCorrectData() {
+            val wordKey = "go"
             val result =
                 runBlocking {
-                    mainInteractorImpl.getData("go", fromRemoteSource = true)
+                    mainInteractorImpl.getData(wordKey, fromRemoteSource = true)
                 }
 
             assertTrue(result is AppState.Success)
             val data = (result as AppState.Success).data!!
             assertTrue(data.size == 15)
             val expected =
-                "идти, ходить, вести, проходить, становиться, проходить, умирать, исчезать, заканчиваться, (исправно) работать, сочетаться, говорить, издавать звук, помещаться, попытка"
-                    .split(", ").toTypedArray()
+                expectedData[wordKey]!!.meanings.split(", ").toTypedArray()
             val meanings = data[0].meanings.split(", ").toTypedArray()
-            assertArrayEquals(meanings, expected)
+            assertArrayEquals(expected, meanings)
         }
 
         @Test
         fun mainInteractor_fromRemoteSourceReturnNoData() {
+            val wordKey = "gggg"
             val result =
                 runBlocking {
-                    mainInteractorImpl.getData("gggg", fromRemoteSource = true)
+                    mainInteractorImpl.getData(wordKey, fromRemoteSource = true)
                 }
 
 
             assertTrue(result is AppState.Error)
             val error = (result as AppState.Error).error
-            assertSame(error.message, Throwable("Перевод не найден").message)
+            assertSame(EMPTY_RESPONSE_EXCEPTION, error)
         }
 
         @Test
         fun mainInteractor_fromLocalSourceReturnCorrectData() {
+            val wordKey = "go"
             runBlocking {
-                `when`(localRepo.getDataByWord("go")).thenAnswer { TEST_RESPONSE_SUCCESS }
-                mainInteractorImpl.getData("go", false)
+                `when`(localRepo.getDataByWord(wordKey)).thenAnswer { TEST_RESPONSE_SUCCESS }
+                mainInteractorImpl.getData(wordKey, false)
 
-                assertEquals(localRepo.getDataByWord("go"), TEST_RESPONSE_SUCCESS)
-                Mockito.verify(localRepo, Mockito.times(2)).getDataByWord("go")
+                assertEquals(localRepo.getDataByWord(wordKey), TEST_RESPONSE_SUCCESS)
+                Mockito.verify(localRepo, Mockito.times(2)).getDataByWord(wordKey)
             }
         }
     }

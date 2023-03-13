@@ -60,7 +60,7 @@ class MainActivityTest : AutoCloseKoinTest() {
     @Test
     fun testSearchEditText_GetData() {
         scenario.onActivity {
-            val someText = "cool"
+            val someText = "some search word"
             val searchEditText = it.findViewById<TextInputEditText>(R.id.search_edit_text)
             searchEditText.setText(someText)
             searchEditText.onEditorAction(EditorInfo.IME_ACTION_NEXT)

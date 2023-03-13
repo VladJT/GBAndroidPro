@@ -11,13 +11,15 @@ import jt.projects.model.data.DataModel
 import jt.projects.model.data.testData
 import org.hamcrest.Matcher
 
+const val TIMEOUT = 5000L
+
 
 val intentWithTestData =
     Intent(ApplicationProvider.getApplicationContext(), DescriptionActivity::class.java)
         .putExtra(DescriptionActivity.DATA_KEY, testData)
 
 
-// word + count of result
+
 val expectedData : Map<String, DataModel> = mapOf(
     "go" to DataModel(
         "go",
@@ -31,8 +33,6 @@ fun DataModel.getMeaningsCount(): Int {
     return this.meanings.split(',').count()
 }
 
-
-const val TIMEOUT = 5000L
 
 
 /**

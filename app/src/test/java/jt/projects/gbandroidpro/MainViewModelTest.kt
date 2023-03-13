@@ -72,22 +72,4 @@ class MainViewModelTest {
         assertSame(APPSTATE_ERROR_EMPTY_DATA, response)
     }
 
-    @Test
-    fun mainViewModel_checkRightOrder() {
-        runBlocking {
-//            val searchQuery = "some query"
-//            `when`(networkStatus.isOnline()).thenReturn(true)
-//            `when`(interactor.getData(searchQuery, true)).thenAnswer {
-//                APPSTATE_SUCCESS
-//            }
-//
-//
-//
-//            //Определяем порядок вызова методов какого класса мы хотим проверить
-//            val inOrder = inOrder(interactor)
-//
-//            //Прописываем порядок вызова методов
-//            verify(interactor).getData(searchQuery, true)
-        }
-    }
 }

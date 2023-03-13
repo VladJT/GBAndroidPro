@@ -1,15 +1,10 @@
 package jt.projects.gbandroidpro
 
 import android.content.Intent
-import android.view.View
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.UiController
-import androidx.test.espresso.ViewAction
-import androidx.test.espresso.matcher.ViewMatchers
 import jt.projects.gbandroidpro.presentation.ui.description.DescriptionActivity
 import jt.projects.model.data.DataModel
 import jt.projects.model.data.testData
-import org.hamcrest.Matcher
 
 
 const val GOOD_QUERY = "correct query"

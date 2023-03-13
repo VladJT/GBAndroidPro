@@ -24,13 +24,10 @@ import org.robolectric.RobolectricTestRunner
 class DescriptionActivityTest {
 
     private lateinit var context: Context
-
     private lateinit var scenario: ActivityScenario<DescriptionActivity>
 
-    private val intent = intentWithTestData
-
     @get:Rule
-    val activityRule = activityScenarioRule<DescriptionActivity>(intent)
+    val activityRule = activityScenarioRule<DescriptionActivity>(intentWithTestData)
 
 
     @Before
