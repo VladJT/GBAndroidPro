@@ -9,7 +9,7 @@ import androidx.test.filters.SdkSuppress
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.uiautomator.*
 import jt.projects.gbandroidpro.R
-import jt.projects.gbandroidpro.TIMEOUT
+import jt.projects.tests.TIMEOUT
 import junit.framework.TestCase.*
 import org.junit.After
 import org.junit.Before

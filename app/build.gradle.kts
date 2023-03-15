@@ -20,16 +20,15 @@ android {
         }
     }
 
-    sourceSets {
-        this.getByName("androidTest") {
-            //Adds the given source directory to this set.
-            this.java.srcDir("src/sharedTestData/java")
-        }
-
-        this.getByName("test") {
-            this.java.srcDir("src/sharedAndroidTestData/java")
-        }
-    }
+//    sourceSets {
+//        this.getByName("androidTest") {
+//            this.java.srcDirs("src/sharedTestData/java")
+//        }
+//
+//        this.getByName("test") {
+//            this.java.srcDirs("src/sharedTestData/java")
+//        }
+//    }
 
 
 
@@ -92,6 +91,8 @@ dependencies {
     implementation(project(Modules.model))
     implementation(project(Modules.utils))
     implementation(project(Modules.repository))
+    implementation(project(Modules.tests))
+
 
     // AndroidX
     implementation(Design.appcompat)

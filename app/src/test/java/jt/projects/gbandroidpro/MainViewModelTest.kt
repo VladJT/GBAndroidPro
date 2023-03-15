@@ -4,6 +4,8 @@ import jt.projects.gbandroidpro.presentation.ui.main.MainInteractorImpl
 import jt.projects.gbandroidpro.presentation.ui.main.MainViewModel
 import jt.projects.model.data.APPSTATE_ERROR_EMPTY_DATA
 import jt.projects.model.data.APPSTATE_SUCCESS
+import jt.projects.tests.BAD_QUERY
+import jt.projects.tests.GOOD_QUERY
 import jt.projects.utils.network.INetworkStatus
 import kotlinx.coroutines.*
 import kotlinx.coroutines.test.resetMain

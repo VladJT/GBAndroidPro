@@ -22,6 +22,11 @@ import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
 class DescriptionActivityTest {
+    companion object {
+        val intentWithTestData =
+            Intent(ApplicationProvider.getApplicationContext(), DescriptionActivity::class.java)
+                .putExtra(DescriptionActivity.DATA_KEY, testData)
+    }
 
     private lateinit var context: Context
     private lateinit var scenario: ActivityScenario<DescriptionActivity>

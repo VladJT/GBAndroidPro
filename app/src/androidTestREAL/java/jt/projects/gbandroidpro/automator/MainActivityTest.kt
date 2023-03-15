@@ -8,10 +8,10 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SdkSuppress
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.uiautomator.*
-import jt.projects.gbandroidpro.TIMEOUT
 import jt.projects.gbandroidpro.expectedData
 import jt.projects.gbandroidpro.getMeaningsCount
 import jt.projects.model.data.EMPTY_RESPONSE_EXCEPTION
+import jt.projects.tests.TIMEOUT
 import junit.framework.TestCase.*
 import org.junit.After
 import org.junit.Before
