@@ -17,6 +17,7 @@ val expectedSize: Map<String, Int> = mapOf(
     "loaf" to 8
 )
 
+
 fun DataModel.getMeaningsCount(): Int {
     if (this.meanings.isNullOrBlank()) return 0
     return this.meanings.split(',').count()

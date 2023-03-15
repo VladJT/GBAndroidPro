@@ -9,6 +9,7 @@ import androidx.test.espresso.matcher.ViewMatchers
 import jt.projects.model.data.testData
 
 
+
 fun<T> intentWithTestData(clazz: Class<T>, key: String): Intent =
     Intent(ApplicationProvider.getApplicationContext(), clazz::class.java)
         .putExtra(key, testData)
