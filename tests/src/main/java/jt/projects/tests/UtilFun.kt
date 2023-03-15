@@ -1,9 +1,17 @@
 package jt.projects.tests
 
+import android.content.Intent
 import android.view.View
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.matcher.ViewMatchers
+import jt.projects.model.data.testData
+
+
+fun<T> intentWithTestData(clazz: Class<T>, key: String): Intent =
+    Intent(ApplicationProvider.getApplicationContext(), clazz::class.java)
+        .putExtra(key, testData)
 
 /**
 вспомогательный метод - ставить на ожидание View, который мы планируем тестировать
