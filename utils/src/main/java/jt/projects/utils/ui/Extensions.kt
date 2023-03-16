@@ -3,6 +3,7 @@ package jt.projects.utils.ui
 import android.app.Activity
 import android.view.View
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import jt.projects.utils.R
 
@@ -27,10 +28,19 @@ fun Activity.showToast(text: String) {
     ).show()
 }
 
-fun Activity.showNoInternetConnectionDialog() {
+fun Activity.showNoInternetConnectionDialog() =
+    showSnackbar(getString(R.string.dialog_message_device_is_offline))
+
+/**
+ * FRAGMENT EXT
+ */
+fun Fragment.showSnackbar(text: String) {
     Snackbar.make(
-        this.findViewById(android.R.id.content),
-        getString(R.string.dialog_message_device_is_offline),
+        requireActivity().findViewById(android.R.id.content),
+        text,
         Snackbar.LENGTH_SHORT
     ).show()
 }
+
+fun Fragment.showNoInternetConnectionDialog() =
+    showSnackbar(getString(R.string.dialog_message_device_is_offline))

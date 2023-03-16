@@ -1,8 +1,10 @@
 package jt.projects.gbandroidpro
 
 import android.widget.TextView
+import androidx.core.os.bundleOf
+import androidx.fragment.app.testing.FragmentScenario
+import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.lifecycle.Lifecycle
-import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewAssertion
 import androidx.test.espresso.action.ViewActions
@@ -11,6 +13,7 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.activityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import jt.projects.gbandroidpro.presentation.ui.description.DescriptionActivity
+import jt.projects.gbandroidpro.presentation.ui.description.DescriptionFragment
 import jt.projects.model.data.testData
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNotNull
@@ -33,16 +36,24 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class DescriptionActivityEspressoTest {
 
-    private val intent = intentWithTestData
+//    private val intent = intentWithTestData
 
-    private lateinit var scenario: ActivityScenario<DescriptionActivity>
+    private lateinit var scenario: FragmentScenario<DescriptionFragment>
 
-    @get:Rule
-    val activityRule = activityScenarioRule<DescriptionActivity>(intent)
+//    @Rule
+//    @JvmField
+//    val activityRule = activityScenarioRule<DescriptionActivity>(intent)
 
+    /**
+     * Обратите внимание, как создается Фрагмент. Есть два основных метода для создания:
+    ● launchFragmentInContainer() нужен для запуска Фрагмента с UI;
+    ● launchFragment — для Фрагментов без UI.
+     */
     @Before
     fun setUp() {
-        scenario = activityRule.scenario
+        val fragmentArgs = bundleOf(DescriptionActivity.DATA_KEY to testData)
+        scenario =
+            launchFragmentInContainer(fragmentArgs, jt.projects.core.R.style.Theme_GBAndroidPro)
     }
 
     @After
@@ -51,30 +62,32 @@ class DescriptionActivityEspressoTest {
     }
 
     @Test
-    fun activity_AssertNotNull() {
-        scenario.onActivity {
+    fun fragment_AssertNotNull() {
+        scenario.onFragment() {
             assertNotNull(it)
         }
     }
 
     @Test
-    fun activity_IsResumed() {
-        assertEquals(Lifecycle.State.RESUMED, scenario.state)
+    fun fragment_IsResumed() {
+        scenario.onFragment {
+            assertEquals(Lifecycle.State.RESUMED, it.viewLifecycleOwner.lifecycle.currentState)
+        }
     }
 
     @Test
     fun activityTextView_NotNull() {
-        scenario.onActivity {
+        scenario.onFragment {
             val descriptionHeader =
-                it.findViewById<TextView>(R.id.description_header)
+                it.requireActivity().findViewById<TextView>(R.id.description_header)
             assertNotNull(descriptionHeader)
 
             val transcription =
-                it.findViewById<TextView>(R.id.transcription)
+                it.requireActivity().findViewById<TextView>(R.id.transcription)
             assertNotNull(transcription)
 
             val description =
-                it.findViewById<TextView>(R.id.description_textview)
+                it.requireActivity().findViewById<TextView>(R.id.description_textview)
             assertNotNull(description)
         }
     }
@@ -117,9 +130,9 @@ class DescriptionActivityEspressoTest {
 
     @Test
     fun buttonSound_IsWorking() {
-        scenario.onActivity { assertEquals(false, it.isPressed) }
+        scenario.onFragment { assertEquals(false, it.isPressed) }
         onView(withId(R.id.button_sound)).perform(ViewActions.click())
-        scenario.onActivity { assertEquals(true, it.isPressed) }
+        scenario.onFragment { assertEquals(true, it.isPressed) }
     }
 
 }

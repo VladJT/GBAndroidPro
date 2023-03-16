@@ -162,6 +162,9 @@ dependencies {
     //UI Automator
     androidTestImplementation("androidx.test.uiautomator:uiautomator:2.2.0")
 
+    // test fragments
+    debugImplementation("androidx.fragment:fragment-testing:1.5.5")
+    implementation("androidx.fragment:fragment-ktx:1.5.5")
 
     // implementation(fileTree(dir: 'libs', include: ['*.jar'])
 

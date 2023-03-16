@@ -4,7 +4,6 @@ package jt.projects.gbandroidpro
 import android.content.Context
 import android.content.Intent
 import android.view.View
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.Lifecycle
@@ -123,19 +122,6 @@ class DescriptionActivityTest {
                 it.findViewById<TextView>(R.id.description_textview)
             assertEquals(testData.meanings, description.text)
             assertEquals(View.VISIBLE, description.visibility)
-        }
-    }
-
-    @Test
-    fun buttonSound_IsWorking() {
-        scenario.onActivity {
-            val button = it.findViewById<Button>(R.id.button_sound)
-            assertFalse(it.isPressed)
-
-            button.performClick()
-
-            assertNotNull(button)
-            assertTrue(it.isPressed)
         }
     }
 
