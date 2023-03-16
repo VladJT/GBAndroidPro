@@ -7,10 +7,12 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import jt.projects.gbandroidpro.presentation.ui.history.HistoryActivity
-import jt.projects.tests.delay
+import jt.projects.gbandroidpro.presentation.ui.history.HistoryAdapter
+import jt.projects.tests.pause
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNotNull
 import org.hamcrest.Matchers.not
@@ -72,7 +74,7 @@ class HistoryActivityEspressoTest {
 
     @Test
     fun loadingLayout_NotVisible() {
-        onView(isRoot()).perform(delay(1000))
+        pause(1000)
         onView(withId(R.id.history_loading_frame_layout)).check(
             matches(
                 not(isCompletelyDisplayed())
@@ -85,6 +87,27 @@ class HistoryActivityEspressoTest {
     fun buttonClearHistory_IsWorking() {
         onView(withId(R.id.menu_clean_history)).perform(ViewActions.click())
         onView(withText(R.string.dialog_clean_history_message)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun historyRecyclerView_testScrolling() {
+        pause(1000)
+        onView(withId(R.id.history_activity_recyclerview)).perform(
+            RecyclerViewActions.scrollToLastPosition<HistoryAdapter.RecyclerItemViewHolder>()
+        )
+    }
+
+    @Test
+    fun historyRecyclerView_testOnClickShowDescription() {
+        pause(1000)
+        onView(withId(R.id.history_activity_recyclerview))
+            .perform(
+                RecyclerViewActions.actionOnItemAtPosition<HistoryAdapter.RecyclerItemViewHolder>(
+                    0,
+                    ViewActions.click()
+                )
+            )
+        onView(withId(R.id.description_header)).check(matches(isDisplayed()))
     }
 
 }

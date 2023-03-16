@@ -4,16 +4,19 @@ import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.espresso.matcher.ViewMatchers.isRoot
-import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import jt.projects.gbandroidpro.presentation.ui.history.HistoryActivity
 import jt.projects.gbandroidpro.presentation.ui.main.MainActivity
+import jt.projects.gbandroidpro.presentation.ui.main.MainAdapter
 import jt.projects.tests.delay
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNotNull
@@ -63,16 +66,39 @@ class MainActivityEspressoTest {
     @Test
     fun searchWord_IsWorking() {
         val wordKey = "go"
+        searchWord(wordKey)
 
-        onView(withId(R.id.search_edit_text))
-            .perform(ViewActions.click())
-            .perform(ViewActions.replaceText(wordKey))
-            .perform(ViewActions.closeSoftKeyboard())
-
-        onView(isRoot()).perform(delay(2000))
         scenario.onActivity {
             assertEquals(expectedData[wordKey]!!.getMeaningsCount(), it.lastResultCount)
         }
+    }
+
+    @Test
+    fun mainRecyclerView_testScrolling() {
+        val wordKey = "cold"
+        val searchKey = "cold hands warm heart"
+        searchWord(wordKey)
+
+        onView(withId(R.id.main_activity_recyclerview))
+            .perform(
+                RecyclerViewActions.scrollTo<MainAdapter.ViewHolder>(
+                    hasDescendant(withText(searchKey))
+                )
+            )
+            .check(matches(isDisplayed()))
+        onView(isRoot()).perform(delay(2000))
+    }
+
+    @Test
+    fun mainRecyclerView_testOnClickShowDescription() {
+        val wordKey = "cool"
+        searchWord(wordKey)
+
+        onView(withId(R.id.main_activity_recyclerview))
+            .perform(
+                RecyclerViewActions.actionOnItemAtPosition<MainAdapter.ViewHolder>(0, click())
+            )
+        onView(withId(R.id.description_header)).check(matches(withText(wordKey)))
     }
 
     // по нажатию меню "Показать историю" - вызывается HistoryActivity
