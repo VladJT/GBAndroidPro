@@ -19,7 +19,6 @@ class HistoryViewModel(
             withContext(Dispatchers.IO) {
                 // val response = interactor.getData(word, networkStatus.isOnline)
                 val response = interactor.getAllData()
-                delay(400)
                 handleResponse(response)
             }
         }

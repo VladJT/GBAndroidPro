@@ -17,7 +17,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import jt.projects.gbandroidpro.presentation.ui.history.HistoryActivity
 import jt.projects.gbandroidpro.presentation.ui.main.MainActivity
 import jt.projects.gbandroidpro.presentation.ui.main.MainAdapter
-import jt.projects.tests.delay
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNotNull
 import org.hamcrest.Matchers
@@ -54,6 +53,7 @@ class MainActivityEspressoTest {
         assertEquals(Lifecycle.State.RESUMED, scenario.state)
     }
 
+    // проверка, что фрейм загрузки по умолчанию не отображается
     @Test
     fun loadingLayout_NotVisible() {
         onView(withId(R.id.main_loading_frame_layout)).check(
@@ -63,6 +63,7 @@ class MainActivityEspressoTest {
         )
     }
 
+    // проверка, что работает поиск по крректному запросу слова
     @Test
     fun searchWord_IsWorking() {
         val wordKey = "go"
@@ -73,6 +74,7 @@ class MainActivityEspressoTest {
         }
     }
 
+    // проверка, что работает скроллинг в списке найденных слов
     @Test
     fun mainRecyclerView_testScrolling() {
         val wordKey = "cold"
@@ -86,9 +88,9 @@ class MainActivityEspressoTest {
                 )
             )
             .check(matches(isDisplayed()))
-        onView(isRoot()).perform(delay(2000))
     }
 
+    // проверка, что по нажатию на первое найденное слово - вызывается DescriptionActivity
     @Test
     fun mainRecyclerView_testOnClickShowDescription() {
         val wordKey = "cool"
@@ -101,7 +103,7 @@ class MainActivityEspressoTest {
         onView(withId(R.id.description_header)).check(matches(withText(wordKey)))
     }
 
-    // по нажатию меню "Показать историю" - вызывается HistoryActivity
+    // проверка, что по нажатию кнопки меню "Показать историю" - вызывается HistoryActivity
     @Test
     fun menuStartHistoryActivity_IsWorking() {
         Intents.init()

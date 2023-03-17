@@ -72,9 +72,9 @@ class HistoryActivityEspressoTest {
         )
     }
 
+    // проверка, что фрейм загрузки по умолчанию не отображается
     @Test
     fun loadingLayout_NotVisible() {
-        pause(1000)
         onView(withId(R.id.history_loading_frame_layout)).check(
             matches(
                 not(isCompletelyDisplayed())
@@ -82,24 +82,24 @@ class HistoryActivityEspressoTest {
         )
     }
 
-    // по нажатию меню "Очистить историю" - вызывается диалоговое окно
+    // проверка, что по нажатию меню "Очистить историю" - вызывается диалоговое окно
     @Test
     fun buttonClearHistory_IsWorking() {
         onView(withId(R.id.menu_clean_history)).perform(ViewActions.click())
         onView(withText(R.string.dialog_clean_history_message)).check(matches(isDisplayed()))
     }
 
+    // проверка, что работает скроллинг в списке слов в HistoryRecyclerView
     @Test
     fun historyRecyclerView_testScrolling() {
-        pause(1000)
         onView(withId(R.id.history_activity_recyclerview)).perform(
             RecyclerViewActions.scrollToLastPosition<HistoryAdapter.RecyclerItemViewHolder>()
         )
     }
 
+    // проверка, что по нажатию на первое найденное слово - вызывается DescriptionActivity
     @Test
     fun historyRecyclerView_testOnClickShowDescription() {
-        pause(1000)
         onView(withId(R.id.history_activity_recyclerview))
             .perform(
                 RecyclerViewActions.actionOnItemAtPosition<HistoryAdapter.RecyclerItemViewHolder>(
@@ -109,5 +109,4 @@ class HistoryActivityEspressoTest {
             )
         onView(withId(R.id.description_header)).check(matches(isDisplayed()))
     }
-
 }
