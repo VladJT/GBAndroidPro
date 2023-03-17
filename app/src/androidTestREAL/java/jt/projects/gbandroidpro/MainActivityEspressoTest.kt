@@ -4,7 +4,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
@@ -98,7 +97,10 @@ class MainActivityEspressoTest {
 
         onView(withId(R.id.main_activity_recyclerview))
             .perform(
-                RecyclerViewActions.actionOnItemAtPosition<MainAdapter.ViewHolder>(0, click())
+                RecyclerViewActions.actionOnItemAtPosition<MainAdapter.ViewHolder>(
+                    0,
+                    ViewActions.click()
+                )
             )
         onView(withId(R.id.description_header)).check(matches(withText(wordKey)))
     }

@@ -11,7 +11,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import jt.projects.gbandroidpro.R
 import jt.projects.gbandroidpro.presentation.ui.main.MainActivity
-import jt.projects.tests.delay
+import jt.projects.tests.pauseByEspresso
 import org.hamcrest.Matchers
 import org.junit.Rule
 import org.junit.Test
@@ -33,10 +33,10 @@ class RecordedDetailsActivityTest {
             )
         )
         textInputEditText.perform(ViewActions.replaceText("go"), ViewActions.closeSoftKeyboard())
-        Espresso.onView(ViewMatchers.isRoot()).perform(delay(2000))
+        pauseByEspresso(2000)
 
         textInputEditText.perform(ViewActions.replaceText("luck"), ViewActions.closeSoftKeyboard())
-        Espresso.onView(ViewMatchers.isRoot()).perform(delay(2000))
+        pauseByEspresso(2000)
 
         val recyclerView = Espresso.onView(
             ViewMatchers.withId(R.id.main_activity_recyclerview)
@@ -47,7 +47,7 @@ class RecordedDetailsActivityTest {
                 ViewActions.click()
             )
         )
-        Espresso.onView(ViewMatchers.isRoot()).perform(delay(2000))
+        pauseByEspresso(2000)
 
         Espresso.onView(ViewMatchers.withId(R.id.button_sound))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))

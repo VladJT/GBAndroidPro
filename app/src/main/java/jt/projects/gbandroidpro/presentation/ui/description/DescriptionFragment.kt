@@ -4,7 +4,6 @@ package jt.projects.gbandroidpro.presentation.ui.description
 import android.graphics.drawable.Drawable
 import android.media.MediaPlayer
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +21,6 @@ import jt.projects.gbandroidpro.R
 import jt.projects.gbandroidpro.databinding.FragmentDescriptionBinding
 import jt.projects.gbandroidpro.presentation.ui.description.DescriptionActivity.Companion.DATA_KEY
 import jt.projects.model.data.DataModel
-import jt.projects.utils.LOG_TAG
 import jt.projects.utils.NETWORK_SERVICE
 import jt.projects.utils.network.INetworkStatus
 import jt.projects.utils.ui.CoilImageLoader
@@ -42,17 +40,14 @@ class DescriptionFragment : Fragment() {
     var mediaPlayer: MediaPlayer? = null
     var isPressed = false
 
+    private fun extractData(): DataModel? = arguments?.getParcelable(DATA_KEY)
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        try {
-            _binding = FragmentDescriptionBinding.inflate(layoutInflater)
-        } catch (e: Exception) {
-            Log.d(LOG_TAG, e.message.toString())
-        }
-
+        _binding = FragmentDescriptionBinding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -90,9 +85,6 @@ class DescriptionFragment : Fragment() {
                 }
         }
     }
-
-
-    private fun extractData(): DataModel? = arguments?.getParcelable(DATA_KEY)
 
     private fun setData() {
         val data = extractData()

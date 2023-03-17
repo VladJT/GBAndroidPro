@@ -116,14 +116,8 @@ class DescriptionFragmentEspressoTest {
 
     @Test
     fun buttonSound_IsVisible() {
-        onView(withId(R.id.button_sound)).check(
-            matches(
-                withEffectiveVisibility(
-                    Visibility
-                        .VISIBLE
-                )
-            )
-        )
+        onView(withId(R.id.button_sound))
+            .check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
     }
 
     @Test

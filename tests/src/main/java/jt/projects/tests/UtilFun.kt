@@ -12,14 +12,14 @@ import jt.projects.model.data.testData
 import org.hamcrest.Matcher
 
 
-fun<T> intentWithTestData(clazz: Class<T>, key: String): Intent =
+fun <T> intentWithTestData(clazz: Class<T>, key: String): Intent =
     Intent(ApplicationProvider.getApplicationContext(), clazz::class.java)
         .putExtra(key, testData)
 
 /**
 вспомогательный метод - ставить на ожидание View, который мы планируем тестировать
  */
-fun delay(value: Long): ViewAction? {
+private fun delay(value: Long): ViewAction? {
     return object : ViewAction {
         // будем возвращать root-view нашей кнопки
         override fun getConstraints(): org.hamcrest.Matcher<View> = ViewMatchers.isRoot()
@@ -34,7 +34,7 @@ fun delay(value: Long): ViewAction? {
     }
 }
 
-fun pause(value: Long){
+fun pauseByEspresso(value: Long) {
     Espresso.onView(ViewMatchers.isRoot()).perform(delay(value))
 }
 
@@ -59,7 +59,7 @@ fun typeTextInChildViewWithId(id: Int, textToBeTyped: String): ViewAction {
  * метод, который будет принимать id требуемого view и возвращать нам готовый
 ViewAction, который умеет нажимать на этот view
  */
-private fun tapOnItemWithId(id: Int) = object : ViewAction {
+fun tapOnItemWithId(id: Int) = object : ViewAction {
     override fun getConstraints(): Matcher<View>? {
         return null
     }
