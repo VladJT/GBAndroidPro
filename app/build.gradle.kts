@@ -148,6 +148,9 @@ dependencies {
     testImplementation("org.junit.platform:junit-platform-surefire-provider:1.3.2")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
 
+    // for test liveData
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
+
 
     //Robolectric
     testImplementation("org.robolectric:robolectric:4.5.1")
