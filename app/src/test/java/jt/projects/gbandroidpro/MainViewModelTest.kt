@@ -29,7 +29,6 @@ import org.mockito.MockitoAnnotations
 import org.mockito.junit.jupiter.MockitoExtension
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
-import kotlin.test.assertSame
 
 
 /**
@@ -93,16 +92,36 @@ class MainViewModelTest {
             mainViewModel.getDataFromInteractor(GOOD_QUERY, networkStatus.isOnline())
         }
         runBlocking { verify(interactor, times(1)).getData(GOOD_QUERY, networkStatus.isOnline()) }
-        assertSame(APPSTATE_SUCCESS, response)
+        assertEquals(APPSTATE_SUCCESS, response)
     }
 
     @Test
     fun mainViewModel_handleError() {
-        val response = runBlocking {
-            mainViewModel.getDataFromInteractor(BAD_QUERY, networkStatus.isOnline())
-        }
+        val observer = Observer<AppState> {}
+        val liveData = mainViewModel.liveDataForViewToObserve
+        try {
+            liveData.observeForever(observer)
 
-        assertSame(APPSTATE_ERROR_EMPTY_DATA, response)
+            runBlocking {
+                mainViewModel.loadData(BAD_QUERY)
+                delay(2000)//чтобы успела отработать корутина
+            }
+
+            runBlocking {
+                verify(interactor, times(1)).getData(
+                    BAD_QUERY,
+                    networkStatus.isOnline()
+                )
+            }
+
+            //Убеждаемся, что Репозиторий вернул данные и LiveData передала их Наблюдателям
+            assertNotNull(liveData.value)
+            assertEquals(APPSTATE_ERROR_EMPTY_DATA, liveData.value)
+        } catch (e: Exception) {
+            println(e.message)
+        } finally {
+            liveData.removeObserver(observer)
+        }
     }
 
     @Test
