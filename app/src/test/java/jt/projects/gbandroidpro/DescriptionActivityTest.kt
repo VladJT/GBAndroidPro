@@ -33,7 +33,6 @@ class DescriptionActivityTest {
     @get:Rule
     val activityRule = activityScenarioRule<DescriptionActivity>(intentWithTestData)
 
-
     @Before
     fun setUp() {
         context = ApplicationProvider.getApplicationContext()

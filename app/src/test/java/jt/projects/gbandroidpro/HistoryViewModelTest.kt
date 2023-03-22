@@ -12,6 +12,7 @@ import jt.projects.tests.BAD_QUERY
 import jt.projects.tests.GOOD_QUERY
 import jt.projects.utils.network.INetworkStatus
 import kotlinx.coroutines.*
+import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -26,9 +27,7 @@ import org.mockito.junit.jupiter.MockitoExtension
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
-@ExtendWith(
-    MockitoExtension::class
-)
+@ExtendWith(MockitoExtension::class)
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(AndroidJUnit4::class)
 class HistoryViewModelTest {
@@ -37,7 +36,7 @@ class HistoryViewModelTest {
     var instantExecutorRule = InstantTaskExecutorRule()// для тестирования LiveData
 
     @get:Rule
-    var testCoroutineRule = TestCoroutineRule()
+    val testCoroutineRule = MainDispatcherRule()
 
 
     private lateinit var historyViewModel: HistoryViewModel
@@ -60,54 +59,46 @@ class HistoryViewModelTest {
         stopKoin()
     }
 
-    private fun prepareGoodAnswer() = testCoroutineRule.runBlockingTest {
+    private fun prepareGoodAnswer() = runTest {
         `when`(interactor.getAllData())
             .thenReturn(APPSTATE_SUCCESS) // default
     }
 
-    private fun prepareBadAnswer() = testCoroutineRule.runBlockingTest {
+    private fun prepareBadAnswer() = runTest {
         `when`(interactor.getAllData())
             .thenReturn(APPSTATE_ERROR_EMPTY_DATA)
     }
 
     @Test
-    fun historyViewModel_getDataFromInteractor() {
+    fun historyViewModel_getDataFromInteractor() = runTest {
         prepareGoodAnswer()
-
         historyViewModel.getData(GOOD_QUERY)
-
-        testCoroutineRule.runBlockingTest {
-            verify(interactor, times(1)).getAllData()
-        }
+        verify(interactor, times(1)).getAllData()
     }
 
     @Test
-    fun historyViewModel_handleError() {
+    fun historyViewModel_handleError() = runTest {
         prepareBadAnswer()
-
         val observer = Observer<AppState> {}
         val liveData = historyViewModel.liveDataForViewToObserve
 
         historyViewModel.liveDataForViewToObserve.observeForever(observer)
-
         historyViewModel.getData(BAD_QUERY)
 
         //Убеждаемся, что Репозиторий вернул данные и LiveData передала их Наблюдателям
         assertNotNull(liveData.value)
         assertEquals(APPSTATE_ERROR_EMPTY_DATA, liveData.value)
-
         liveData.removeObserver(observer)
     }
 
     @Test
-    fun liveData_testGetData() {
+    fun liveData_testGetData() = runTest {
         prepareGoodAnswer()
 
         val observer = Observer<AppState> {}
         val liveData = historyViewModel.liveDataForViewToObserve
 
         liveData.observeForever(observer)
-
         historyViewModel.getData(GOOD_QUERY)
 
         assertNotNull(liveData.value)

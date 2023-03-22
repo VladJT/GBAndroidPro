@@ -10,9 +10,11 @@ import jt.projects.repository.RepositoryImpl
 import jt.projects.repository.RepositoryLocal
 import jt.projects.repository.retrofit.RetrofitImpl
 import junit.framework.TestCase.assertEquals
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
@@ -38,16 +40,15 @@ import kotlin.system.measureTimeMillis
  * JUNIT 5
  */
 
-@ExtendWith(
-    MockitoExtension::class
-)
+@ExtendWith(MockitoExtension::class)
+@OptIn(ExperimentalCoroutinesApi::class)
 class MainInteractorTest : KoinTest {
     companion object {
         const val TIMEOUT_RESPONSE = 600L
     }
 
     @get:Rule
-    var testCoroutineRule = TestCoroutineRule()
+    var testCoroutineRule = MainDispatcherRule()
 
     private val remoteRepo: RepositoryImpl by inject()
 
@@ -135,13 +136,9 @@ class MainInteractorTest : KoinTest {
     inner class `TEST MAIN_INTERACTOR` {
 
         @Test
-        fun mainInteractor_fromRemoteSourceReturnCorrectData() {
+        fun mainInteractor_fromRemoteSourceReturnCorrectData() = runTest {
             val wordKey = "go"
-            val result =
-                testCoroutineRule.getResult {
-                    mainInteractorImpl.getData(wordKey, fromRemoteSource = true)
-                }
-
+            val result = mainInteractorImpl.getData(wordKey, fromRemoteSource = true)
             assertTrue(result is AppState.Success)
             val data = (result as AppState.Success).data!!
             assertTrue(data.size == 15)
@@ -152,13 +149,9 @@ class MainInteractorTest : KoinTest {
         }
 
         @Test
-        fun mainInteractor_fromRemoteSourceReturnNoData() {
+        fun mainInteractor_fromRemoteSourceReturnNoData() = runTest {
             val wordKey = "gggg"
-            val result =
-                testCoroutineRule.getResult {
-                    mainInteractorImpl.getData(wordKey, fromRemoteSource = true)
-                }
-
+            val result = mainInteractorImpl.getData(wordKey, fromRemoteSource = true)
 
             assertTrue(result is AppState.Error)
             val error = (result as AppState.Error).error
@@ -166,16 +159,13 @@ class MainInteractorTest : KoinTest {
         }
 
         @Test
-        fun mainInteractor_fromLocalSourceReturnCorrectData() {
+        fun mainInteractor_fromLocalSourceReturnCorrectData() = runTest {
             val wordKey = "go"
-            testCoroutineRule.runBlockingTest {
-                `when`(localRepo.getDataByWord(wordKey)).thenAnswer { TEST_RESPONSE_SUCCESS }
-                mainInteractorImpl.getData(wordKey, false)
+            `when`(localRepo.getDataByWord(wordKey)).thenAnswer { TEST_RESPONSE_SUCCESS }
+            mainInteractorImpl.getData(wordKey, false)
 
-                assertEquals(localRepo.getDataByWord(wordKey), TEST_RESPONSE_SUCCESS)
-                Mockito.verify(localRepo, Mockito.times(2)).getDataByWord(wordKey)
-            }
+            assertEquals(localRepo.getDataByWord(wordKey), TEST_RESPONSE_SUCCESS)
+            Mockito.verify(localRepo, Mockito.times(2)).getDataByWord(wordKey)
         }
     }
-
 }
