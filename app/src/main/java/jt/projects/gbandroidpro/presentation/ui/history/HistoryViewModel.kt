@@ -3,7 +3,9 @@ package jt.projects.gbandroidpro.presentation.ui.history
 import jt.projects.core.BaseViewModel
 import jt.projects.model.data.AppState
 import jt.projects.utils.network.INetworkStatus
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class HistoryViewModel(
     private val interactor: HistoryInteractorImpl,
@@ -16,11 +18,9 @@ class HistoryViewModel(
         cancelJob()
 
         viewModelCoroutineScope.launch {
-            withContext(Dispatchers.IO) {
-                // val response = interactor.getData(word, networkStatus.isOnline)
-                val response = interactor.getAllData()
-                handleResponse(response)
-            }
+            // val response = interactor.getData(word, networkStatus.isOnline)
+            val response = interactor.getAllData()
+            handleResponse(response)
         }
     }
 

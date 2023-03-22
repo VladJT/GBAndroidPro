@@ -13,7 +13,7 @@ import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
-import org.junit.AfterClass
+import org.junit.Rule
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
@@ -23,7 +23,6 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.api.extension.RegisterExtension
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
-import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.inject
@@ -35,17 +34,20 @@ import org.mockito.MockitoAnnotations
 import org.mockito.junit.jupiter.MockitoExtension
 import kotlin.system.measureTimeMillis
 
+/**
+ * JUNIT 5
+ */
 
 @ExtendWith(
     MockitoExtension::class
 )
 class MainInteractorTest : KoinTest {
     companion object {
-        @AfterClass
-        fun after() {
-            stopKoin()
-        }
+        const val TIMEOUT_RESPONSE = 600L
     }
+
+    @get:Rule
+    var testCoroutineRule = TestCoroutineRule()
 
     private val remoteRepo: RepositoryImpl by inject()
 
@@ -112,7 +114,12 @@ class MainInteractorTest : KoinTest {
         }
 
         @ParameterizedTest
-        @CsvSource("go, 500", "main, 500", "test, 500", "bbbb, 500")
+        @CsvSource(
+            "go, $TIMEOUT_RESPONSE",
+            "main,  $TIMEOUT_RESPONSE",
+            "test,  $TIMEOUT_RESPONSE",
+            "bbbb,  $TIMEOUT_RESPONSE"
+        )
         fun remoteSource_CheckTimeoutResponse(someWord: String, responseTime: Long) {
             val time = measureTimeMillis {
                 getData(someWord)
@@ -131,7 +138,7 @@ class MainInteractorTest : KoinTest {
         fun mainInteractor_fromRemoteSourceReturnCorrectData() {
             val wordKey = "go"
             val result =
-                runBlocking {
+                testCoroutineRule.getResult {
                     mainInteractorImpl.getData(wordKey, fromRemoteSource = true)
                 }
 
@@ -148,7 +155,7 @@ class MainInteractorTest : KoinTest {
         fun mainInteractor_fromRemoteSourceReturnNoData() {
             val wordKey = "gggg"
             val result =
-                runBlocking {
+                testCoroutineRule.getResult {
                     mainInteractorImpl.getData(wordKey, fromRemoteSource = true)
                 }
 
@@ -161,7 +168,7 @@ class MainInteractorTest : KoinTest {
         @Test
         fun mainInteractor_fromLocalSourceReturnCorrectData() {
             val wordKey = "go"
-            runBlocking {
+            testCoroutineRule.runBlockingTest {
                 `when`(localRepo.getDataByWord(wordKey)).thenAnswer { TEST_RESPONSE_SUCCESS }
                 mainInteractorImpl.getData(wordKey, false)
 

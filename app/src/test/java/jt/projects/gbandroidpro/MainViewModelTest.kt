@@ -29,16 +29,15 @@ import org.mockito.MockitoAnnotations
 import org.mockito.junit.jupiter.MockitoExtension
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
-import kotlin.test.assertSame
-
 
 /**
- * need JUNIT 4!!
+ * JUNIT 4
  */
 
 @ExtendWith(
     MockitoExtension::class
 )
+@OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(AndroidJUnit4::class)
 class MainViewModelTest {
     /**
@@ -48,6 +47,9 @@ class MainViewModelTest {
      */
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
+
+    @get:Rule
+    var testCoroutineRule = TestCoroutineRule()
 
 
     private lateinit var mainViewModel: MainViewModel
@@ -71,7 +73,7 @@ class MainViewModelTest {
 
         `when`(networkStatus.isOnline()).thenReturn(true)
 
-        runBlocking {
+        testCoroutineRule.runBlockingTest {
             `when`(interactor.getData(BAD_QUERY, networkStatus.isOnline()))
                 .thenReturn(APPSTATE_ERROR_EMPTY_DATA)
 
@@ -89,10 +91,12 @@ class MainViewModelTest {
 
     @Test
     fun mainViewModel_getDataFromInteractor() {
-        val response = runBlocking {
+        val response = testCoroutineRule.getResult {
             mainViewModel.getDataFromInteractor(GOOD_QUERY, networkStatus.isOnline())
         }
-        runBlocking { verify(interactor, times(1)).getData(GOOD_QUERY, networkStatus.isOnline()) }
+        testCoroutineRule.runBlockingTest {
+            verify(interactor, times(1)).getData(GOOD_QUERY, networkStatus.isOnline())
+        }
         assertEquals(APPSTATE_SUCCESS, response)
     }
 
@@ -100,47 +104,34 @@ class MainViewModelTest {
     fun mainViewModel_handleError() {
         val observer = Observer<AppState> {}
         val liveData = mainViewModel.liveDataForViewToObserve
-        try {
-            liveData.observeForever(observer)
 
-            runBlocking {
-                mainViewModel.loadData(BAD_QUERY)
-                delay(2000)//чтобы успела отработать корутина
-            }
+        liveData.observeForever(observer)
 
-            runBlocking { verify(interactor, times(1)).getData(BAD_QUERY, networkStatus.isOnline()) }
+        mainViewModel.loadData(BAD_QUERY)
 
-            //Убеждаемся, что Репозиторий вернул данные и LiveData передала их Наблюдателям
-            assertNotNull(liveData.value)
-            assertEquals(APPSTATE_ERROR_EMPTY_DATA, liveData.value)
-        } catch (e: Exception) {
-            println(e.message)
-        } finally {
-            liveData.removeObserver(observer)
-        }
+        Thread.sleep(2000)//чтобы корутина успела отработать все стадии AppState
+
+        //Убеждаемся, что Репозиторий вернул данные и LiveData передала их Наблюдателям
+        assertNotNull(liveData.value)
+        assertEquals(APPSTATE_ERROR_EMPTY_DATA, liveData.value)
+
+        liveData.removeObserver(observer)
     }
 
     @Test
     fun liveData_testGetData() {
         val observer = Observer<AppState> {}
         val liveData = mainViewModel.liveDataForViewToObserve
-        try {
-            liveData.observeForever(observer)
+        liveData.observeForever(observer)
 
-            runBlocking {
-                mainViewModel.loadData(GOOD_QUERY)
-                delay(2000)//чтобы успела отработать корутина
-            }
+        mainViewModel.loadData(GOOD_QUERY)
 
+        Thread.sleep(2000)//чтобы корутина успела отработать все стадии AppState
 
-            //Убеждаемся, что Репозиторий вернул данные и LiveData передала их Наблюдателям
-            assertNotNull(liveData.value)
-            assertEquals(APPSTATE_SUCCESS, liveData.value)
-        } catch (e: Exception) {
-            println(e.message)
-        } finally {
-            liveData.removeObserver(observer)
-        }
+        //Убеждаемся, что Репозиторий вернул данные и LiveData передала их Наблюдателям
+        assertNotNull(liveData.value)
+        assertEquals(APPSTATE_SUCCESS, liveData.value)
+
+        liveData.removeObserver(observer)
     }
-
 }
