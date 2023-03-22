@@ -45,11 +45,9 @@ open class MainViewModel(
         liveData.value = AppState.Loading(0)
         cancelJob()
         viewModelCoroutineScope.launch {
-            withContext(Dispatchers.IO) {
-                val response = getDataFromInteractor(word, networkStatus.isOnline())
-                showProgress()
-                handleResponse(response)
-            }
+            val response = getDataFromInteractor(word, networkStatus.isOnline())
+            showProgress()
+            handleResponse(response)
         }
     }
 
