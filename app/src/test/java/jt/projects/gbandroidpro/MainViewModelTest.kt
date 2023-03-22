@@ -29,6 +29,7 @@ import org.mockito.MockitoAnnotations
 import org.mockito.junit.jupiter.MockitoExtension
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
+import kotlin.test.assertSame
 
 
 /**
@@ -38,7 +39,6 @@ import kotlin.test.assertNotNull
 @ExtendWith(
     MockitoExtension::class
 )
-@OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(AndroidJUnit4::class)
 class MainViewModelTest {
     /**
@@ -48,9 +48,6 @@ class MainViewModelTest {
      */
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
-
-    @get:Rule
-    var testCoroutineRule = TestCoroutineRule()
 
 
     private lateinit var mainViewModel: MainViewModel
@@ -74,7 +71,7 @@ class MainViewModelTest {
 
         `when`(networkStatus.isOnline()).thenReturn(true)
 
-        testCoroutineRule.runBlockingTest {
+        runBlocking {
             `when`(interactor.getData(BAD_QUERY, networkStatus.isOnline()))
                 .thenReturn(APPSTATE_ERROR_EMPTY_DATA)
 
@@ -92,12 +89,10 @@ class MainViewModelTest {
 
     @Test
     fun mainViewModel_getDataFromInteractor() {
-        val response = testCoroutineRule.getResult {
+        val response = runBlocking {
             mainViewModel.getDataFromInteractor(GOOD_QUERY, networkStatus.isOnline())
         }
-        testCoroutineRule.runBlockingTest {
-            verify(interactor, times(1)).getData(GOOD_QUERY, networkStatus.isOnline())
-        }
+        runBlocking { verify(interactor, times(1)).getData(GOOD_QUERY, networkStatus.isOnline()) }
         assertEquals(APPSTATE_SUCCESS, response)
     }
 
@@ -108,17 +103,12 @@ class MainViewModelTest {
         try {
             liveData.observeForever(observer)
 
-            testCoroutineRule.runBlockingTest {
+            runBlocking {
                 mainViewModel.loadData(BAD_QUERY)
+                delay(2000)//чтобы успела отработать корутина
             }
 
-            testCoroutineRule.runBlockingTest {
-                verify(interactor, times(1)).getData(
-                    BAD_QUERY,
-                    networkStatus.isOnline()
-                )
-            }
-            Thread.sleep(2000)//чтобы корутина успела отработать
+            runBlocking { verify(interactor, times(1)).getData(BAD_QUERY, networkStatus.isOnline()) }
 
             //Убеждаемся, что Репозиторий вернул данные и LiveData передала их Наблюдателям
             assertNotNull(liveData.value)
@@ -137,10 +127,11 @@ class MainViewModelTest {
         try {
             liveData.observeForever(observer)
 
-            testCoroutineRule.runBlockingTest {
+            runBlocking {
                 mainViewModel.loadData(GOOD_QUERY)
+                delay(2000)//чтобы успела отработать корутина
             }
-            Thread.sleep(2000)//чтобы корутина успела отработать
+
 
             //Убеждаемся, что Репозиторий вернул данные и LiveData передала их Наблюдателям
             assertNotNull(liveData.value)
