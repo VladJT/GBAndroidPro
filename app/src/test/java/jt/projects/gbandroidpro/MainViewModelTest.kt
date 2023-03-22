@@ -46,7 +46,7 @@ class MainViewModelTest {
     @Before и @After)
      */
     @get:Rule
-    var instantExecutorRule = InstantTaskExecutorRule()
+    var instantExecutorRule = InstantTaskExecutorRule()// для тестирования LiveData
 
     @get:Rule
     var testCoroutineRule = TestCoroutineRule()

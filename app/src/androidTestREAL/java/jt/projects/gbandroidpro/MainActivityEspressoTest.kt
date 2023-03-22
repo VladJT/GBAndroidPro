@@ -57,7 +57,7 @@ class MainActivityEspressoTest {
     fun loadingLayout_NotVisible() {
         onView(withId(R.id.main_loading_frame_layout)).check(
             ViewAssertions.matches(
-                Matchers.not(ViewMatchers.isCompletelyDisplayed())
+                Matchers.not(ViewMatchers.isDisplayed())
             )
         )
     }

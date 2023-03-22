@@ -14,6 +14,7 @@ LiveData оно упрощает тестирование асинхронных
 @ExperimentalCoroutinesApi
 class TestCoroutineRule : TestRule {
     private val testCoroutineDispatcher = TestCoroutineDispatcher()
+
     private val testCoroutineScope = TestCoroutineScope(testCoroutineDispatcher)
 
 

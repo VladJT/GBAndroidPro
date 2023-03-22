@@ -34,7 +34,7 @@ import kotlin.test.assertNotNull
 class HistoryViewModelTest {
 
     @get:Rule
-    var instantExecutorRule = InstantTaskExecutorRule()
+    var instantExecutorRule = InstantTaskExecutorRule()// для тестирования LiveData
 
     @get:Rule
     var testCoroutineRule = TestCoroutineRule()
@@ -67,7 +67,7 @@ class HistoryViewModelTest {
 
     private fun prepareBadAnswer() = testCoroutineRule.runBlockingTest {
         `when`(interactor.getAllData())
-            .thenReturn(APPSTATE_ERROR_EMPTY_DATA) // default
+            .thenReturn(APPSTATE_ERROR_EMPTY_DATA)
     }
 
     @Test

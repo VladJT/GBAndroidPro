@@ -3,8 +3,6 @@ package jt.projects.gbandroidpro.presentation.ui.history
 import jt.projects.core.BaseViewModel
 import jt.projects.model.data.AppState
 import jt.projects.utils.network.INetworkStatus
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class HistoryViewModel(
@@ -25,7 +23,7 @@ class HistoryViewModel(
     }
 
     fun cleanHistory() {
-        CoroutineScope(Dispatchers.IO).launch {
+        viewModelCoroutineScope.launch {
             interactor.deleteAll()
             liveData.postValue(AppState.Success(null))
         }
