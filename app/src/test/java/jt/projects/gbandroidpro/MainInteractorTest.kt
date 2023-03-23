@@ -10,10 +10,12 @@ import jt.projects.repository.RepositoryImpl
 import jt.projects.repository.RepositoryLocal
 import jt.projects.repository.retrofit.RetrofitImpl
 import junit.framework.TestCase.assertEquals
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
-import org.junit.AfterClass
+import kotlinx.coroutines.test.runTest
+import org.junit.Rule
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
@@ -23,7 +25,6 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.api.extension.RegisterExtension
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
-import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.inject
@@ -35,17 +36,19 @@ import org.mockito.MockitoAnnotations
 import org.mockito.junit.jupiter.MockitoExtension
 import kotlin.system.measureTimeMillis
 
+/**
+ * JUNIT 5
+ */
 
-@ExtendWith(
-    MockitoExtension::class
-)
+@ExtendWith(MockitoExtension::class)
+@OptIn(ExperimentalCoroutinesApi::class)
 class MainInteractorTest : KoinTest {
     companion object {
-        @AfterClass
-        fun after() {
-            stopKoin()
-        }
+        const val TIMEOUT_RESPONSE = 600L
     }
+
+    @get:Rule
+    var testCoroutineRule = MainDispatcherRule()
 
     private val remoteRepo: RepositoryImpl by inject()
 
@@ -112,7 +115,12 @@ class MainInteractorTest : KoinTest {
         }
 
         @ParameterizedTest
-        @CsvSource("go, 500", "main, 500", "test, 500", "bbbb, 500")
+        @CsvSource(
+            "go, $TIMEOUT_RESPONSE",
+            "main,  $TIMEOUT_RESPONSE",
+            "test,  $TIMEOUT_RESPONSE",
+            "bbbb,  $TIMEOUT_RESPONSE"
+        )
         fun remoteSource_CheckTimeoutResponse(someWord: String, responseTime: Long) {
             val time = measureTimeMillis {
                 getData(someWord)
@@ -128,13 +136,9 @@ class MainInteractorTest : KoinTest {
     inner class `TEST MAIN_INTERACTOR` {
 
         @Test
-        fun mainInteractor_fromRemoteSourceReturnCorrectData() {
+        fun mainInteractor_fromRemoteSourceReturnCorrectData() = runTest {
             val wordKey = "go"
-            val result =
-                runBlocking {
-                    mainInteractorImpl.getData(wordKey, fromRemoteSource = true)
-                }
-
+            val result = mainInteractorImpl.getData(wordKey, fromRemoteSource = true)
             assertTrue(result is AppState.Success)
             val data = (result as AppState.Success).data!!
             assertTrue(data.size == 15)
@@ -145,13 +149,9 @@ class MainInteractorTest : KoinTest {
         }
 
         @Test
-        fun mainInteractor_fromRemoteSourceReturnNoData() {
+        fun mainInteractor_fromRemoteSourceReturnNoData() = runTest {
             val wordKey = "gggg"
-            val result =
-                runBlocking {
-                    mainInteractorImpl.getData(wordKey, fromRemoteSource = true)
-                }
-
+            val result = mainInteractorImpl.getData(wordKey, fromRemoteSource = true)
 
             assertTrue(result is AppState.Error)
             val error = (result as AppState.Error).error
@@ -159,16 +159,13 @@ class MainInteractorTest : KoinTest {
         }
 
         @Test
-        fun mainInteractor_fromLocalSourceReturnCorrectData() {
+        fun mainInteractor_fromLocalSourceReturnCorrectData() = runTest {
             val wordKey = "go"
-            runBlocking {
-                `when`(localRepo.getDataByWord(wordKey)).thenAnswer { TEST_RESPONSE_SUCCESS }
-                mainInteractorImpl.getData(wordKey, false)
+            `when`(localRepo.getDataByWord(wordKey)).thenAnswer { TEST_RESPONSE_SUCCESS }
+            mainInteractorImpl.getData(wordKey, false)
 
-                assertEquals(localRepo.getDataByWord(wordKey), TEST_RESPONSE_SUCCESS)
-                Mockito.verify(localRepo, Mockito.times(2)).getDataByWord(wordKey)
-            }
+            assertEquals(localRepo.getDataByWord(wordKey), TEST_RESPONSE_SUCCESS)
+            Mockito.verify(localRepo, Mockito.times(2)).getDataByWord(wordKey)
         }
     }
-
 }
